@@ -34,3 +34,10 @@ Day 1 now opens with Genesis 1:3 and a seven-step stable-star challenge roadmap;
 
 ## v1.1 application shell
 Landing screen, loading spinner, locked Days 2–6, SVG favicon, manifest, scoped service worker and service-worker update prompt are now in the code. **Day 1 completion is not implemented yet**, so Days 2–6 intentionally remain locked. Google/GitHub Firebase sign-in and Firestore sync are still planned, not operational. See [v1.1 implementation notes](RELEASE_NOTES_v11.md) and [full plan](IMPLEMENTATION_PLAN_v10.md).
+
+## v1.2 — Day 1, local and cloud saving
+- Day 1 has a simplified **seven-check one-zone star lab** with physical quantities, hydrostatic/thermal residuals and a bounded integration test. The model is solar-calibrated and not research-grade. The original graph wavelength exercise remains separate; the new star checks are **not yet wired to typed graph nodes**.
+- Day 2 unlocks when all Day 1 checks pass. Days 3–6 remain locked until their own physics validators are delivered.
+- Browser IndexedDB stores star and graph state; legacy localStorage graphs are migrated. Firebase Google/GitHub login and explicit upload/restore controls activate when environment config and provider setup are supplied.
+- 192/512 PNG icons and maskable icon are included for PWA installation.
+- See [Firebase setup](FIREBASE_SETUP.md) and [release notes](RELEASE_NOTES_v12.md).
