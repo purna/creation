@@ -22,3 +22,5 @@ npm run build
 Vite is configured for the `creation` repository path via `base: '/creation/'` in `vite.config.ts`. Run `npm run build`, then deploy the `dist` directory using your preferred GitHub Pages workflow.
 
 See `SOURCE_OF_TRUTH_v08.md` for scope and limitations.
+## Day 1–3 design roadmap (v0.9)
+Day 1 now opens with Genesis 1:3 and a seven-step stable-star challenge roadmap; Day 2 with Genesis 1:6 and eight climate/water challenges; Day 3 with Genesis 1:9 and twelve geology/tectonics/vegetation challenges. These checklists are **planned, not yet physics-validated**; the original calculators remain functional. See [SOURCE_OF_TRUTH_v09.md](SOURCE_OF_TRUTH_v09.md) for detailed requirements, equations, dependencies and implementation boundaries.

@@ -8,9 +8,9 @@ const make=(title:string,verse:string,mission:string,inputs:[string,string,numbe
  return {title,verse,mission,nodes,edges:[],goal};
 };
 export const stages:Stage[]=[
- make('Day 1 · Light','Let there be light','Connect wavelength to frequency. Explore how changing wavelength affects light colour.',[['wavelength','Wavelength (nm)',550,'nm']],'frequency','Frequency = c / λ','Connect both formula and output to create light.'),
- make('Day 2 · Sky & Water','Let there be an expanse','Combine temperature and pressure to predict water state (simplified classroom model).',[['temp','Temperature (°C)',20,'°C'],['pressure','Pressure (atm)',1,'atm']],'phase','Water phase model','Build a water phase predictor.'),
- make('Day 3 · Land','Let the dry ground appear','Connect planetary mass and radius to calculate surface gravity.',[['mass','Mass (Earth masses)',1,'M⊕'],['radius','Radius (Earth radii)',1,'R⊕']],'gravity','g = GM / R²','Match Earth-like surface gravity.'),
+ make('Day 1 · Light','Genesis 1:3 — And God said, “Let there be light,” and there was light.','Mission: build a stable, self-sustaining star. The existing wavelength calculation is a starter exercise; fusion and stellar equilibrium are planned.',[['wavelength','Wavelength (nm)',550,'nm']],'frequency','Frequency = c / λ','Connect both formula and output to create light.'),
+ make('Day 2 · Sky & Water','Genesis 1:6 — Let there be a vault between the waters to separate water from water.','Mission: establish a stable atmosphere and water cycle. The current water-phase calculation is a starter exercise; climate and hydrology models are planned.',[['temp','Temperature (°C)',20,'°C'],['pressure','Pressure (atm)',1,'atm']],'phase','Water phase model','Build a water phase predictor.'),
+ make('Day 3 · Land','Genesis 1:9 — Let the water under the sky be gathered to one place, and let dry ground appear.','Mission: manage interior heat, tectonic plates, continents, rivers, soil and vegetation. The current gravity calculation is a starter exercise; coupled geology and ecology are planned.',[['mass','Mass (Earth masses)',1,'M⊕'],['radius','Radius (Earth radii)',1,'R⊕']],'gravity','g = GM / R²','Match Earth-like surface gravity.'),
  make('Day 4 · Heavenly bodies','Lights in the expanse','Build a Sun–Earth orbital speed calculator, then experiment with stellar mass and orbital distance.',[['star','Star mass (solar)',1,'M☉'],['distance','Orbit radius (AU)',1,'AU']],'orbit','v = √(GM/r)','Find an approximately 29.8 km/s Earth orbit.'),
  make('Day 5 · Life in sea & sky','Let living creatures fill the waters','Connect stellar luminosity and orbital distance to estimate received stellar flux.',[['luminosity','Luminosity (solar)',1,'L☉'],['distance','Distance (AU)',1,'AU']],'flux','F = 1361 L / r²','Aim for Earth-like stellar flux.'),
  make('Day 6 · Living world','Let the earth bring forth living creatures','Build a logistic population model using carrying capacity and growth rate.',[['capacity','Carrying capacity',1000,'organisms'],['rate','Growth rate',0.2,'1/step']],'population','ΔN = rN(1−N/K)','Build a population that grows without exceeding its capacity.')
@@ -34,3 +34,235 @@ export function evaluate(nodes:Node[],edges:Edge[]):Evaluation{
  };
  const out=nodes.find(n=>n.kind==='output');const result=out?lookup(out.id):undefined;return {values,errors:[...new Set(errors)],result};
 }
+// Roadmap challenges are deliberately not auto-completed by the legacy single-formula output.
+// A task becomes complete only when its own physical validator is implemented.
+export const creationChallenges = [
+  {
+    "day": 0,
+    "title": "Day 1 · Stable Star",
+    "items": [
+      {
+        "id": "d1-1",
+        "name": "Gather hydrogen fuel",
+        "dependsOn": [],
+        "status": "planned"
+      },
+      {
+        "id": "d1-2",
+        "name": "Calculate gravitational compression",
+        "dependsOn": [
+          "d1-1"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d1-3",
+        "name": "Establish core pressure and temperature",
+        "dependsOn": [
+          "d1-2"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d1-4",
+        "name": "Calculate fusion energy",
+        "dependsOn": [
+          "d1-3"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d1-5",
+        "name": "Balance gravity and pressure",
+        "dependsOn": [
+          "d1-4"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d1-6",
+        "name": "Balance energy generation and radiation",
+        "dependsOn": [
+          "d1-5"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d1-7",
+        "name": "Pass a sustained stellar stability test",
+        "dependsOn": [
+          "d1-6"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "day": 1,
+    "title": "Day 2 · Sky and Water",
+    "items": [
+      {
+        "id": "d2-1",
+        "name": "Calculate planetary gravity",
+        "dependsOn": [],
+        "status": "planned"
+      },
+      {
+        "id": "d2-2",
+        "name": "Build an atmosphere",
+        "dependsOn": [
+          "d2-1"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d2-3",
+        "name": "Calculate incoming stellar flux",
+        "dependsOn": [
+          "d2-2"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d2-4",
+        "name": "Balance planetary temperature",
+        "dependsOn": [
+          "d2-3"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d2-5",
+        "name": "Establish liquid water",
+        "dependsOn": [
+          "d2-4"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d2-6",
+        "name": "Calculate evaporation",
+        "dependsOn": [
+          "d2-5"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d2-7",
+        "name": "Form clouds and rainfall",
+        "dependsOn": [
+          "d2-6"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d2-8",
+        "name": "Stabilise the water cycle",
+        "dependsOn": [
+          "d2-7"
+        ],
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "day": 2,
+    "title": "Day 3 · Tectonics, Land and Life",
+    "items": [
+      {
+        "id": "d3-1",
+        "name": "Calculate interior layers and masses",
+        "dependsOn": [],
+        "status": "planned"
+      },
+      {
+        "id": "d3-2",
+        "name": "Model internal heat production",
+        "dependsOn": [
+          "d3-1"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-3",
+        "name": "Balance interior heat transport",
+        "dependsOn": [
+          "d3-2"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-4",
+        "name": "Create tectonic plates",
+        "dependsOn": [
+          "d3-3"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-5",
+        "name": "Calculate plate motion",
+        "dependsOn": [
+          "d3-4"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-6",
+        "name": "Form continents and mountains",
+        "dependsOn": [
+          "d3-5"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-7",
+        "name": "Conserve ocean water and sea level",
+        "dependsOn": [
+          "d3-6"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-8",
+        "name": "Model rivers and drainage",
+        "dependsOn": [
+          "d3-7"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-9",
+        "name": "Balance soil formation and erosion",
+        "dependsOn": [
+          "d3-8"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-10",
+        "name": "Calculate photosynthesis",
+        "dependsOn": [
+          "d3-9"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-11",
+        "name": "Grow sustainable vegetation",
+        "dependsOn": [
+          "d3-10"
+        ],
+        "status": "planned"
+      },
+      {
+        "id": "d3-12",
+        "name": "Pass geological and ecological stability tests",
+        "dependsOn": [
+          "d3-11"
+        ],
+        "status": "planned"
+      }
+    ]
+  }
+] as const;
