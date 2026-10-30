@@ -1,4 +1,4 @@
-# BEFORE ADAM — Creation Studio v0.8
+# BEFORE ADAM — Creation Studio v1.1
 
 Vite + TypeScript educational universe creation prototype.
 
@@ -31,3 +31,6 @@ Day 1 now opens with Genesis 1:3 and a seven-step stable-star challenge roadmap;
 - [Creation SVG favicon](public/icons/creation.svg)
 
 **Status:** The complete progression, Firebase login/cloud sync, PWA installation, loading/landing and update modal are specified for implementation; they are not yet built. The SVG icon is included as an asset.
+
+## v1.1 application shell
+Landing screen, loading spinner, locked Days 2–6, SVG favicon, manifest, scoped service worker and service-worker update prompt are now in the code. **Day 1 completion is not implemented yet**, so Days 2–6 intentionally remain locked. Google/GitHub Firebase sign-in and Firestore sync are still planned, not operational. See [v1.1 implementation notes](RELEASE_NOTES_v11.md) and [full plan](IMPLEMENTATION_PLAN_v10.md).
