@@ -1,5 +1,6 @@
 import {evaluate,type Node,type Edge} from '../model';
 import {validateStar,type StarInput,STAR_SOLVER} from './star';
+import {checkSolutionRange} from './solutionRanges';
 export const GRAPH_SOLVER=STAR_SOLVER+'-graph-v3';
 export const STAR_FIELDS=['mass','radius','hydrogen','coreMK','luminosity'] as const;
 type Field=typeof STAR_FIELDS[number];
@@ -34,7 +35,9 @@ export function checkStarGraph(nodes:Node[],edges:Edge[]){
  }
  const checks=physics?.checks.map((c,i)=>{
   const needed=[['gravity','pressure'],['gravity'],['pressure','core'],['fusion'],['hydro'],['thermal'],['stable']][i];
-  return {...c,passed:c.passed&&needed.every(k=>actual[k]),detail:c.detail+(needed.every(k=>actual[k])?'':' · connect required formula inputs')};
+  const range=checkSolutionRange(c.id,evaluated.values,input);
+  const linked=needed.every(k=>actual[k]);
+  return {...c,passed:c.passed&&linked&&range.passed,detail:c.detail+(linked?'':' · connect required formula inputs')+(range.passed?'':' · '+range.reason)};
  })??[];
  const outConnected=edges.some(e=>e.from==='stable'&&e.to==='out'&&e.slot===0);
  const required=[...formulas.flatMap(f=>f.inputs.map((from,slot)=>({from,to:f.id,slot}))),{from:'stable',to:'out',slot:0}];
