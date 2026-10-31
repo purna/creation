@@ -83,7 +83,7 @@ function challengeFeedback(index:number,source:{nodes:Node[];edges:Edge[]},state
  const inputsReady=formula.inputs.every((p,slot)=>source.edges.some(e=>e.from===p.id&&e.to===formula.id&&e.slot===slot));
  const outputReady=check.connected[formula.id]||Boolean(challengeWorkspace&&source.nodes.some(n=>n.id==='challenge-result')&&Number.isFinite(values[formula.id])&&inputsReady);
  const physics=check.checks[index];
- const validated=outputReady&&comparison.passed&&Boolean(physics?.passed||challengeWorkspace&&validateStar(check.input!).checks[index]?.passed);
+ const validated=outputReady&&comparison.passed&&Boolean(physics?.passed||challengeWorkspace&&check.input!==null&&validateStar(check.input).checks[index]?.passed);
  const actual=comparison.value===null?'Not calculated':format(comparison.value)+' '+esc(comparison.unit);
  const rangeLabel=format(comparison.min)+' – '+format(comparison.max)+(comparison.maxExclusive?' (upper limit excluded)':'')+' '+esc(comparison.unit);
  const why=!inputsReady?'Connect all required inputs to '+esc(formula.title)+' to calculate a result.':!outputReady?'Check the input units and upstream formula connections.':!comparison.passed?esc(comparison.reason):!physics?.passed?esc(physics?.detail||'Physics validation failed.'):validated?'The formula, accepted numerical range and physics checks all pass.':'Check the graph and physics validation.';
