@@ -37,7 +37,9 @@ export function checkStarGraph(nodes:Node[],edges:Edge[]){
   return {...c,passed:c.passed&&needed.every(k=>actual[k]),detail:c.detail+(needed.every(k=>actual[k])?'':' · connect required formula inputs')};
  })??[];
  const outConnected=edges.some(e=>e.from==='stable'&&e.to==='out'&&e.slot===0);
- const complete=checks.length===7&&checks.every(c=>c.passed)&&outConnected&&evaluated.result!==undefined;
+ const required=[...formulas.flatMap(f=>f.inputs.map((from,slot)=>({from,to:f.id,slot}))),{from:'stable',to:'out',slot:0}];
+ const exactWiring=required.every(r=>edges.filter(e=>e.to===r.to&&e.slot===r.slot).length===1&&edges.some(e=>e.from===r.from&&e.to===r.to&&e.slot===r.slot));
+ const complete=!!input&&exactWiring&&connected.size===formulas.length&&checks.length===7&&checks.every(c=>c.passed)&&outConnected&&Number.isFinite(evaluated.result)&&evaluated.errors.length===0;
  return {input,checks,complete,values:evaluated.values,errors:evaluated.errors,connected:actual,solverVersion:GRAPH_SOLVER};
 }
 export const STAR_FORMULAS=formulas;
