@@ -1,4 +1,4 @@
-# BEFORE ADAM — Creation Studio v1.1
+# BEFORE ADAM — Creation Studio v1.3
 
 Vite + TypeScript educational universe creation prototype.
 
@@ -41,3 +41,6 @@ Landing screen, loading spinner, locked Days 2–6, SVG favicon, manifest, scope
 - Browser IndexedDB stores star and graph state; legacy localStorage graphs are migrated. Firebase Google/GitHub login and explicit upload/restore controls activate when environment config and provider setup are supplied.
 - 192/512 PNG icons and maskable icon are included for PWA installation.
 - See [Firebase setup](FIREBASE_SETUP.md) and [release notes](RELEASE_NOTES_v12.md).
+
+## v1.3 — Day 1 node-driven validation
+Day 1 now opens an **unwired stellar mathematics graph** with five physical inputs, seven formula nodes and a final output. Connect formula inputs in the stated order and tune values in Parameters. Completion is computed from required connected equations **and** the simplified one-zone physics validator; merely entering values or using Auto-wire cannot complete Day 1. Older Day 1 wavelength graphs are preserved under the `before-adam-v06-0-legacy` browser key. Existing v1.2 star-only unlock evidence is rejected and must be re-earned. See [release notes](RELEASE_NOTES_v13.md).
