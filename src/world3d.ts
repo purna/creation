@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {worldEffectState} from './simulations/worldEffects';
 export class World3D {
  private renderer:THREE.WebGLRenderer;
  private scene=new THREE.Scene();
@@ -92,11 +93,11 @@ export class World3D {
   this.body.scale.setScalar(day===0?Math.max(.2,Math.min(3,radius))*(1+.012*Math.sin(time*.08)):1);
   if(day===0){const mat=this.body.material as THREE.MeshStandardMaterial;mat.color.setHSL(.04+Math.max(0,Math.min(.1,(25-temperature)*.004)),.9,stable?.7:.5);}
   if(day===0){this.frame++;if(this.effectsEnabled&&this.frame%5===0)this.drawSurface(time,stable);const scale=this.body.scale.x;this.corona.scale.setScalar(7*scale);this.flares.scale.setScalar(scale);this.flares.rotation.z=time*.001;this.flares.children.forEach((f,i)=>{const material=(f as THREE.Line).material;if(material instanceof THREE.LineBasicMaterial){material.opacity=.22+.35*(.5+.5*Math.sin(time*.045+i*2));}});}
-  this.clouds.visible=(day===1||day===2)&&stable&&this.effectsEnabled;
+  this.clouds.visible=worldEffectState(day,stable,this.effectsEnabled).clouds;
   if(this.clouds.visible){this.cloudShell.rotation.y+=.0009;this.cloudShell.rotation.z=.04*Math.sin(time*.003);}
   // Day 3: continents emerge and vegetation spreads; retain Day 2 clouds.
   if(day===2){
-   const target=stable?1:0;
+   const target=worldEffectState(day,stable,this.effectsEnabled).land?1:0;
    this.landProgress=Math.max(0,Math.min(1,this.landProgress+(target>this.landProgress?.007:-.007)));
    if(this.frame++%8===0)this.drawLand(this.landProgress);
   }
