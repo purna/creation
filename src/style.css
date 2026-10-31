@@ -71,3 +71,16 @@ main.view-split{display:flex!important;flex-direction:column!important;min-heigh
 @media(max-width:650px){.challenge-editor-nav{padding:7px;gap:7px}.challenge-editor-nav button{width:100%;min-height:42px}}
 
 .effects-option{display:flex;align-items:center;gap:9px;padding:9px;color:#d8e8ff;font-size:13px}.effects-option input{width:18px;height:18px;accent-color:#59b8f6}
+
+/* Accessible, explanatory challenge result feedback */
+.challenge-feedback{border:1px solid #51657c;border-radius:10px;padding:12px;margin:10px 0;background:#15253b;color:#e4efff;max-width:100%;min-width:0}
+.challenge-feedback.passed{border-color:#399b78}.challenge-feedback.review{border-color:#e2aa56}.challenge-feedback.neutral{border-color:#637993}
+.feedback-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;font-size:13px}
+.feedback-header span{font-variant-numeric:tabular-nums;font-weight:700}
+.challenge-feedback p{font-size:12px;line-height:1.45;margin:7px 0 0;color:#d5e3f5}
+.challenge-feedback small{display:block;margin-top:6px;color:#b9cce5}
+.range-track{position:relative;height:11px;border:1px solid #71859c;border-radius:10px;margin:11px 5px 6px;background:#34445b}
+.range-fill{position:absolute;inset:1px;background:linear-gradient(90deg,#2d806c,#65b890);border-radius:8px}
+.range-marker{position:absolute;top:-5px;width:4px;height:20px;background:#fff;border:1px solid #12233c;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 0 2px #12233c}
+.challenge-entry>div{width:100%}
+@media(max-width:650px){.challenge-feedback{padding:10px}.feedback-header{align-items:flex-start;flex-direction:column}}
