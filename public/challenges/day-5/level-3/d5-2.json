@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "d5-2",
+  "day": 5,
+  "order": 2,
+  "level": 3,
+  "translationKey": "challenges.d5-2",
+  "difficulty": "advanced",
+  "dependencies": [
+    "d5-1"
+  ],
+  "upstreamDays": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-5",
+    "parameter": "dissolvedOxygen",
+    "unit": "mg/L",
+    "complexity": "coupled",
+    "testSteps": 100
+  },
+  "guidance": {
+    "hintCount": 1,
+    "workedExample": false
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 80,
+    "requireSensitivity": true,
+    "requireUncertainty": true,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

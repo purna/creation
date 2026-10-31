@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "d6-6",
+  "day": 6,
+  "order": 6,
+  "level": 2,
+  "translationKey": "challenges.d6-6",
+  "difficulty": "guided",
+  "dependencies": [
+    "d6-5"
+  ],
+  "upstreamDays": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-6",
+    "parameter": "foodSurplus",
+    "unit": "kg/year",
+    "complexity": "simplified",
+    "testSteps": 20
+  },
+  "guidance": {
+    "hintCount": 3,
+    "workedExample": true
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 60,
+    "requireSensitivity": false,
+    "requireUncertainty": false,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

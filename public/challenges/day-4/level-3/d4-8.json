@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "d4-8",
+  "day": 4,
+  "order": 8,
+  "level": 3,
+  "translationKey": "challenges.d4-8",
+  "difficulty": "advanced",
+  "dependencies": [
+    "d4-7"
+  ],
+  "upstreamDays": [
+    1,
+    2,
+    3
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-4",
+    "parameter": "moonOrbitStability",
+    "unit": "relative",
+    "complexity": "coupled",
+    "testSteps": 100
+  },
+  "guidance": {
+    "hintCount": 1,
+    "workedExample": false
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 80,
+    "requireSensitivity": true,
+    "requireUncertainty": true,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

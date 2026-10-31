@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "locales": [
+    "en"
+  ],
+  "days": [
+    {
+      "day": 1,
+      "count": 7,
+      "challenges": [
+        "d1-1",
+        "d1-2",
+        "d1-3",
+        "d1-4",
+        "d1-5",
+        "d1-6",
+        "d1-7"
+      ]
+    },
+    {
+      "day": 2,
+      "count": 8,
+      "challenges": [
+        "d2-1",
+        "d2-2",
+        "d2-3",
+        "d2-4",
+        "d2-5",
+        "d2-6",
+        "d2-7",
+        "d2-8"
+      ]
+    },
+    {
+      "day": 3,
+      "count": 12,
+      "challenges": [
+        "d3-1",
+        "d3-2",
+        "d3-3",
+        "d3-4",
+        "d3-5",
+        "d3-6",
+        "d3-7",
+        "d3-8",
+        "d3-9",
+        "d3-10",
+        "d3-11",
+        "d3-12"
+      ]
+    },
+    {
+      "day": 4,
+      "count": 12,
+      "challenges": [
+        "d4-1",
+        "d4-2",
+        "d4-3",
+        "d4-4",
+        "d4-5",
+        "d4-6",
+        "d4-7",
+        "d4-8",
+        "d4-9",
+        "d4-10",
+        "d4-11",
+        "d4-12"
+      ]
+    },
+    {
+      "day": 5,
+      "count": 12,
+      "challenges": [
+        "d5-1",
+        "d5-2",
+        "d5-3",
+        "d5-4",
+        "d5-5",
+        "d5-6",
+        "d5-7",
+        "d5-8",
+        "d5-9",
+        "d5-10",
+        "d5-11",
+        "d5-12"
+      ]
+    },
+    {
+      "day": 6,
+      "count": 14,
+      "challenges": [
+        "d6-1",
+        "d6-2",
+        "d6-3",
+        "d6-4",
+        "d6-5",
+        "d6-6",
+        "d6-7",
+        "d6-8",
+        "d6-9",
+        "d6-10",
+        "d6-11",
+        "d6-12",
+        "d6-13",
+        "d6-14"
+      ]
+    }
+  ],
+  "challengeCount": 65,
+  "levels": [
+    2,
+    3
+  ],
+  "scoring": {
+    "scale": [
+      0,
+      100
+    ],
+    "weights": {
+      "feasibility": 0.35,
+      "stability": 0.3,
+      "efficiency": 0.2,
+      "resilience": 0.15
+    },
+    "noSingleAnswer": true,
+    "upstreamChanges": "mark-dependent-results-stale",
+    "preserveBestValidAttempt": true
+  }
+}

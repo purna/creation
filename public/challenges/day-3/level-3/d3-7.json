@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "d3-7",
+  "day": 3,
+  "order": 7,
+  "level": 3,
+  "translationKey": "challenges.d3-7",
+  "difficulty": "advanced",
+  "dependencies": [
+    "d3-6"
+  ],
+  "upstreamDays": [
+    1,
+    2
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-3",
+    "parameter": "landFraction",
+    "unit": "fraction",
+    "complexity": "coupled",
+    "testSteps": 100
+  },
+  "guidance": {
+    "hintCount": 1,
+    "workedExample": false
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 80,
+    "requireSensitivity": true,
+    "requireUncertainty": true,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

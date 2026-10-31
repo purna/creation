@@ -1,0 +1,541 @@
+{
+  "meta": {
+    "locale": "en",
+    "fallback": "en",
+    "title": "Before Adam",
+    "instructions": "No single correct answer: optimise a connected world and revise earlier decisions as new systems interact."
+  },
+  "ui": {
+    "objective": "Objective",
+    "help": "Help",
+    "test": "Test",
+    "best": "Best valid attempt",
+    "current": "Current attempt",
+    "stale": "Revalidate after upstream changes",
+    "score": "Quality score",
+    "tradeoffs": "Trade-offs",
+    "uncertainty": "Approximate model"
+  },
+  "challenges": {
+    "d1-1": {
+      "title": "Hydrogen fuel",
+      "objective": "Develop a viable hydrogen fuel model while maintaining balance across the connected world.",
+      "approach": "Adjust hydrogenFraction, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for hydrogen fuel? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with hydrogenFraction (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to hydrogenFraction, quantify uncertainty and document downstream effects."
+    },
+    "d1-2": {
+      "title": "Gravitational compression",
+      "objective": "Develop a viable gravitational compression model while maintaining balance across the connected world.",
+      "approach": "Adjust stellarMass, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for gravitational compression? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with stellarMass (solarMass), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to stellarMass, quantify uncertainty and document downstream effects."
+    },
+    "d1-3": {
+      "title": "Core conditions",
+      "objective": "Develop a viable core conditions model while maintaining balance across the connected world.",
+      "approach": "Adjust coreTemperature, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for core conditions? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with coreTemperature (millionK), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to coreTemperature, quantify uncertainty and document downstream effects."
+    },
+    "d1-4": {
+      "title": "Fusion energy",
+      "objective": "Develop a viable fusion energy model while maintaining balance across the connected world.",
+      "approach": "Adjust fusionLuminosity, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for fusion energy? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with fusionLuminosity (solarLuminosity), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to fusionLuminosity, quantify uncertainty and document downstream effects."
+    },
+    "d1-5": {
+      "title": "Hydrostatic balance",
+      "objective": "Develop a viable hydrostatic balance model while maintaining balance across the connected world.",
+      "approach": "Adjust hydroResidual, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for hydrostatic balance? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with hydroResidual (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to hydroResidual, quantify uncertainty and document downstream effects."
+    },
+    "d1-6": {
+      "title": "Thermal balance",
+      "objective": "Develop a viable thermal balance model while maintaining balance across the connected world.",
+      "approach": "Adjust thermalResidual, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for thermal balance? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with thermalResidual (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to thermalResidual, quantify uncertainty and document downstream effects."
+    },
+    "d1-7": {
+      "title": "Sustained stellar stability",
+      "objective": "Develop a viable sustained stellar stability model while maintaining balance across the connected world.",
+      "approach": "Adjust starStability, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for sustained stellar stability? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with starStability (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to starStability, quantify uncertainty and document downstream effects."
+    },
+    "d2-1": {
+      "title": "Surface gravity",
+      "objective": "Develop a viable surface gravity model while maintaining balance across the connected world.",
+      "approach": "Adjust surfaceGravity, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for surface gravity? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with surfaceGravity (m/s2), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to surfaceGravity, quantify uncertainty and document downstream effects."
+    },
+    "d2-2": {
+      "title": "Atmospheric pressure",
+      "objective": "Develop a viable atmospheric pressure model while maintaining balance across the connected world.",
+      "approach": "Adjust surfacePressure, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for atmospheric pressure? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with surfacePressure (atm), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to surfacePressure, quantify uncertainty and document downstream effects."
+    },
+    "d2-3": {
+      "title": "Incoming stellar flux",
+      "objective": "Develop a viable incoming stellar flux model while maintaining balance across the connected world.",
+      "approach": "Adjust stellarFlux, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for incoming stellar flux? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with stellarFlux (W/m2), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to stellarFlux, quantify uncertainty and document downstream effects."
+    },
+    "d2-4": {
+      "title": "Radiative temperature balance",
+      "objective": "Develop a viable radiative temperature balance model while maintaining balance across the connected world.",
+      "approach": "Adjust surfaceTemperature, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for radiative temperature balance? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with surfaceTemperature (degC), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to surfaceTemperature, quantify uncertainty and document downstream effects."
+    },
+    "d2-5": {
+      "title": "Liquid water",
+      "objective": "Develop a viable liquid water model while maintaining balance across the connected world.",
+      "approach": "Adjust liquidWaterFraction, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for liquid water? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with liquidWaterFraction (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to liquidWaterFraction, quantify uncertainty and document downstream effects."
+    },
+    "d2-6": {
+      "title": "Evaporation and latent heat",
+      "objective": "Develop a viable evaporation and latent heat model while maintaining balance across the connected world.",
+      "approach": "Adjust evaporationRate, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for evaporation and latent heat? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with evaporationRate (kg/s), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to evaporationRate, quantify uncertainty and document downstream effects."
+    },
+    "d2-7": {
+      "title": "Clouds and precipitation",
+      "objective": "Develop a viable clouds and precipitation model while maintaining balance across the connected world.",
+      "approach": "Adjust precipitationRate, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for clouds and precipitation? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with precipitationRate (kg/s), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to precipitationRate, quantify uncertainty and document downstream effects."
+    },
+    "d2-8": {
+      "title": "Stable water cycle",
+      "objective": "Develop a viable stable water cycle model while maintaining balance across the connected world.",
+      "approach": "Adjust waterBudgetResidual, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for stable water cycle? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with waterBudgetResidual (kg), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to waterBudgetResidual, quantify uncertainty and document downstream effects."
+    },
+    "d3-1": {
+      "title": "Planetary interior layers",
+      "objective": "Develop a viable planetary interior layers model while maintaining balance across the connected world.",
+      "approach": "Adjust layerMassFraction, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for planetary interior layers? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with layerMassFraction (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to layerMassFraction, quantify uncertainty and document downstream effects."
+    },
+    "d3-2": {
+      "title": "Internal heat sources",
+      "objective": "Develop a viable internal heat sources model while maintaining balance across the connected world.",
+      "approach": "Adjust interiorHeat, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for internal heat sources? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with interiorHeat (W), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to interiorHeat, quantify uncertainty and document downstream effects."
+    },
+    "d3-3": {
+      "title": "Heat transport",
+      "objective": "Develop a viable heat transport model while maintaining balance across the connected world.",
+      "approach": "Adjust heatFlux, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for heat transport? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with heatFlux (W/m2), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to heatFlux, quantify uncertainty and document downstream effects."
+    },
+    "d3-4": {
+      "title": "Tectonic plates",
+      "objective": "Develop a viable tectonic plates model while maintaining balance across the connected world.",
+      "approach": "Adjust plateCount, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for tectonic plates? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with plateCount (count), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to plateCount, quantify uncertainty and document downstream effects."
+    },
+    "d3-5": {
+      "title": "Plate motion",
+      "objective": "Develop a viable plate motion model while maintaining balance across the connected world.",
+      "approach": "Adjust plateVelocity, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for plate motion? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with plateVelocity (cm/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to plateVelocity, quantify uncertainty and document downstream effects."
+    },
+    "d3-6": {
+      "title": "Mountains and volcanism",
+      "objective": "Develop a viable mountains and volcanism model while maintaining balance across the connected world.",
+      "approach": "Adjust upliftRate, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for mountains and volcanism? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with upliftRate (mm/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to upliftRate, quantify uncertainty and document downstream effects."
+    },
+    "d3-7": {
+      "title": "Sea level and continents",
+      "objective": "Develop a viable sea level and continents model while maintaining balance across the connected world.",
+      "approach": "Adjust landFraction, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for sea level and continents? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with landFraction (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to landFraction, quantify uncertainty and document downstream effects."
+    },
+    "d3-8": {
+      "title": "Rivers and drainage",
+      "objective": "Develop a viable rivers and drainage model while maintaining balance across the connected world.",
+      "approach": "Adjust runoffRate, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for rivers and drainage? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with runoffRate (m3/s), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to runoffRate, quantify uncertainty and document downstream effects."
+    },
+    "d3-9": {
+      "title": "Soil formation and erosion",
+      "objective": "Develop a viable soil formation and erosion model while maintaining balance across the connected world.",
+      "approach": "Adjust soilBalance, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for soil formation and erosion? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with soilBalance (kg/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to soilBalance, quantify uncertainty and document downstream effects."
+    },
+    "d3-10": {
+      "title": "Photosynthesis",
+      "objective": "Develop a viable photosynthesis model while maintaining balance across the connected world.",
+      "approach": "Adjust primaryProduction, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for photosynthesis? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with primaryProduction (kgC/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to primaryProduction, quantify uncertainty and document downstream effects."
+    },
+    "d3-11": {
+      "title": "Sustainable vegetation",
+      "objective": "Develop a viable sustainable vegetation model while maintaining balance across the connected world.",
+      "approach": "Adjust vegetationBiomass, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for sustainable vegetation? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with vegetationBiomass (kgC), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to vegetationBiomass, quantify uncertainty and document downstream effects."
+    },
+    "d3-12": {
+      "title": "Geological and ecological stability",
+      "objective": "Develop a viable geological and ecological stability model while maintaining balance across the connected world.",
+      "approach": "Adjust landStability, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for geological and ecological stability? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with landStability (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to landStability, quantify uncertainty and document downstream effects."
+    },
+    "d4-1": {
+      "title": "Newtonian gravity",
+      "objective": "Develop a viable newtonian gravity model while maintaining balance across the connected world.",
+      "approach": "Adjust gravityResidual, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for newtonian gravity? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with gravityResidual (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to gravityResidual, quantify uncertainty and document downstream effects."
+    },
+    "d4-2": {
+      "title": "Circular orbital velocity",
+      "objective": "Develop a viable circular orbital velocity model while maintaining balance across the connected world.",
+      "approach": "Adjust orbitalSpeed, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for circular orbital velocity? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with orbitalSpeed (km/s), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to orbitalSpeed, quantify uncertainty and document downstream effects."
+    },
+    "d4-3": {
+      "title": "Earth-like orbit",
+      "objective": "Develop a viable earth-like orbit model while maintaining balance across the connected world.",
+      "approach": "Adjust eccentricity, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for earth-like orbit? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with eccentricity (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to eccentricity, quantify uncertainty and document downstream effects."
+    },
+    "d4-4": {
+      "title": "Eight planets",
+      "objective": "Develop a viable eight planets model while maintaining balance across the connected world.",
+      "approach": "Adjust planetCount, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for eight planets? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with planetCount (count), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to planetCount, quantify uncertainty and document downstream effects."
+    },
+    "d4-5": {
+      "title": "Orbital encounters and integration",
+      "objective": "Develop a viable orbital encounters and integration model while maintaining balance across the connected world.",
+      "approach": "Adjust integrationEnergyDrift, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for orbital encounters and integration? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with integrationEnergyDrift (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to integrationEnergyDrift, quantify uncertainty and document downstream effects."
+    },
+    "d4-6": {
+      "title": "Orbital stability",
+      "objective": "Develop a viable orbital stability model while maintaining balance across the connected world.",
+      "approach": "Adjust orbitalDrift, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for orbital stability? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with orbitalDrift (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to orbitalDrift, quantify uncertainty and document downstream effects."
+    },
+    "d4-7": {
+      "title": "Rotation and day-night",
+      "objective": "Develop a viable rotation and day-night model while maintaining balance across the connected world.",
+      "approach": "Adjust rotationPeriod, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for rotation and day-night? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with rotationPeriod (hours), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to rotationPeriod, quantify uncertainty and document downstream effects."
+    },
+    "d4-8": {
+      "title": "Moon orbit",
+      "objective": "Develop a viable moon orbit model while maintaining balance across the connected world.",
+      "approach": "Adjust moonOrbitStability, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for moon orbit? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with moonOrbitStability (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to moonOrbitStability, quantify uncertainty and document downstream effects."
+    },
+    "d4-9": {
+      "title": "Lunar phases",
+      "objective": "Develop a viable lunar phases model while maintaining balance across the connected world.",
+      "approach": "Adjust lunarPhaseError, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for lunar phases? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with lunarPhaseError (days), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to lunarPhaseError, quantify uncertainty and document downstream effects."
+    },
+    "d4-10": {
+      "title": "Axial tilt and seasons",
+      "objective": "Develop a viable axial tilt and seasons model while maintaining balance across the connected world.",
+      "approach": "Adjust seasonalInsolation, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for axial tilt and seasons? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with seasonalInsolation (W/m2), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to seasonalInsolation, quantify uncertainty and document downstream effects."
+    },
+    "d4-11": {
+      "title": "Calendar",
+      "objective": "Develop a viable calendar model while maintaining balance across the connected world.",
+      "approach": "Adjust calendarDrift, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for calendar? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with calendarDrift (days), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to calendarDrift, quantify uncertainty and document downstream effects."
+    },
+    "d4-12": {
+      "title": "Orbital and environmental audit",
+      "objective": "Develop a viable orbital and environmental audit model while maintaining balance across the connected world.",
+      "approach": "Adjust systemStability, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for orbital and environmental audit? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with systemStability (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to systemStability, quantify uncertainty and document downstream effects."
+    },
+    "d5-1": {
+      "title": "Underwater light",
+      "objective": "Develop a viable underwater light model while maintaining balance across the connected world.",
+      "approach": "Adjust lightAtDepth, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for underwater light? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with lightAtDepth (W/m2), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to lightAtDepth, quantify uncertainty and document downstream effects."
+    },
+    "d5-2": {
+      "title": "Dissolved oxygen",
+      "objective": "Develop a viable dissolved oxygen model while maintaining balance across the connected world.",
+      "approach": "Adjust dissolvedOxygen, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for dissolved oxygen? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with dissolvedOxygen (mg/L), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to dissolvedOxygen, quantify uncertainty and document downstream effects."
+    },
+    "d5-3": {
+      "title": "Nutrient recycling",
+      "objective": "Develop a viable nutrient recycling model while maintaining balance across the connected world.",
+      "approach": "Adjust nutrientBalance, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for nutrient recycling? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with nutrientBalance (kg/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to nutrientBalance, quantify uncertainty and document downstream effects."
+    },
+    "d5-4": {
+      "title": "Phytoplankton production",
+      "objective": "Develop a viable phytoplankton production model while maintaining balance across the connected world.",
+      "approach": "Adjust phytoplanktonBiomass, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for phytoplankton production? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with phytoplanktonBiomass (kgC), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to phytoplanktonBiomass, quantify uncertainty and document downstream effects."
+    },
+    "d5-5": {
+      "title": "Trophic energy transfer",
+      "objective": "Develop a viable trophic energy transfer model while maintaining balance across the connected world.",
+      "approach": "Adjust trophicEfficiency, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for trophic energy transfer? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with trophicEfficiency (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to trophicEfficiency, quantify uncertainty and document downstream effects."
+    },
+    "d5-6": {
+      "title": "Fish populations",
+      "objective": "Develop a viable fish populations model while maintaining balance across the connected world.",
+      "approach": "Adjust fishBiomass, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for fish populations? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with fishBiomass (kg), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to fishBiomass, quantify uncertainty and document downstream effects."
+    },
+    "d5-7": {
+      "title": "Bird lift",
+      "objective": "Develop a viable bird lift model while maintaining balance across the connected world.",
+      "approach": "Adjust liftMargin, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for bird lift? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with liftMargin (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to liftMargin, quantify uncertainty and document downstream effects."
+    },
+    "d5-8": {
+      "title": "Flight energy",
+      "objective": "Develop a viable flight energy model while maintaining balance across the connected world.",
+      "approach": "Adjust flightPowerMargin, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for flight energy? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with flightPowerMargin (W), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to flightPowerMargin, quantify uncertainty and document downstream effects."
+    },
+    "d5-9": {
+      "title": "Bird populations",
+      "objective": "Develop a viable bird populations model while maintaining balance across the connected world.",
+      "approach": "Adjust birdBiomass, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for bird populations? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with birdBiomass (count), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to birdBiomass, quantify uncertainty and document downstream effects."
+    },
+    "d5-10": {
+      "title": "Connected food webs",
+      "objective": "Develop a viable connected food webs model while maintaining balance across the connected world.",
+      "approach": "Adjust foodWebBalance, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for connected food webs? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with foodWebBalance (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to foodWebBalance, quantify uncertainty and document downstream effects."
+    },
+    "d5-11": {
+      "title": "Biodiversity",
+      "objective": "Develop a viable biodiversity model while maintaining balance across the connected world.",
+      "approach": "Adjust speciesViability, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for biodiversity? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with speciesViability (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to speciesViability, quantify uncertainty and document downstream effects."
+    },
+    "d5-12": {
+      "title": "Multigeneration stability",
+      "objective": "Develop a viable multigeneration stability model while maintaining balance across the connected world.",
+      "approach": "Adjust ecosystemRecovery, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for multigeneration stability? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with ecosystemRecovery (years), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to ecosystemRecovery, quantify uncertainty and document downstream effects."
+    },
+    "d6-1": {
+      "title": "Habitat area",
+      "objective": "Develop a viable habitat area model while maintaining balance across the connected world.",
+      "approach": "Adjust habitatFraction, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for habitat area? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with habitatFraction (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to habitatFraction, quantify uncertainty and document downstream effects."
+    },
+    "d6-2": {
+      "title": "Herbivore food budget",
+      "objective": "Develop a viable herbivore food budget model while maintaining balance across the connected world.",
+      "approach": "Adjust herbivoreEnergyBalance, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for herbivore food budget? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with herbivoreEnergyBalance (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to herbivoreEnergyBalance, quantify uncertainty and document downstream effects."
+    },
+    "d6-3": {
+      "title": "Predator balance",
+      "objective": "Develop a viable predator balance model while maintaining balance across the connected world.",
+      "approach": "Adjust predatorPreyBalance, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for predator balance? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with predatorPreyBalance (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to predatorPreyBalance, quantify uncertainty and document downstream effects."
+    },
+    "d6-4": {
+      "title": "Biodiversity",
+      "objective": "Develop a viable biodiversity model while maintaining balance across the connected world.",
+      "approach": "Adjust speciesViability, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for biodiversity? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with speciesViability (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to speciesViability, quantify uncertainty and document downstream effects."
+    },
+    "d6-5": {
+      "title": "Human population",
+      "objective": "Develop a viable human population model while maintaining balance across the connected world.",
+      "approach": "Adjust humanPopulation, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for human population? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with humanPopulation (people), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to humanPopulation, quantify uncertainty and document downstream effects."
+    },
+    "d6-6": {
+      "title": "Food production",
+      "objective": "Develop a viable food production model while maintaining balance across the connected world.",
+      "approach": "Adjust foodSurplus, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for food production? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with foodSurplus (kg/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to foodSurplus, quantify uncertainty and document downstream effects."
+    },
+    "d6-7": {
+      "title": "Freshwater supply",
+      "objective": "Develop a viable freshwater supply model while maintaining balance across the connected world.",
+      "approach": "Adjust waterSurplus, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for freshwater supply? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with waterSurplus (m3/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to waterSurplus, quantify uncertainty and document downstream effects."
+    },
+    "d6-8": {
+      "title": "Land allocation",
+      "objective": "Develop a viable land allocation model while maintaining balance across the connected world.",
+      "approach": "Adjust landUseFraction, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for land allocation? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with landUseFraction (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to landUseFraction, quantify uncertainty and document downstream effects."
+    },
+    "d6-9": {
+      "title": "Energy supply",
+      "objective": "Develop a viable energy supply model while maintaining balance across the connected world.",
+      "approach": "Adjust energySurplus, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for energy supply? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with energySurplus (kWh/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to energySurplus, quantify uncertainty and document downstream effects."
+    },
+    "d6-10": {
+      "title": "Waste and pollution",
+      "objective": "Develop a viable waste and pollution model while maintaining balance across the connected world.",
+      "approach": "Adjust pollutionLoad, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for waste and pollution? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with pollutionLoad (kg/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to pollutionLoad, quantify uncertainty and document downstream effects."
+    },
+    "d6-11": {
+      "title": "Habitat protection",
+      "objective": "Develop a viable habitat protection model while maintaining balance across the connected world.",
+      "approach": "Adjust protectedHabitatFraction, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for habitat protection? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with protectedHabitatFraction (fraction), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to protectedHabitatFraction, quantify uncertainty and document downstream effects."
+    },
+    "d6-12": {
+      "title": "Carbon and climate budget",
+      "objective": "Develop a viable carbon and climate budget model while maintaining balance across the connected world.",
+      "approach": "Adjust carbonBudget, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for carbon and climate budget? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with carbonBudget (kgCO2/year), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to carbonBudget, quantify uncertainty and document downstream effects."
+    },
+    "d6-13": {
+      "title": "Disturbance recovery",
+      "objective": "Develop a viable disturbance recovery model while maintaining balance across the connected world.",
+      "approach": "Adjust recoveryTime, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for disturbance recovery? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with recoveryTime (years), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to recoveryTime, quantify uncertainty and document downstream effects."
+    },
+    "d6-14": {
+      "title": "Planetary audit",
+      "objective": "Develop a viable planetary audit model while maintaining balance across the connected world.",
+      "approach": "Adjust planetaryHealth, compare multiple feasible outcomes and observe changes in other systems.",
+      "reflection": "Which trade-offs did you make for planetary audit? Would an earlier decision improve the outcome?",
+      "hintEasy": "Start with planetaryHealth (relative), change it gradually and observe the effect.",
+      "hintHard": "Test sensitivity to planetaryHealth, quantify uncertainty and document downstream effects."
+    }
+  }
+}

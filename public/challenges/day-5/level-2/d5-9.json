@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "d5-9",
+  "day": 5,
+  "order": 9,
+  "level": 2,
+  "translationKey": "challenges.d5-9",
+  "difficulty": "guided",
+  "dependencies": [
+    "d5-8"
+  ],
+  "upstreamDays": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-5",
+    "parameter": "birdBiomass",
+    "unit": "count",
+    "complexity": "simplified",
+    "testSteps": 20
+  },
+  "guidance": {
+    "hintCount": 3,
+    "workedExample": true
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 60,
+    "requireSensitivity": false,
+    "requireUncertainty": false,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

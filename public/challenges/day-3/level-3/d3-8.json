@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "d3-8",
+  "day": 3,
+  "order": 8,
+  "level": 3,
+  "translationKey": "challenges.d3-8",
+  "difficulty": "advanced",
+  "dependencies": [
+    "d3-7"
+  ],
+  "upstreamDays": [
+    1,
+    2
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-3",
+    "parameter": "runoffRate",
+    "unit": "m3/s",
+    "complexity": "coupled",
+    "testSteps": 100
+  },
+  "guidance": {
+    "hintCount": 1,
+    "workedExample": false
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 80,
+    "requireSensitivity": true,
+    "requireUncertainty": true,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

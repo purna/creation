@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "d4-1",
+  "day": 4,
+  "order": 1,
+  "level": 3,
+  "translationKey": "challenges.d4-1",
+  "difficulty": "advanced",
+  "dependencies": [
+    "d3-1"
+  ],
+  "upstreamDays": [
+    1,
+    2,
+    3
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-4",
+    "parameter": "gravityResidual",
+    "unit": "relative",
+    "complexity": "coupled",
+    "testSteps": 100
+  },
+  "guidance": {
+    "hintCount": 1,
+    "workedExample": false
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 80,
+    "requireSensitivity": true,
+    "requireUncertainty": true,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

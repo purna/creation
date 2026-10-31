@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "d2-6",
+  "day": 2,
+  "order": 6,
+  "level": 2,
+  "translationKey": "challenges.d2-6",
+  "difficulty": "guided",
+  "dependencies": [
+    "d2-5"
+  ],
+  "upstreamDays": [
+    1
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-2",
+    "parameter": "evaporationRate",
+    "unit": "kg/s",
+    "complexity": "simplified",
+    "testSteps": 20
+  },
+  "guidance": {
+    "hintCount": 3,
+    "workedExample": true
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 60,
+    "requireSensitivity": false,
+    "requireUncertainty": false,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

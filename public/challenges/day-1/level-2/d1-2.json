@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "d1-2",
+  "day": 1,
+  "order": 2,
+  "level": 2,
+  "translationKey": "challenges.d1-2",
+  "difficulty": "guided",
+  "dependencies": [
+    "d1-1"
+  ],
+  "upstreamDays": [],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-1",
+    "parameter": "stellarMass",
+    "unit": "solarMass",
+    "complexity": "simplified",
+    "testSteps": 20
+  },
+  "guidance": {
+    "hintCount": 3,
+    "workedExample": true
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 60,
+    "requireSensitivity": false,
+    "requireUncertainty": false,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "d3-4",
+  "day": 3,
+  "order": 4,
+  "level": 2,
+  "translationKey": "challenges.d3-4",
+  "difficulty": "guided",
+  "dependencies": [
+    "d3-3"
+  ],
+  "upstreamDays": [
+    1,
+    2
+  ],
+  "model": {
+    "type": "coupled-world-optimisation",
+    "scenario": "day-3",
+    "parameter": "plateCount",
+    "unit": "count",
+    "complexity": "simplified",
+    "testSteps": 20
+  },
+  "guidance": {
+    "hintCount": 3,
+    "workedExample": true
+  },
+  "assessment": {
+    "hardConstraints": [
+      "finite_values",
+      "unit_consistency",
+      "conservation_where_applicable",
+      "valid_dependencies"
+    ],
+    "objectives": [
+      "feasibility",
+      "stability",
+      "efficiency",
+      "resilience"
+    ],
+    "suggestedScore": 60,
+    "requireSensitivity": false,
+    "requireUncertainty": false,
+    "noUniqueSolution": true
+  },
+  "revalidation": {
+    "onUpstreamChange": "stale",
+    "preserveLastValidSnapshot": true
+  },
+  "implementation": {
+    "validator": "not-implemented",
+    "awardCompletion": false
+  }
+}
