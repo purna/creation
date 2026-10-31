@@ -142,7 +142,7 @@ export class World3D {
   ctx.putImageData(img,0,0);this.surfaceTexture.needsUpdate=true;
   this.glow.intensity=stable?42:24;
  }
- setEffects(enabled:boolean){this.effectsEnabled=enabled;this.corona.visible=this.day===0&&enabled;this.flares.visible=this.day===0&&enabled;this.clouds.visible=this.day===1&&enabled&&this.clouds.visible;if(this.day===0&&!enabled)this.drawSurface(0,true)}
+ setEffects(enabled:boolean){this.effectsEnabled=enabled;this.corona.visible=this.day===0&&enabled;this.flares.visible=this.day===0&&enabled;this.clouds.visible=(this.day===1||this.day===2)&&enabled&&this.clouds.visible;if(this.day===0&&!enabled)this.drawSurface(0,true)}
  reset(){this.controls.target.set(0,0,0);this.camera.position.set(0,3,11);this.controls.update()}
  resize(){const w=Math.max(1,this.canvas.clientWidth),h=Math.max(1,this.canvas.clientHeight);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();this.renderer.setSize(w,h,false)}
  dispose(){this.cloudShell.geometry.dispose();(this.cloudShell.material as THREE.Material).dispose();this.cloudTexture.dispose();this.landTexture.dispose();this.resizeObserver.disconnect();this.controls.dispose();this.body.geometry.dispose();(this.body.material as THREE.Material).dispose();this.surfaceTexture.dispose();(this.corona.material as THREE.SpriteMaterial).map?.dispose();(this.corona.material as THREE.Material).dispose();this.flares.children.forEach(f=>{(f as THREE.Line).geometry.dispose();((f as THREE.Line).material as THREE.Material).dispose()});this.scene.traverse(o=>{if(o instanceof THREE.Points){o.geometry.dispose();(o.material as THREE.Material).dispose()}});this.renderer.dispose()}
