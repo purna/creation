@@ -53,3 +53,6 @@ Generic Add/Multiply/Divide/Sqrt nodes now propagate SI dimensions (M,L,T,K), fl
 
 ## v1.7 — Fun / Test Mode
 Day 1 includes three runnable graph presets: **Working solution** (all equations connected, 7/7 physics checks), **Nearly working** (all wires present but radiation is too high), and **Unstable example** (cool core). A backup of the current graph is made before applying a preset and can be restored. The presets use the real validator, so the working one unlocks Day 2 through the normal rules. The other days do not yet have complete physics validators or full-solution presets.
+
+## v1.8 — Days 2–6 tutorial/test starter labs
+Explore/Test opens all days in a non-credit sandbox. Days 2–6 each have mathematical guidance, editable graphs, working/near/broken presets, result checking, and backup/restore. **These are starter models, not the complete 65-challenge scientific curriculum.** They do not grant full-day completion.

@@ -1,0 +1,2 @@
+# v1.8 — Days 2–6 tutorial/test/function starters
+Day 2 water phase; Day 3 surface gravity; Day 4 orbital speed; Day 5 stellar flux; Day 6 logistic population. Each has guidance, computed feedback, three presets, and graph backup/restore. Explore/Test navigation permits sandbox access without bypassing progression. Full-day physics validation and complete 65-challenge implementation remain future work.
