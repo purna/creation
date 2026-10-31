@@ -16,6 +16,9 @@ export class World3D {
  private clouds=new THREE.Group();
  private cloudShell:THREE.Mesh;
  private cloudTexture:THREE.CanvasTexture;
+ private landCanvas=document.createElement('canvas');
+ private landTexture:THREE.CanvasTexture;
+ private landProgress=0;
  private frame=0;
  private effectsEnabled=true;
  private surfaceMaterial:THREE.MeshStandardMaterial;
@@ -71,6 +74,11 @@ export class World3D {
   this.cloudTexture.colorSpace=THREE.SRGBColorSpace;
   this.cloudTexture.wrapS=THREE.RepeatWrapping;
   this.cloudShell=new THREE.Mesh(new THREE.SphereGeometry(2.045,48,32),new THREE.MeshBasicMaterial({map:this.cloudTexture,transparent:true,opacity:.9,depthWrite:false,side:THREE.FrontSide}));
+  this.landCanvas.width=256;this.landCanvas.height=128;
+  this.landTexture=new THREE.CanvasTexture(this.landCanvas);
+  this.landTexture.colorSpace=THREE.SRGBColorSpace;
+  this.landTexture.wrapS=THREE.RepeatWrapping;
+  this.drawLand(0);
   this.clouds.add(this.cloudShell);this.clouds.visible=false;this.scene.add(this.clouds);
 
   const stars=new Float32Array(900);
@@ -80,14 +88,39 @@ export class World3D {
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(canvas);this.resize();
  }
  update(day:number,time:number,radius:number,temperature:number,stable:boolean){
-  if(day!==this.day){this.day=day;this.corona.visible=day===0&&this.effectsEnabled;this.flares.visible=day===0&&this.effectsEnabled;this.surfaceMaterial.map=day===0?this.surfaceTexture:null;this.surfaceMaterial.emissiveMap=day===0?this.surfaceTexture:null;this.surfaceMaterial.needsUpdate=true;const material=this.body.material as THREE.MeshStandardMaterial;material.color.set(day===0?'#ffbc6e':day===1?'#3e87ce':day===2?'#4a9c75':day===3?'#dcad7e':day===4?'#2886b4':'#6bb584');material.emissive.set(day===0?'#ff7b21':'#000000');material.emissiveIntensity=day===0?1.2:0;this.glow.intensity=day===0?50:20;}
+  if(day!==this.day){this.day=day;this.corona.visible=day===0&&this.effectsEnabled;this.flares.visible=day===0&&this.effectsEnabled;this.surfaceMaterial.map=day===0?this.surfaceTexture:day===2?this.landTexture:null;this.surfaceMaterial.emissiveMap=day===0?this.surfaceTexture:null;this.surfaceMaterial.needsUpdate=true;const material=this.body.material as THREE.MeshStandardMaterial;material.color.set(day===0?'#ffbc6e':day===1?'#3e87ce':day===2?'#4a9c75':day===3?'#dcad7e':day===4?'#2886b4':'#6bb584');material.emissive.set(day===0?'#ff7b21':'#000000');material.emissiveIntensity=day===0?1.2:0;this.glow.intensity=day===0?50:20;}
   this.body.scale.setScalar(day===0?Math.max(.2,Math.min(3,radius))*(1+.012*Math.sin(time*.08)):1);
   if(day===0){const mat=this.body.material as THREE.MeshStandardMaterial;mat.color.setHSL(.04+Math.max(0,Math.min(.1,(25-temperature)*.004)),.9,stable?.7:.5);}
   if(day===0){this.frame++;if(this.effectsEnabled&&this.frame%5===0)this.drawSurface(time,stable);const scale=this.body.scale.x;this.corona.scale.setScalar(7*scale);this.flares.scale.setScalar(scale);this.flares.rotation.z=time*.001;this.flares.children.forEach((f,i)=>{const material=(f as THREE.Line).material;if(material instanceof THREE.LineBasicMaterial){material.opacity=.22+.35*(.5+.5*Math.sin(time*.045+i*2));}});}
-  this.clouds.visible=day===1&&stable&&this.effectsEnabled;
+  this.clouds.visible=(day===1||day===2)&&stable&&this.effectsEnabled;
   if(this.clouds.visible){this.cloudShell.rotation.y+=.0009;this.cloudShell.rotation.z=.04*Math.sin(time*.003);}
+  // Day 3: continents emerge and vegetation spreads; retain Day 2 clouds.
+  if(day===2){
+   const target=stable?1:0;
+   this.landProgress=Math.max(0,Math.min(1,this.landProgress+(target>this.landProgress?.007:-.007)));
+   if(this.frame++%8===0)this.drawLand(this.landProgress);
+  }
   this.body.rotation.y+=.002;
   this.controls.update();this.renderer.render(this.scene,this.camera);
+ }
+ private drawLand(progress:number){
+  const ctx=this.landCanvas.getContext('2d');if(!ctx)return;
+  const w=256,h=128,img=ctx.createImageData(w,h),pixels=img.data;
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+   const u=x/w*Math.PI*2,v=y/h*Math.PI;
+   const shape=.43*Math.sin(u*2.2+Math.sin(v*3.1)*1.4)+.3*Math.sin(u*4.8-v*2.4)+.17*Math.cos(u*9.1+v*6.7)+.12*Math.sin(u*15.3-v*11.7);
+   const latitude=Math.abs(y/h-.5)*2;
+   const elevation=shape-.18*latitude;
+   const emerged=elevation> .55-progress*.85;
+   const green=emerged&&progress>.55&&latitude<.78&&elevation<.6;
+   const i=(y*w+x)*4;
+   const coast=emerged?Math.min(1,Math.max(0,(elevation+.2)*1.2)):0;
+   pixels[i]=emerged?(green?35:Math.round(104+coast*65)):23;
+   pixels[i+1]=emerged?(green?Math.round(88+progress*40):Math.round(89+coast*46)):Math.round(73+25*Math.cos(v));
+   pixels[i+2]=emerged?(green?47:70):Math.round(143+45*Math.sin(v));
+   pixels[i+3]=255;
+  }
+  ctx.putImageData(img,0,0);this.landTexture.needsUpdate=true;
  }
  private drawSurface(time:number,stable:boolean){
   const ctx=this.surfaceCanvas.getContext('2d');if(!ctx)return;
@@ -112,5 +145,5 @@ export class World3D {
  setEffects(enabled:boolean){this.effectsEnabled=enabled;this.corona.visible=this.day===0&&enabled;this.flares.visible=this.day===0&&enabled;this.clouds.visible=this.day===1&&enabled&&this.clouds.visible;if(this.day===0&&!enabled)this.drawSurface(0,true)}
  reset(){this.controls.target.set(0,0,0);this.camera.position.set(0,3,11);this.controls.update()}
  resize(){const w=Math.max(1,this.canvas.clientWidth),h=Math.max(1,this.canvas.clientHeight);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();this.renderer.setSize(w,h,false)}
- dispose(){this.cloudShell.geometry.dispose();(this.cloudShell.material as THREE.Material).dispose();this.cloudTexture.dispose();this.resizeObserver.disconnect();this.controls.dispose();this.body.geometry.dispose();(this.body.material as THREE.Material).dispose();this.surfaceTexture.dispose();(this.corona.material as THREE.SpriteMaterial).map?.dispose();(this.corona.material as THREE.Material).dispose();this.flares.children.forEach(f=>{(f as THREE.Line).geometry.dispose();((f as THREE.Line).material as THREE.Material).dispose()});this.scene.traverse(o=>{if(o instanceof THREE.Points){o.geometry.dispose();(o.material as THREE.Material).dispose()}});this.renderer.dispose()}
+ dispose(){this.cloudShell.geometry.dispose();(this.cloudShell.material as THREE.Material).dispose();this.cloudTexture.dispose();this.landTexture.dispose();this.resizeObserver.disconnect();this.controls.dispose();this.body.geometry.dispose();(this.body.material as THREE.Material).dispose();this.surfaceTexture.dispose();(this.corona.material as THREE.SpriteMaterial).map?.dispose();(this.corona.material as THREE.Material).dispose();this.flares.children.forEach(f=>{(f as THREE.Line).geometry.dispose();((f as THREE.Line).material as THREE.Material).dispose()});this.scene.traverse(o=>{if(o instanceof THREE.Points){o.geometry.dispose();(o.material as THREE.Material).dispose()}});this.renderer.dispose()}
 }
