@@ -1,6 +1,5 @@
 import {creationChallenges,stages,evaluate,type Node,type Edge} from '../model';
 import {checkStarGraph} from './starGraph';
-import {labCheck} from './dayLabs';
 
 export type ChallengeGraph={nodes:Node[];edges:Edge[]};
 export type ChallengeState='planned'|'incomplete'|'invalid'|'passed';
@@ -23,7 +22,6 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph):DayGraphResul
   });
   return {day,challenges,complete:checked.complete,masterValue:checked.complete?result.result:undefined};
  }
- const starter=labCheck(day,graph.nodes,graph.edges);
  const challenges=definitions.map(item=>({
   ...item,state:'planned' as const,
   reason:'Dedicated physics graph and validator not implemented yet; the starter calculation is not completion credit.'
@@ -33,7 +31,7 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph):DayGraphResul
 export function starterGraph(day:number):ChallengeGraph{
  const stage=stages[day];
  if(!stage)throw Error('Unknown creation day '+day);
- return {nodes:structuredClone(stage.nodes),edges:structuredClone(stage.edges)};
+ return {nodes:JSON.parse(JSON.stringify(stage.nodes)),edges:JSON.parse(JSON.stringify(stage.edges))};
 }
 export function saveChallengeGraph(storage:Pick<Storage,'setItem'>,day:number,id:string,graph:ChallengeGraph){
  if(!challengeDefinitions(day).some(item=>item.id===id))throw Error('Unknown challenge '+id);
