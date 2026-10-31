@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "description": "Classroom demonstration inputs for Days 2 and 3; graph wiring is assembled by the shared challenge engine.",
+  "challenges": {
+    "d2-1": {
+      "a": 1,
+      "b": 1,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d2-2": {
+      "a": 11.2,
+      "b": 0.5,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d2-3": {
+      "a": 1,
+      "b": 1,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d2-4": {
+      "a": 239,
+      "b": 239,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d2-5": {
+      "a": 20,
+      "b": 1,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d2-6": {
+      "a": 0.7,
+      "b": 5,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d2-7": {
+      "a": 3.5,
+      "b": 3.5,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d2-8": {
+      "a": 100,
+      "b": 100,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-1": {
+      "a": 0.32,
+      "b": 0.68,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-2": {
+      "a": 20,
+      "b": 25,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-3": {
+      "a": 45,
+      "b": 45,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-4": {
+      "a": 0.6,
+      "b": 0.4,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-5": {
+      "a": 50,
+      "b": 10,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-6": {
+      "a": 4,
+      "b": 3.8,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-7": {
+      "a": 1.332,
+      "b": 1.332,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-8": {
+      "a": 100,
+      "b": 100,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-9": {
+      "a": 2,
+      "b": 2,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-10": {
+      "a": 0.8,
+      "b": 0.8,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-11": {
+      "a": 1.1,
+      "b": 1,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    },
+    "d3-12": {
+      "a": 110,
+      "b": 100,
+      "sensitivity": 0.01,
+      "uncertainty": 0.001
+    }
+  }
+}
