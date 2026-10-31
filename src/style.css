@@ -84,3 +84,19 @@ main.view-split{display:flex!important;flex-direction:column!important;min-heigh
 .range-marker{position:absolute;top:-5px;width:4px;height:20px;background:#fff;border:1px solid #12233c;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 0 2px #12233c}
 .challenge-entry>div{width:100%}
 @media(max-width:650px){.challenge-feedback{padding:10px}.feedback-header{align-items:flex-start;flex-direction:column}}
+
+
+/* Landing page: clear three-step learning journey */
+.landing-card{max-width:740px;width:min(94vw,740px);box-sizing:border-box}
+.landing-section{text-align:left;padding:18px 20px;margin:14px 0;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:rgba(15,23,42,.18)}
+.landing-section h2{font-size:1rem;margin:0 0 12px;letter-spacing:.015em}
+.landing-section .landing-note{font-size:.86rem;line-height:1.55;margin:10px 0 0}
+.landing-day-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.landing-day-grid>div{border:1px solid rgba(148,163,184,.22);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:5px}
+.landing-day-grid strong{font-size:.88rem}
+.landing-day-grid small{font-size:.76rem;opacity:.8}
+.landing-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.landing-actions h2{width:100%;margin-bottom:0}
+.cheat-tools{border-style:dashed;border-color:#d6a655}
+.cheat-buttons{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:600px){.landing-section{padding:14px}.landing-day-grid{grid-template-columns:1fr}.landing-actions>button{flex:1 1 180px}}
