@@ -19,7 +19,7 @@ export const rules:Record<string,{op:string;min:number;max:number;a:number;b:num
 'd3-9':{op:'divide',min:.9,max:1.1,a:2,b:2},
 'd3-10':{op:'multiply',min:.4,max:1,a:.8,b:.8},
 'd3-11':{op:'divide',min:1,max:1.3,a:1.1,b:1},
-'d3-12':{op:'divide',min:1,max:1.2,a:100,b:100}
+'d3-12':{op:'divide',min:1,max:1.2,a:110,b:100}
 };
 export const earthRule=(id:string)=>rules[id];
 export function newEarthGraph(id:string,level:2|3=2):{nodes:Node[];edges:Edge[]}{
