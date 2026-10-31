@@ -13,6 +13,9 @@ export class World3D {
  private surfaceTexture:THREE.CanvasTexture;
  private corona:THREE.Sprite;
  private flares:THREE.Group=new THREE.Group();
+ private clouds=new THREE.Group();
+ private cloudShell:THREE.Mesh;
+ private cloudTexture:THREE.CanvasTexture;
  private frame=0;
  private effectsEnabled=true;
  private surfaceMaterial:THREE.MeshStandardMaterial;
@@ -49,6 +52,27 @@ export class World3D {
     flare.rotation.z=i*1.57;this.flares.add(flare);
   }
   this.scene.add(this.body);
+  // Day 2: lightweight transparent cloud layer, independent of the stellar surface.
+  const cloudCanvas=document.createElement('canvas');cloudCanvas.width=512;cloudCanvas.height=256;
+  const cloudContext=cloudCanvas.getContext('2d')!;
+  cloudContext.clearRect(0,0,512,256);
+  // Deterministic overlapping wisps, avoiding expensive volumetric rendering on phones.
+  for(let i=0;i<110;i++){
+   const x=(i*137.508)%512,y=30+(i*71.33)%196;
+   const rx=16+(i%7)*7,ry=4+(i%5)*3;
+   const gradient=cloudContext.createRadialGradient(x,y,0,x,y,rx);
+   gradient.addColorStop(0,'rgba(255,255,255,0.38)');
+   gradient.addColorStop(.55,'rgba(245,250,255,0.16)');
+   gradient.addColorStop(1,'rgba(255,255,255,0)');
+   cloudContext.save();cloudContext.translate(x,y);cloudContext.scale(1,ry/rx);
+   cloudContext.fillStyle=gradient;cloudContext.fillRect(-rx,-rx,rx*2,rx*2);cloudContext.restore();
+  }
+  this.cloudTexture=new THREE.CanvasTexture(cloudCanvas);
+  this.cloudTexture.colorSpace=THREE.SRGBColorSpace;
+  this.cloudTexture.wrapS=THREE.RepeatWrapping;
+  this.cloudShell=new THREE.Mesh(new THREE.SphereGeometry(2.045,48,32),new THREE.MeshBasicMaterial({map:this.cloudTexture,transparent:true,opacity:.9,depthWrite:false,side:THREE.FrontSide}));
+  this.clouds.add(this.cloudShell);this.clouds.visible=false;this.scene.add(this.clouds);
+
   const stars=new Float32Array(900);
   for(let i=0;i<300;i++){const a=i*2.39996,z=1-2*(i+.5)/300,r=Math.sqrt(1-z*z);stars[3*i]=r*Math.cos(a)*300;stars[3*i+1]=z*300;stars[3*i+2]=r*Math.sin(a)*300}
   const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(stars,3));
@@ -60,6 +84,8 @@ export class World3D {
   this.body.scale.setScalar(day===0?Math.max(.2,Math.min(3,radius))*(1+.012*Math.sin(time*.08)):1);
   if(day===0){const mat=this.body.material as THREE.MeshStandardMaterial;mat.color.setHSL(.04+Math.max(0,Math.min(.1,(25-temperature)*.004)),.9,stable?.7:.5);}
   if(day===0){this.frame++;if(this.effectsEnabled&&this.frame%5===0)this.drawSurface(time,stable);const scale=this.body.scale.x;this.corona.scale.setScalar(7*scale);this.flares.scale.setScalar(scale);this.flares.rotation.z=time*.001;this.flares.children.forEach((f,i)=>{const material=(f as THREE.Line).material;if(material instanceof THREE.LineBasicMaterial){material.opacity=.22+.35*(.5+.5*Math.sin(time*.045+i*2));}});}
+  this.clouds.visible=day===1&&stable&&this.effectsEnabled;
+  if(this.clouds.visible){this.cloudShell.rotation.y+=.0009;this.cloudShell.rotation.z=.04*Math.sin(time*.003);}
   this.body.rotation.y+=.002;
   this.controls.update();this.renderer.render(this.scene,this.camera);
  }
@@ -83,8 +109,8 @@ export class World3D {
   ctx.putImageData(img,0,0);this.surfaceTexture.needsUpdate=true;
   this.glow.intensity=stable?42:24;
  }
- setEffects(enabled:boolean){this.effectsEnabled=enabled;this.corona.visible=this.day===0&&enabled;this.flares.visible=this.day===0&&enabled;if(this.day===0&&!enabled)this.drawSurface(0,true)}
+ setEffects(enabled:boolean){this.effectsEnabled=enabled;this.corona.visible=this.day===0&&enabled;this.flares.visible=this.day===0&&enabled;this.clouds.visible=this.day===1&&enabled&&this.clouds.visible;if(this.day===0&&!enabled)this.drawSurface(0,true)}
  reset(){this.controls.target.set(0,0,0);this.camera.position.set(0,3,11);this.controls.update()}
  resize(){const w=Math.max(1,this.canvas.clientWidth),h=Math.max(1,this.canvas.clientHeight);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();this.renderer.setSize(w,h,false)}
- dispose(){this.resizeObserver.disconnect();this.controls.dispose();this.body.geometry.dispose();(this.body.material as THREE.Material).dispose();this.surfaceTexture.dispose();(this.corona.material as THREE.SpriteMaterial).map?.dispose();(this.corona.material as THREE.Material).dispose();this.flares.children.forEach(f=>{(f as THREE.Line).geometry.dispose();((f as THREE.Line).material as THREE.Material).dispose()});this.scene.traverse(o=>{if(o instanceof THREE.Points){o.geometry.dispose();(o.material as THREE.Material).dispose()}});this.renderer.dispose()}
+ dispose(){this.cloudShell.geometry.dispose();(this.cloudShell.material as THREE.Material).dispose();this.cloudTexture.dispose();this.resizeObserver.disconnect();this.controls.dispose();this.body.geometry.dispose();(this.body.material as THREE.Material).dispose();this.surfaceTexture.dispose();(this.corona.material as THREE.SpriteMaterial).map?.dispose();(this.corona.material as THREE.Material).dispose();this.flares.children.forEach(f=>{(f as THREE.Line).geometry.dispose();((f as THREE.Line).material as THREE.Material).dispose()});this.scene.traverse(o=>{if(o instanceof THREE.Points){o.geometry.dispose();(o.material as THREE.Material).dispose()}});this.renderer.dispose()}
 }
