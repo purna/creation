@@ -58,9 +58,14 @@ export function extractChallengeGraph(day:number,index:number,master:ChallengeGr
  const ids=['gravity','pressure','core','fusion','hydro','thermal','stable'] as const;
  const target=ids[index];
  const inputs:Record<string,string[]>={gravity:['mass','radius'],pressure:['mass','radius'],core:['mass','coreMK','radius'],fusion:['mass','radius','hydrogen','coreMK'],hydro:['pressure','core'],thermal:['fusion','luminosity'],stable:['hydro','thermal']};
- const visible=new Set([target,...inputs[target]]);
+ const visible=new Set<string>();
+ const visit=(id:string)=>{if(visible.has(id))return;visible.add(id);for(const upstream of inputs[id]||[])visit(upstream)};
+ visit(target);
  const nodes=master.nodes.filter(n=>visible.has(n.id)).map(n=>JSON.parse(JSON.stringify(n)) as Node);
- const edges=master.edges.filter(e=>e.to===target&&visible.has(e.from)).map(e=>({...e}));
+ const edges=master.edges.filter(e=>visible.has(e.to)&&visible.has(e.from)).map(e=>({...e}));
+ // A challenge has a real, inspectable output even before it is merged into the day.
+ nodes.push({id:'challenge-result',kind:'output',op:'display',label:'Challenge result',x:680,y:160});
+ edges.push({from:target,to:'challenge-result',slot:0});
  return {nodes,edges};
 }
 /** Merge only this challenge's input wires and shared numeric parameters into
