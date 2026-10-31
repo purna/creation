@@ -50,3 +50,6 @@ The star panel now walks learners through eight graph-wiring steps, with mathema
 
 ## v1.5 — dimensional algebra, socket guidance, tests
 Generic Add/Multiply/Divide/Sqrt nodes now propagate SI dimensions (M,L,T,K), flag incompatible addition and warn when calibrated stellar units cannot safely be combined without conversion. The maths panel displays derived units. Day 1 highlights compatible target sockets when a source is selected. Vitest regression tests cover a complete stable star, wrong/missing connections, bad units, unstable parameters, cycles and SI algebra. Run `npm test` and `npm run build`. **Scope:** this is SI dimension analysis for generic maths operations, not a universal unit-conversion system or dimensional proof of the solar-calibrated stellar proxies.
+
+## v1.7 — Fun / Test Mode
+Day 1 includes three runnable graph presets: **Working solution** (all equations connected, 7/7 physics checks), **Nearly working** (all wires present but radiation is too high), and **Unstable example** (cool core). A backup of the current graph is made before applying a preset and can be restored. The presets use the real validator, so the working one unlocks Day 2 through the normal rules. The other days do not yet have complete physics validators or full-solution presets.
