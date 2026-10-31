@@ -56,3 +56,6 @@ Day 1 includes three runnable graph presets: **Working solution** (all equations
 
 ## v1.8 — Days 2–6 tutorial/test starter labs
 Explore/Test opens all days in a non-credit sandbox. Days 2–6 each have mathematical guidance, editable graphs, working/near/broken presets, result checking, and backup/restore. **These are starter models, not the complete 65-challenge scientific curriculum.** They do not grant full-day completion.
+
+## v2.0 — GCSE and A Level entry, tour, editable maths
+Landing page offers Level 2 GCSE or Level 3 A Level. The six-step guided demo and in-game help explain nodes, wiring, split view, maths, and test presets. Maths cards offer Jump to node and Edit equation. Custom formulas use a restricted arithmetic parser (A, B, numbers, parentheses and + - * / ^), not JavaScript eval. Editing a built-in physics formula replaces it with a generic maths formula; original Day 1 physics validation still requires the original formula node. Both levels currently share the same educational simulation engines; a separate A Level challenge bank is future work.

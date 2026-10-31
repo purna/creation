@@ -1,5 +1,5 @@
-/* BEFORE ADAM offline shell v1.9.0. Assets are network-first for HTML and cache-first for revisioned Vite bundles. */
-const CACHE='creation-1.9.0';const ROOT='/creation/';const CORE=[ROOT,ROOT+'index.html',ROOT+'manifest.webmanifest',ROOT+'icons/creation.svg',ROOT+'icons/icon-192.png',ROOT+'icons/icon-512.png',ROOT+'icons/maskable-512.png'];
+/* BEFORE ADAM offline shell v2.0.0. Assets are network-first for HTML and cache-first for revisioned Vite bundles. */
+const CACHE='creation-2.0.0';const ROOT='/creation/';const CORE=[ROOT,ROOT+'index.html',ROOT+'manifest.webmanifest',ROOT+'icons/creation.svg',ROOT+'icons/icon-192.png',ROOT+'icons/icon-512.png',ROOT+'icons/maskable-512.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)))});
 self.addEventListener('activate',event=>{event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('creation-')&&k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()]))});
 self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting()});

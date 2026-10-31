@@ -1,0 +1,2 @@
+import {describe,it,expect} from 'vitest';import {evaluateExpression} from './expression';
+describe('safe editable equation parser',()=>{it('handles precedence',()=>expect(evaluateExpression('A + B*2',3,4)).toBe(11));it('handles powers and parentheses',()=>expect(evaluateExpression('(A+B)^2',2,3)).toBe(25));it('rejects arbitrary code',()=>expect(()=>evaluateExpression('alert(1)',1,2)).toThrow());it('rejects division by zero',()=>expect(()=>evaluateExpression('A/B',1,0)).toThrow());});
