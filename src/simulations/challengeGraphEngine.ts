@@ -79,8 +79,14 @@ export function mergeChallengeGraph(day:number,index:number,master:ChallengeGrap
   const changed=part.nodes.find(p=>p.id===n.id);
   return changed&&n.kind==='number'&&changed.kind==='number'?{...n,value:changed.value}:n;
  });
- const allowed=new Set(part.nodes.map(n=>n.id));
+ const allowed=new Set(master.nodes.map(n=>n.id));
+ const expected:Record<string,string[]>={gravity:['mass','radius'],pressure:['mass','radius'],core:['mass','coreMK','radius'],fusion:['mass','radius','hydrogen','coreMK'],hydro:['pressure','core'],thermal:['fusion','luminosity'],stable:['hydro','thermal']};
  const edges=master.edges.filter(e=>e.to!==target);
- for(const e of part.edges)if(e.to===target&&allowed.has(e.from))edges.push({...e});
+ const slots=new Set<number>();
+ for(const e of part.edges){
+  if(e.to!==target||!allowed.has(e.from)||!Number.isInteger(e.slot)||e.slot<0||e.slot>=expected[target].length||slots.has(e.slot))continue;
+  // Preserve wrong but structurally valid connections so learners can diagnose them.
+  slots.add(e.slot);edges.push({...e});
+ }
  return {nodes,edges};
 }
