@@ -1,4 +1,4 @@
-# BEFORE ADAM — Creation Studio v1.4
+# BEFORE ADAM — Creation Studio v1.5
 
 Vite + TypeScript educational universe creation prototype.
 
@@ -47,3 +47,6 @@ Day 1 now opens an **unwired stellar mathematics graph** with five physical inpu
 
 ## v1.4 — Guided Day 1 tutorial
 The star panel now walks learners through eight graph-wiring steps, with mathematical explanations, worked examples, required input units and visual focus on the target node. Incorrect source connections, mismatched units and cycles are rejected with explanatory feedback. The validator also checks units on required graph nodes. See [v1.4 release notes](RELEASE_NOTES_v14.md).
+
+## v1.5 — dimensional algebra, socket guidance, tests
+Generic Add/Multiply/Divide/Sqrt nodes now propagate SI dimensions (M,L,T,K), flag incompatible addition and warn when calibrated stellar units cannot safely be combined without conversion. The maths panel displays derived units. Day 1 highlights compatible target sockets when a source is selected. Vitest regression tests cover a complete stable star, wrong/missing connections, bad units, unstable parameters, cycles and SI algebra. Run `npm test` and `npm run build`. **Scope:** this is SI dimension analysis for generic maths operations, not a universal unit-conversion system or dimensional proof of the solar-calibrated stellar proxies.

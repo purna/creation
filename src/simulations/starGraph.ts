@@ -1,6 +1,6 @@
 import {evaluate,type Node,type Edge} from '../model';
 import {validateStar,type StarInput,STAR_SOLVER} from './star';
-export const GRAPH_SOLVER=STAR_SOLVER+'-graph-v2';
+export const GRAPH_SOLVER=STAR_SOLVER+'-graph-v3';
 export const STAR_FIELDS=['mass','radius','hydrogen','coreMK','luminosity'] as const;
 type Field=typeof STAR_FIELDS[number];
 const inputLabels:Record<Field,string>={mass:'Stellar mass (M☉)',radius:'Stellar radius (R☉)',hydrogen:'Hydrogen fraction (0–1)',coreMK:'Core temperature (million K)',luminosity:'Radiated luminosity (L☉)'};
