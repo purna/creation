@@ -28,7 +28,7 @@ export function assess(day:number,level:2|3,graph:Graph,world?:WorldMetrics):Evi
 export function reconcile(ledger:Ledger,day:number,level:2|3,graph:Graph,world?:WorldMetrics):Ledger{
  const evidence=assess(day,level,graph,world),key=(id:string)=>id+':'+level;
  const prior=Object.values(ledger.evidence);
- const previous=prior.find(e=>e.day===day&&e.level===level);const changed=!!previous&&previous.fingerprint!==signature(graph);
+ const previous=prior.find(e=>e.day===day&&e.level===level);const changed=previous?previous.fingerprint!==signature(graph):prior.some(e=>e.day>day&&e.level===level);
  for(const entry of prior){if(changed&&entry.day>day&&entry.status!=='stale'){ledger.evidence[key(entry.id)]={...entry,status:'stale',reason:'Earlier day changed: re-run this challenge before relying on the result'}}}
  for(const e of evidence){ledger.evidence[key(e.id)]=e;if(e.score!==null){const attempt:Attempt={id:e.id,day,level,score:e.score,valid:e.status==='validated',fingerprint:e.fingerprint,createdAt:e.updatedAt};const prev=ledger.best[key(e.id)];if(attempt.valid&&(!prev||attempt.score>prev.score))ledger.best[key(e.id)]=attempt;ledger.history.push(attempt)}}
  ledger.history=ledger.history.slice(-500);return ledger;
