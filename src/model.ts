@@ -44,7 +44,7 @@ export const creationChallenges = [
     "items": [
       {
         "id": "d1-1",
-        "name": "Gather hydrogen fuel",
+        "name": "Calculate stellar surface gravity",
         "dependsOn": [],
         "status": "planned"
       },
@@ -58,7 +58,7 @@ export const creationChallenges = [
       },
       {
         "id": "d1-3",
-        "name": "Establish core pressure and temperature",
+        "name": "Calculate core pressure and temperature",
         "dependsOn": [
           "d1-2"
         ],
@@ -74,7 +74,7 @@ export const creationChallenges = [
       },
       {
         "id": "d1-5",
-        "name": "Balance gravity and pressure",
+        "name": "Balance gravity and gas pressure",
         "dependsOn": [
           "d1-4"
         ],
@@ -82,7 +82,7 @@ export const creationChallenges = [
       },
       {
         "id": "d1-6",
-        "name": "Balance energy generation and radiation",
+        "name": "Balance fusion and radiation",
         "dependsOn": [
           "d1-5"
         ],
@@ -90,7 +90,7 @@ export const creationChallenges = [
       },
       {
         "id": "d1-7",
-        "name": "Pass a sustained stellar stability test",
+        "name": "Validate stellar stability",
         "dependsOn": [
           "d1-6"
         ],
