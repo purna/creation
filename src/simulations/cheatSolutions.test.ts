@@ -2,13 +2,18 @@ import {describe,it,expect} from 'vitest';
 import {cheatStarGraph,cheatEarthGraph} from './cheatSolutions';
 import {checkStarGraph} from './starGraph';
 import {validateEarthChallenge,rules} from './earthValidation';
-import {evaluateDayGraphs,saveChallengeGraph,starterGraph} from './challengeGraphEngine';
+import {evaluateDayGraphs,saveChallengeGraph,starterGraph,challengeDefinitions} from './challengeGraphEngine';
 describe('JSON-backed developer cheat solutions',()=>{
  it('loads a validated Day 1 graph from solution JSON',()=>{
   const g=cheatStarGraph();
   expect(checkStarGraph(g.nodes,g.edges).complete).toBe(true);
  });
  for(const level of [2,3] as const){
+  for(const day of [1,2])it('reference fixtures cover every challenge in Day '+(day+1)+' Level '+level,()=>{
+   const ids=challengeDefinitions(day).map(x=>x.id);
+   expect(ids.length).toBe(day===1?8:12);
+   for(const id of ids)expect(()=>cheatEarthGraph(id,level)).not.toThrow();
+  });
   for(const id of Object.keys(rules)){
    it('loads a passing '+id+' Level '+level+' graph',()=>{
     const g=cheatEarthGraph(id,level);
