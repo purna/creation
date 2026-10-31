@@ -69,3 +69,5 @@ main.view-split{display:flex!important;flex-direction:column!important;min-heigh
 .challenge-editor-nav strong{font-size:13px;color:#dceaff}
 .challenge-editor-nav button{background:#24547e;border-color:#6ba6d4;font-weight:700}
 @media(max-width:650px){.challenge-editor-nav{padding:7px;gap:7px}.challenge-editor-nav button{width:100%;min-height:42px}}
+
+.effects-option{display:flex;align-items:center;gap:9px;padding:9px;color:#d8e8ff;font-size:13px}.effects-option input{width:18px;height:18px;accent-color:#59b8f6}
