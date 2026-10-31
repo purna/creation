@@ -1,4 +1,4 @@
-# BEFORE ADAM — Creation Studio v1.3
+# BEFORE ADAM — Creation Studio v1.4
 
 Vite + TypeScript educational universe creation prototype.
 
@@ -44,3 +44,6 @@ Landing screen, loading spinner, locked Days 2–6, SVG favicon, manifest, scope
 
 ## v1.3 — Day 1 node-driven validation
 Day 1 now opens an **unwired stellar mathematics graph** with five physical inputs, seven formula nodes and a final output. Connect formula inputs in the stated order and tune values in Parameters. Completion is computed from required connected equations **and** the simplified one-zone physics validator; merely entering values or using Auto-wire cannot complete Day 1. Older Day 1 wavelength graphs are preserved under the `before-adam-v06-0-legacy` browser key. Existing v1.2 star-only unlock evidence is rejected and must be re-earned. See [release notes](RELEASE_NOTES_v13.md).
+
+## v1.4 — Guided Day 1 tutorial
+The star panel now walks learners through eight graph-wiring steps, with mathematical explanations, worked examples, required input units and visual focus on the target node. Incorrect source connections, mismatched units and cycles are rejected with explanatory feedback. The validator also checks units on required graph nodes. See [v1.4 release notes](RELEASE_NOTES_v14.md).

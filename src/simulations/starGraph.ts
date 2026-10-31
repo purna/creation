@@ -15,7 +15,7 @@ const formulas=[
 ] as const;
 export function newStarGraph():{nodes:Node[];edges:Edge[]}{
  const values:Record<Field,number>={mass:1,radius:1,hydrogen:.70,coreMK:15.7,luminosity:1};
- const nodes:Node[]=[...STAR_FIELDS.map((id,i)=>({id,kind:'number' as const,op:'constant',label:inputLabels[id],x:20,y:20+i*112,value:values[id],unit:id==='mass'?'M☉':id==='radius'?'R☉':id==='coreMK'?'MK':id==='luminosity'?'L☉':'fraction'})),...formulas.map((f,i)=>({id:f.id,kind:'formula' as const,op:f.op,label:f.label,x:315+(i>=4?280:0),y:20+(i%4)*130})),{id:'out',kind:'output' as const,op:'display',label:'Stable star result',x:875,y:170}];
+ const nodes:Node[]=[...STAR_FIELDS.map((id,i)=>({id,kind:'number' as const,op:'constant',label:inputLabels[id],x:20,y:20+i*112,value:values[id],unit:id==='mass'?'M☉':id==='radius'?'R☉':id==='coreMK'?'MK':id==='luminosity'?'L☉':'fraction'})),...formulas.map((f,i)=>({id:f.id,kind:'formula' as const,op:f.op,label:f.label,x:315+(i>=4?280:0),y:20+(i%4)*130,unit:({gravity:'m/s²',pressure:'relative pressure',core:'relative pressure',fusion:'L☉',hydro:'dimensionless',thermal:'dimensionless',stable:'dimensionless'} as Record<string,string>)[f.id]})),{id:'out',kind:'output' as const,op:'display',label:'Stable star result',x:875,y:170}];
  return {nodes,edges:[]};
 }
 export function graphStarInput(nodes:Node[]):StarInput|null{
@@ -28,7 +28,7 @@ export function checkStarGraph(nodes:Node[],edges:Edge[]){
  const connected=new Set<string>();
  const actual=Object.fromEntries(formulas.map(f=>[f.id,false])) as Record<string,boolean>;
  for(const f of formulas){const n=nodes.find(n=>n.id===f.id&&n.kind==='formula'&&n.op===f.op);if(!n)continue;
-  const ok=f.inputs.every((source,slot)=>edges.some(e=>e.to===f.id&&e.slot===slot&&e.from===source));
+  const ok=f.inputs.every((source,slot)=>edges.some(e=>e.to===f.id&&e.slot===slot&&e.from===source)&&nodes.find(n=>n.id===source)?.unit===({mass:'M☉',radius:'R☉',hydrogen:'fraction',coreMK:'MK',luminosity:'L☉',gravity:'m/s²',pressure:'relative pressure',core:'relative pressure',fusion:'L☉',hydro:'dimensionless',thermal:'dimensionless'} as Record<string,string>)[source]);
   const probe=evaluate(nodes,edges.filter(e=>e.to!=='out').concat({from:f.id,to:'out',slot:0}));
   if(ok&&f.inputs.every(s=>STAR_FIELDS.includes(s as Field)||connected.has(s))&&Number.isFinite(probe.result)){connected.add(f.id);actual[f.id]=true;}
  }
