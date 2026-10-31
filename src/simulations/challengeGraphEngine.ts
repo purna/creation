@@ -38,7 +38,7 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph):DayGraphResul
 export function starterGraph(day:number):ChallengeGraph{
  const stage=stages[day];
  if(!stage)throw Error('Unknown creation day '+day);
- return {nodes:JSON.parse(JSON.stringify(stage.nodes)),edges:JSON.parse(JSON.stringify(stage.edges))};
+ return day===1||day===2?newEarthGraph(challengeDefinitions(day)[0].id):{nodes:JSON.parse(JSON.stringify(stage.nodes)),edges:JSON.parse(JSON.stringify(stage.edges))};
 }
 export function saveChallengeGraph(storage:Pick<Storage,'setItem'>,day:number,id:string,graph:ChallengeGraph){
  if(!challengeDefinitions(day).some(item=>item.id===id))throw Error('Unknown challenge '+id);
