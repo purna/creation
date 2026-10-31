@@ -21,3 +21,16 @@ export function checkSolutionRange(id:string,values:Record<string,number>,input:
  }
  return {passed:true,reason:`Within ${a.min}–${a.max} ${a.unit}`};
 }
+
+/** Data for the student-facing range comparison. Physics and wiring are checked separately. */
+export function solutionComparison(id:string,values:Record<string,number>,input:StarInput|null){
+ const rule=solutionRule(id);
+ if(!rule?.acceptance)return null;
+ const a=rule.acceptance;
+ const actual=values[a.output];
+ const hasValue=Number.isFinite(actual);
+ const range=checkSolutionRange(id,values,input);
+ const span=a.max-a.min;
+ const position=hasValue&&span>0?Math.max(0,Math.min(100,(actual-a.min)/span*100)):null;
+ return {label:a.output,value:hasValue?actual:null,unit:a.unit,min:a.min,max:a.max,maxExclusive:!!a.maxExclusive,position,passed:range.passed,reason:range.reason,description:a.description,examples:rule.examples.length};
+}
