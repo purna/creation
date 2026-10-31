@@ -14,9 +14,11 @@ export class World3D {
  private corona:THREE.Sprite;
  private flares:THREE.Group=new THREE.Group();
  private frame=0;
+ private effectsEnabled=true;
+ private surfaceMaterial:THREE.MeshStandardMaterial;
  constructor(private canvas:HTMLCanvasElement){
   this.renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-  this.renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+  this.renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));
   this.scene.background=new THREE.Color('#060e20');
   this.camera.position.set(0,3,11);
   this.controls=new OrbitControls(this.camera,canvas);
@@ -30,7 +32,9 @@ export class World3D {
   this.surfaceTexture=new THREE.CanvasTexture(this.surfaceCanvas);
   this.surfaceTexture.colorSpace=THREE.SRGBColorSpace;
   this.surfaceTexture.wrapS=THREE.RepeatWrapping;
-  this.body=new THREE.Mesh(new THREE.SphereGeometry(2,64,40),new THREE.MeshStandardMaterial({color:'#ffcc74',map:this.surfaceTexture,roughness:.95,emissive:'#ff6b16',emissiveMap:this.surfaceTexture,emissiveIntensity:1.2}));
+  this.surfaceMaterial=new THREE.MeshStandardMaterial({color:'#ffcc74',map:this.surfaceTexture,roughness:.95,emissive:'#ff6b16',emissiveMap:this.surfaceTexture,emissiveIntensity:1.2});
+  this.body=new THREE.Mesh(new THREE.SphereGeometry(2,64,40),this.surfaceMaterial);
+  this.drawSurface(0,false);
   const glowCanvas=document.createElement('canvas');glowCanvas.width=128;glowCanvas.height=128;
   const glowCtx=glowCanvas.getContext('2d')!;const grad=glowCtx.createRadialGradient(64,64,10,64,64,64);
   grad.addColorStop(0,'rgba(255,180,65,.36)');grad.addColorStop(.52,'rgba(255,105,25,.19)');grad.addColorStop(1,'rgba(255,90,15,0)');
@@ -52,10 +56,10 @@ export class World3D {
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(canvas);this.resize();
  }
  update(day:number,time:number,radius:number,temperature:number,stable:boolean){
-  if(day!==this.day){this.day=day;this.corona.visible=day===0;this.flares.visible=day===0;const material=this.body.material as THREE.MeshStandardMaterial;material.color.set(day===0?'#ffbc6e':day===1?'#3e87ce':day===2?'#4a9c75':day===3?'#dcad7e':day===4?'#2886b4':'#6bb584');material.emissive.set(day===0?'#ff7b21':'#000000');material.emissiveIntensity=day===0?1.2:0;this.glow.intensity=day===0?50:20;}
+  if(day!==this.day){this.day=day;this.corona.visible=day===0&&this.effectsEnabled;this.flares.visible=day===0&&this.effectsEnabled;this.surfaceMaterial.map=day===0?this.surfaceTexture:null;this.surfaceMaterial.emissiveMap=day===0?this.surfaceTexture:null;this.surfaceMaterial.needsUpdate=true;const material=this.body.material as THREE.MeshStandardMaterial;material.color.set(day===0?'#ffbc6e':day===1?'#3e87ce':day===2?'#4a9c75':day===3?'#dcad7e':day===4?'#2886b4':'#6bb584');material.emissive.set(day===0?'#ff7b21':'#000000');material.emissiveIntensity=day===0?1.2:0;this.glow.intensity=day===0?50:20;}
   this.body.scale.setScalar(day===0?Math.max(.2,Math.min(3,radius))*(1+.012*Math.sin(time*.08)):1);
   if(day===0){const mat=this.body.material as THREE.MeshStandardMaterial;mat.color.setHSL(.04+Math.max(0,Math.min(.1,(25-temperature)*.004)),.9,stable?.7:.5);}
-  if(day===0){this.frame++;if(this.frame%5===0)this.drawSurface(time,stable);const scale=this.body.scale.x;this.corona.scale.setScalar(7*scale);this.flares.scale.setScalar(scale);this.flares.rotation.z=time*.001;this.flares.children.forEach((f,i)=>{(f as THREE.Line).material instanceof THREE.LineBasicMaterial&&((f as THREE.Line).material as THREE.LineBasicMaterial).opacity=.22+.35*(.5+.5*Math.sin(time*.045+i*2));});}
+  if(day===0){this.frame++;if(this.effectsEnabled&&this.frame%5===0)this.drawSurface(time,stable);const scale=this.body.scale.x;this.corona.scale.setScalar(7*scale);this.flares.scale.setScalar(scale);this.flares.rotation.z=time*.001;this.flares.children.forEach((f,i)=>{(f as THREE.Line).material instanceof THREE.LineBasicMaterial&&((f as THREE.Line).material as THREE.LineBasicMaterial).opacity=.22+.35*(.5+.5*Math.sin(time*.045+i*2));});}
   this.body.rotation.y+=.002;
   this.controls.update();this.renderer.render(this.scene,this.camera);
  }
@@ -79,6 +83,7 @@ export class World3D {
   ctx.putImageData(img,0,0);this.surfaceTexture.needsUpdate=true;
   this.glow.intensity=stable?42:24;
  }
+ setEffects(enabled:boolean){this.effectsEnabled=enabled;this.corona.visible=this.day===0&&enabled;this.flares.visible=this.day===0&&enabled;if(this.day===0&&!enabled)this.drawSurface(0,true)}
  reset(){this.controls.target.set(0,0,0);this.camera.position.set(0,3,11);this.controls.update()}
  resize(){const w=Math.max(1,this.canvas.clientWidth),h=Math.max(1,this.canvas.clientHeight);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();this.renderer.setSize(w,h,false)}
  dispose(){this.resizeObserver.disconnect();this.controls.dispose();this.body.geometry.dispose();(this.body.material as THREE.Material).dispose();this.surfaceTexture.dispose();(this.corona.material as THREE.SpriteMaterial).map?.dispose();(this.corona.material as THREE.Material).dispose();this.flares.children.forEach(f=>{(f as THREE.Line).geometry.dispose();((f as THREE.Line).material as THREE.Material).dispose()});this.scene.traverse(o=>{if(o instanceof THREE.Points){o.geometry.dispose();(o.material as THREE.Material).dispose()}});this.renderer.dispose()}
