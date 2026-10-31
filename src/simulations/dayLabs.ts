@@ -23,6 +23,7 @@ export function labCheck(day:number,nodes:Node[],edges:Edge[]){
  const connected=!!calc&&!!out&&inputs.every((n,i)=>edges.some(e=>e.from===n.id&&e.to===calc.id&&e.slot===i))&&edges.some(e=>e.from===calc.id&&e.to===out.id&&e.slot===0);
  if(!connected)return {passed:false,value:undefined as number|undefined,reason:'Connect all inputs to the formula and the formula to output'};
  const v=evaluate(nodes,edges);const value=v.result;
- const passed=value!==undefined&&Number.isFinite(value)&&!v.errors.length&&s.pass(value,inputs.map(n=>n.value??NaN));
+ const plausible=day!==1||((inputs.find(n=>n.id==='pressure')?.value??0)>=.5&&(inputs.find(n=>n.id==='pressure')?.value??0)<=3);
+ const passed=value!==undefined&&Number.isFinite(value)&&!v.errors.length&&plausible&&s.pass(value,inputs.map(n=>n.value??NaN));
  return {passed,value,reason:passed?'Starter calculation meets its target':'Change the parameters to approach the target'};
 }
