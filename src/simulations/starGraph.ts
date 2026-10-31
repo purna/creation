@@ -27,15 +27,17 @@ export function graphStarInput(nodes:Node[]):StarInput|null{
 export function checkStarGraph(nodes:Node[],edges:Edge[]){
  const input=graphStarInput(nodes);const evaluated=evaluate(nodes,edges);const physics=input?validateStar(input):null;
  const connected=new Set<string>();
+ const partialValues:Record<string,number>={...evaluated.values};
  const actual=Object.fromEntries(formulas.map(f=>[f.id,false])) as Record<string,boolean>;
  for(const f of formulas){const n=nodes.find(n=>n.id===f.id&&n.kind==='formula'&&n.op===f.op);if(!n)continue;
   const ok=f.inputs.every((source,slot)=>edges.some(e=>e.to===f.id&&e.slot===slot&&e.from===source)&&nodes.find(n=>n.id===source)?.unit===({mass:'M☉',radius:'R☉',hydrogen:'fraction',coreMK:'MK',luminosity:'L☉',gravity:'m/s²',pressure:'relative pressure',core:'relative pressure',fusion:'L☉',hydro:'dimensionless',thermal:'dimensionless'} as Record<string,string>)[source]);
   const probe=evaluate(nodes,edges.filter(e=>e.to!=='out').concat({from:f.id,to:'out',slot:0}));
+  if(Number.isFinite(probe.result))partialValues[f.id]=probe.result!;
   if(ok&&f.inputs.every(s=>STAR_FIELDS.includes(s as Field)||connected.has(s))&&Number.isFinite(probe.result)){connected.add(f.id);actual[f.id]=true;}
  }
  const checks=physics?.checks.map((c,i)=>{
   const needed=[['gravity','pressure'],['gravity'],['pressure','core'],['fusion'],['hydro'],['thermal'],['stable']][i];
-  const range=checkSolutionRange(c.id,evaluated.values,input);
+  const range=checkSolutionRange(c.id,partialValues,input);
   const linked=needed.every(k=>actual[k]);
   return {...c,passed:c.passed&&linked&&range.passed,detail:c.detail+(linked?'':' · connect required formula inputs')+(range.passed?'':' · '+range.reason)};
  })??[];
