@@ -8,6 +8,7 @@ import {UNIT_CHOICES,toCanonical,fromCanonical,formatUnitValue} from './learning
 import './style.css';
 import {defaultStar,validateStar,type StarInput} from './simulations/star';
 import {newStarGraph,checkStarGraph,GRAPH_SOLVER,STAR_FORMULAS} from './simulations/starGraph';
+import {evaluateDayGraphs,challengeDefinitions} from './simulations/challengeGraphEngine';
 import {guideSteps,nextGuideStep,connectionFeedback} from './simulations/starGuide';
 import {checkDimensions} from './simulations/dimensions';
 import {World3D} from './world3d';
@@ -20,7 +21,7 @@ import {type Body} from './orbits';
 import {OrbitalLab,challenges} from './orbitalLab';
 import {stages,creationChallenges,evaluate,arity,symbols,type Node,type Edge} from './model';
 const app=document.querySelector<HTMLDivElement>('#app')!;
-const APP_VERSION='2.4.0';
+const APP_VERSION='2.5.0';
 const progressKey='before-adam-progress-v15';
 type DayProgress={completed:boolean;validatedAt?:string;solverVersion?:string};
 let challengeLedger:Ledger=readLedger();
@@ -44,8 +45,8 @@ let world3d:World3D|null=null;
 let guideIndex=0;let connectionNotice='';let exploring=false;
 let focusedChallenge:string|null='gravity';
 let selectedMissionChallenge=0;
-function missionItems(){return creationChallenges[day]?.items||[];}
-function missionPicker(){const items=missionItems();return `<div class="mission-picker"><strong>Day ${day+1} · Maths challenges</strong><p>Choose a challenge to work on. Each feeds into the day’s final simulation as its physics model becomes available.</p><div class="mission-picker-list">${items.map((c,i)=>`<button type="button" data-mission-index="${i}" aria-pressed="${selectedMissionChallenge===i}">${i+1}. ${esc(c.name)}</button>`).join('')}</div>${day>0?`<p class="mission-note">Challenge ${selectedMissionChallenge+1} of ${items.length}: ${esc(items[selectedMissionChallenge]?.name||'')}. Full challenge physics is still planned; the existing starter node graph remains available below. Completing the starter does not complete the day.</p>`:''}</div>`;}
+function missionItems(){return challengeDefinitions(day);}
+function missionPicker(){const items=missionItems();const status=evaluateDayGraphs(day,{nodes,edges});return `<div class="mission-picker"><strong>Day ${day+1} · Maths challenges</strong><p>Choose a challenge to work on. Each feeds into the day’s final simulation as its physics model becomes available.</p><div class="mission-picker-list">${items.map((c,i)=>`<button type="button" data-mission-index="${i}" aria-pressed="${selectedMissionChallenge===i}">${i+1}. ${esc(c.title)} · ${status.challenges[i]?.state==='passed'?'✓ Passed':status.challenges[i]?.state==='planned'?'Planned':'To solve'}</button>`).join('')}</div>${day>0?`<p class="mission-note">Challenge ${selectedMissionChallenge+1} of ${items.length}: ${esc(items[selectedMissionChallenge]?.title||'')}. Full challenge physics is still planned; the existing starter node graph remains available below. Completing the starter does not complete the day.</p>`:''}</div>`;}
 
 function focusIds(){if(day!==0||parentGraph||!focusedChallenge)return null;const step=guideSteps.find(s=>s.id===focusedChallenge);return step?new Set([step.id,...step.inputs.map(x=>x.id)]):null;}
 function focusChallenge(id:string|null){focusedChallenge=id;pending=null;selected=null;tab='nodes';graphScrollX=0;graphScrollY=0;render();}
@@ -77,7 +78,7 @@ function currentWorldGraphs(){const graphs:Partial<Record<number,Graph>>={};for(
 function refreshChallengeEvidence(){const g=parentGraph?{nodes:parentGraph.nodes,edges:parentGraph.edges}:{nodes,edges};challengeLedger=reconcile(challengeLedger,day+1,learningLevel,g,deriveWorld(currentWorldGraphs()));writeLedger(challengeLedger)}
 function save(){refreshChallengeEvidence();if(parentGraph){const g=parentGraph.nodes.find(n=>n.id===parentGraph!.groupId);if(g)g.group={nodes:clone(nodes),edges:clone(edges)};localStorage.setItem(store+'-'+day,JSON.stringify({nodes:parentGraph.nodes,edges:parentGraph.edges}));}else localStorage.setItem(store+'-'+day,JSON.stringify({nodes,edges}));if(day===0)updateDay1Progress();persistWorld();}
 const esc=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
-function updateDay1Progress(){const g=day===0?{nodes:parentGraph?parentGraph.nodes:nodes,edges:parentGraph?parentGraph.edges:edges}:JSON.parse(localStorage.getItem(store+'-0')||'null');const ok=g?checkStarGraph(g.nodes,g.edges).complete:false;progress[0]=ok?{completed:true,solverVersion:GRAPH_SOLVER,validatedAt:new Date().toISOString()}:{completed:false};localStorage.setItem(progressKey,JSON.stringify(progress));}
+function updateDay1Progress(){const g=day===0?{nodes:parentGraph?parentGraph.nodes:nodes,edges:parentGraph?parentGraph.edges:edges}:JSON.parse(localStorage.getItem(store+'-0')||'null');const ok=g?evaluateDayGraphs(0,g).complete:false;progress[0]=ok?{completed:true,solverVersion:GRAPH_SOLVER,validatedAt:new Date().toISOString()}:{completed:false};localStorage.setItem(progressKey,JSON.stringify(progress));}
 function applyDemo(preset:DemoPreset){if(day!==0)return;if(!confirm('Load the '+preset+' example? This replaces the current Day 1 graph. Your current work will be saved as a backup.'))return;try{localStorage.setItem(store+'-0-before-demo',JSON.stringify({nodes,edges}))}catch{}parentGraph=null;const g=makeDay1Demo(preset);nodes=g.nodes;edges=g.edges;guideIndex=nextGuideStep(edges);connectionNotice=describeDay1Demo(preset);save();tab='nodes';render()}
 function restoreDemoBackup(){const backup=localStorage.getItem(store+'-0-before-demo');if(!backup)return alert('No previous graph backup found.');if(!confirm('Restore the graph from before you loaded a demo?'))return;try{const g=JSON.parse(backup) as {nodes:Node[];edges:Edge[]};parentGraph=null;nodes=g.nodes;edges=g.edges;save();render()}catch{alert('The backup could not be read.')}}
 function applyLab(mode:Preset){if(day===0)return;if(!confirm('Load '+mode+' example and back up your graph?'))return;localStorage.setItem(store+'-'+day+'-backup',JSON.stringify({nodes,edges}));const g=labPreset(day,stages[day],mode);nodes=g.nodes;edges=g.edges;parentGraph=null;save();tab='nodes';render()}
