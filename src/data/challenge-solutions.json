@@ -1,0 +1,624 @@
+{
+  "schemaVersion": 1,
+  "model": "before-adam",
+  "notes": "Educational one-zone proxies, not empirical ranges for real stellar evolution. Bounds are inclusive except maxExclusive. Planned challenges deliberately have no acceptance ranges until a dedicated model and validator exist. Examples must pass all linked physics checks and exact graph wiring.",
+  "days": [
+    {
+      "day": 1,
+      "title": "Day 1 · Stable Star",
+      "challenges": [
+        {
+          "id": "d1-1",
+          "title": "Calculate stellar surface gravity",
+          "dependsOn": [],
+          "validator": "star-one-zone-1",
+          "status": "active",
+          "acceptance": {
+            "output": "gravity",
+            "unit": "m/s²",
+            "min": 30,
+            "max": 3000,
+            "params": {
+              "mass": [
+                0.08,
+                3
+              ],
+              "hydrogen": [
+                0.5,
+                0.8
+              ]
+            },
+            "description": "Surface gravity and viable hydrogen fuel. Mass/hydrogen are shared prerequisites."
+          },
+          "examples": [
+            {
+              "name": "Solar analogue",
+              "inputs": {
+                "mass": 1,
+                "radius": 1,
+                "hydrogen": 0.7,
+                "coreMK": 15.7,
+                "luminosity": 1
+              }
+            },
+            {
+              "name": "Lower-mass classroom model",
+              "inputs": {
+                "mass": 0.8,
+                "radius": 0.85,
+                "hydrogen": 0.7,
+                "coreMK": 14.77647059,
+                "luminosity": 0.81772531
+              }
+            },
+            {
+              "name": "Higher-mass classroom model",
+              "inputs": {
+                "mass": 1.2,
+                "radius": 1.1,
+                "hydrogen": 0.7,
+                "coreMK": 17.12727273,
+                "luminosity": 1.53228193
+              }
+            }
+          ]
+        },
+        {
+          "id": "d1-2",
+          "title": "Calculate gravitational compression",
+          "dependsOn": [
+            "d1-1"
+          ],
+          "validator": "star-one-zone-1",
+          "status": "active",
+          "acceptance": {
+            "output": "gravity",
+            "unit": "m/s²",
+            "min": 30,
+            "max": 3000,
+            "description": "Newtonian surface gravity calibrated to solar units."
+          },
+          "examples": [
+            {
+              "name": "Solar analogue",
+              "inputs": {
+                "mass": 1,
+                "radius": 1,
+                "hydrogen": 0.7,
+                "coreMK": 15.7,
+                "luminosity": 1
+              }
+            },
+            {
+              "name": "Lower-mass classroom model",
+              "inputs": {
+                "mass": 0.8,
+                "radius": 0.85,
+                "hydrogen": 0.7,
+                "coreMK": 14.77647059,
+                "luminosity": 0.81772531
+              }
+            },
+            {
+              "name": "Higher-mass classroom model",
+              "inputs": {
+                "mass": 1.2,
+                "radius": 1.1,
+                "hydrogen": 0.7,
+                "coreMK": 17.12727273,
+                "luminosity": 1.53228193
+              }
+            }
+          ]
+        },
+        {
+          "id": "d1-3",
+          "title": "Calculate core pressure and temperature",
+          "dependsOn": [
+            "d1-2"
+          ],
+          "validator": "star-one-zone-1",
+          "status": "active",
+          "acceptance": {
+            "output": "pressure",
+            "unit": "relative pressure",
+            "min": 0.02,
+            "max": 80,
+            "params": {
+              "coreMK": [
+                8,
+                30
+              ]
+            },
+            "description": "Core pressure proxy; requires core temperature within range."
+          },
+          "examples": [
+            {
+              "name": "Solar analogue",
+              "inputs": {
+                "mass": 1,
+                "radius": 1,
+                "hydrogen": 0.7,
+                "coreMK": 15.7,
+                "luminosity": 1
+              }
+            },
+            {
+              "name": "Lower-mass classroom model",
+              "inputs": {
+                "mass": 0.8,
+                "radius": 0.85,
+                "hydrogen": 0.7,
+                "coreMK": 14.77647059,
+                "luminosity": 0.81772531
+              }
+            },
+            {
+              "name": "Higher-mass classroom model",
+              "inputs": {
+                "mass": 1.2,
+                "radius": 1.1,
+                "hydrogen": 0.7,
+                "coreMK": 17.12727273,
+                "luminosity": 1.53228193
+              }
+            }
+          ]
+        },
+        {
+          "id": "d1-4",
+          "title": "Calculate fusion energy",
+          "dependsOn": [
+            "d1-3"
+          ],
+          "validator": "star-one-zone-1",
+          "status": "active",
+          "acceptance": {
+            "output": "fusion",
+            "unit": "L☉",
+            "min": 0.03,
+            "max": 50,
+            "description": "Simplified solar-calibrated fusion power proxy."
+          },
+          "examples": [
+            {
+              "name": "Solar analogue",
+              "inputs": {
+                "mass": 1,
+                "radius": 1,
+                "hydrogen": 0.7,
+                "coreMK": 15.7,
+                "luminosity": 1
+              }
+            },
+            {
+              "name": "Lower-mass classroom model",
+              "inputs": {
+                "mass": 0.8,
+                "radius": 0.85,
+                "hydrogen": 0.7,
+                "coreMK": 14.77647059,
+                "luminosity": 0.81772531
+              }
+            },
+            {
+              "name": "Higher-mass classroom model",
+              "inputs": {
+                "mass": 1.2,
+                "radius": 1.1,
+                "hydrogen": 0.7,
+                "coreMK": 17.12727273,
+                "luminosity": 1.53228193
+              }
+            }
+          ]
+        },
+        {
+          "id": "d1-5",
+          "title": "Balance gravity and gas pressure",
+          "dependsOn": [
+            "d1-4"
+          ],
+          "validator": "star-one-zone-1",
+          "status": "active",
+          "acceptance": {
+            "output": "hydro",
+            "unit": "dimensionless",
+            "min": 0,
+            "max": 0.08,
+            "maxExclusive": true,
+            "description": "Hydrostatic mismatch less than 8%."
+          },
+          "examples": [
+            {
+              "name": "Solar analogue",
+              "inputs": {
+                "mass": 1,
+                "radius": 1,
+                "hydrogen": 0.7,
+                "coreMK": 15.7,
+                "luminosity": 1
+              }
+            },
+            {
+              "name": "Lower-mass classroom model",
+              "inputs": {
+                "mass": 0.8,
+                "radius": 0.85,
+                "hydrogen": 0.7,
+                "coreMK": 14.77647059,
+                "luminosity": 0.81772531
+              }
+            },
+            {
+              "name": "Higher-mass classroom model",
+              "inputs": {
+                "mass": 1.2,
+                "radius": 1.1,
+                "hydrogen": 0.7,
+                "coreMK": 17.12727273,
+                "luminosity": 1.53228193
+              }
+            }
+          ]
+        },
+        {
+          "id": "d1-6",
+          "title": "Balance fusion and radiation",
+          "dependsOn": [
+            "d1-5"
+          ],
+          "validator": "star-one-zone-1",
+          "status": "active",
+          "acceptance": {
+            "output": "thermal",
+            "unit": "dimensionless",
+            "min": 0,
+            "max": 0.08,
+            "maxExclusive": true,
+            "description": "Fusion-radiation mismatch less than 8%."
+          },
+          "examples": [
+            {
+              "name": "Solar analogue",
+              "inputs": {
+                "mass": 1,
+                "radius": 1,
+                "hydrogen": 0.7,
+                "coreMK": 15.7,
+                "luminosity": 1
+              }
+            },
+            {
+              "name": "Lower-mass classroom model",
+              "inputs": {
+                "mass": 0.8,
+                "radius": 0.85,
+                "hydrogen": 0.7,
+                "coreMK": 14.77647059,
+                "luminosity": 0.81772531
+              }
+            },
+            {
+              "name": "Higher-mass classroom model",
+              "inputs": {
+                "mass": 1.2,
+                "radius": 1.1,
+                "hydrogen": 0.7,
+                "coreMK": 17.12727273,
+                "luminosity": 1.53228193
+              }
+            }
+          ]
+        },
+        {
+          "id": "d1-7",
+          "title": "Validate stellar stability",
+          "dependsOn": [
+            "d1-6"
+          ],
+          "validator": "star-one-zone-1",
+          "status": "active",
+          "acceptance": {
+            "output": "stable",
+            "unit": "dimensionless",
+            "min": 0,
+            "max": 0.04,
+            "maxExclusive": true,
+            "params": {
+              "hydro": [
+                0,
+                0.04
+              ],
+              "thermal": [
+                0,
+                0.04
+              ]
+            },
+            "description": "Both residuals below 4%, plus 240-step bounded numerical evolution."
+          },
+          "examples": [
+            {
+              "name": "Solar analogue",
+              "inputs": {
+                "mass": 1,
+                "radius": 1,
+                "hydrogen": 0.7,
+                "coreMK": 15.7,
+                "luminosity": 1
+              }
+            },
+            {
+              "name": "Lower-mass classroom model",
+              "inputs": {
+                "mass": 0.8,
+                "radius": 0.85,
+                "hydrogen": 0.7,
+                "coreMK": 14.77647059,
+                "luminosity": 0.81772531
+              }
+            },
+            {
+              "name": "Higher-mass classroom model",
+              "inputs": {
+                "mass": 1.2,
+                "radius": 1.1,
+                "hydrogen": 0.7,
+                "coreMK": 17.12727273,
+                "luminosity": 1.53228193
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Day 2 · Sky and Water",
+      "challenges": [
+        {
+          "id": "d2-1",
+          "title": "Calculate planetary gravity",
+          "dependsOn": [],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d2-2",
+          "title": "Build an atmosphere",
+          "dependsOn": [
+            "d2-1"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d2-3",
+          "title": "Calculate incoming stellar flux",
+          "dependsOn": [
+            "d2-2"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d2-4",
+          "title": "Balance planetary temperature",
+          "dependsOn": [
+            "d2-3"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d2-5",
+          "title": "Establish liquid water",
+          "dependsOn": [
+            "d2-4"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d2-6",
+          "title": "Calculate evaporation",
+          "dependsOn": [
+            "d2-5"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d2-7",
+          "title": "Form clouds and rainfall",
+          "dependsOn": [
+            "d2-6"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d2-8",
+          "title": "Stabilise the water cycle",
+          "dependsOn": [
+            "d2-7"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "title": "Day 3 · Tectonics, Land and Life",
+      "challenges": [
+        {
+          "id": "d3-1",
+          "title": "Calculate interior layers and masses",
+          "dependsOn": [],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-2",
+          "title": "Model internal heat production",
+          "dependsOn": [
+            "d3-1"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-3",
+          "title": "Balance interior heat transport",
+          "dependsOn": [
+            "d3-2"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-4",
+          "title": "Create tectonic plates",
+          "dependsOn": [
+            "d3-3"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-5",
+          "title": "Calculate plate motion",
+          "dependsOn": [
+            "d3-4"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-6",
+          "title": "Form continents and mountains",
+          "dependsOn": [
+            "d3-5"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-7",
+          "title": "Conserve ocean water and sea level",
+          "dependsOn": [
+            "d3-6"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-8",
+          "title": "Model rivers and drainage",
+          "dependsOn": [
+            "d3-7"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-9",
+          "title": "Balance soil formation and erosion",
+          "dependsOn": [
+            "d3-8"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-10",
+          "title": "Calculate photosynthesis",
+          "dependsOn": [
+            "d3-9"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-11",
+          "title": "Grow sustainable vegetation",
+          "dependsOn": [
+            "d3-10"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        },
+        {
+          "id": "d3-12",
+          "title": "Pass geological and ecological stability tests",
+          "dependsOn": [
+            "d3-11"
+          ],
+          "validator": "not-implemented",
+          "status": "planned",
+          "acceptance": null,
+          "examples": [],
+          "note": "Requires a dedicated physics solver, validated educational bounds, and working graph before any solution can pass."
+        }
+      ]
+    }
+  ]
+}
