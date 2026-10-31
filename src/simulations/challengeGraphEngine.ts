@@ -1,5 +1,6 @@
 import {creationChallenges,stages,evaluate,type Node,type Edge} from '../model';
 import {checkStarGraph} from './starGraph';
+import {earthRule,validateEarthChallenge} from './earthValidation';
 
 export type ChallengeGraph={nodes:Node[];edges:Edge[]};
 export type ChallengeState='planned'|'incomplete'|'invalid'|'passed';
@@ -22,10 +23,15 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph):DayGraphResul
   });
   return {day,challenges,complete:checked.complete,masterValue:checked.complete?result.result:undefined};
  }
- const challenges=definitions.map(item=>({
-  ...item,state:'planned' as const,
-  reason:'Dedicated physics graph and validator not implemented yet; the starter calculation is not completion credit.'
- }));
+ if(day===1||day===2){
+  const challenges=definitions.map((item):ChallengeResult=>{
+   const rule=earthRule(item.id);
+   const checked=rule?validateEarthChallenge(item.id,graph):null;
+   return {...item,state:checked?.passed?'passed':checked?.value===undefined?'incomplete':'invalid',value:checked?.value,reason:checked?.reason??'No scientific validator'};
+  });
+  return {day,challenges,complete:challenges.length>0&&challenges.every(c=>c.state==='passed'),masterValue:undefined};
+ }
+ const challenges=definitions.map(item=>({...item,state:'planned' as const,reason:'Not yet implemented'}));
  return {day,challenges,complete:false,masterValue:undefined};
 }
 export function starterGraph(day:number):ChallengeGraph{
