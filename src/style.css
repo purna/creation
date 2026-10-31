@@ -53,3 +53,14 @@ main.view-split{display:flex!important;flex-direction:column!important;min-heigh
 @media(max-width:650px){.app-settings .settings-menu{position:fixed;top:145px;right:12px}.header-actions{margin-left:auto}.connection-picker{max-height:200px;overflow:auto}}
 
 .connection-picker .output-preview{width:100%;font-size:15px;color:#d2f9e8;background:#0b2532;border-radius:8px;padding:10px;margin:4px 0;overflow-wrap:anywhere}.connection-picker p{line-height:1.5;margin:5px 0}.connection-picker button#cancel-connection{background:#26354c}
+
+/* Compact challenge-first mobile workspace */
+.challenges-view,.star-details{padding:16px;max-width:840px;margin:auto;overflow:auto}
+.challenges-view h2,.star-details h2{margin:0 0 8px}
+.challenges-view>p,.star-details>p{color:#b6c9e3;font-size:13px;line-height:1.5}
+.challenge-entry{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;margin:9px 0;border:1px solid #365273;background:#162741;border-radius:12px}
+.challenge-entry div{min-width:0}.challenge-entry strong{display:block;font-size:14px}.challenge-entry small{display:block;color:#9cdbbd;margin-top:5px}.challenge-entry p{font-size:12px;color:#b5c8e2;margin:5px 0}.challenge-entry code{color:#ffcd82}.challenge-entry button{flex-shrink:0}
+.challenge-summary{padding:12px;background:#1b2b43;border-radius:10px}
+.star-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.star-detail{display:flex;flex-direction:column;gap:6px;padding:14px;background:#162741;border:1px solid #385273;border-radius:12px}.star-detail small,.star-detail span{color:#adc1dc}.star-detail strong{font-size:17px;overflow-wrap:anywhere}.star-detail span{font-size:11px}
+.camera-reset{padding:7px 10px;bottom:8px;right:8px;opacity:.85}
+@media(max-width:650px){.view-switcher{height:37px}.view-switcher button{font-size:11px;padding:4px}.section-head{padding:8px}.section-head p{max-width:220px}.result{max-width:calc(100% - 75px);padding:6px 8px;bottom:6px;left:6px}.result small{font-size:10px}.tabs{overflow-x:auto;scrollbar-width:thin}.tabs button{flex:0 0 auto;min-width:95px;white-space:nowrap}.challenge-entry{align-items:flex-start;flex-direction:column}.challenge-entry button{width:100%}.star-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.star-detail{padding:10px}.star-detail strong{font-size:14px}.view-split>.universe{min-height:160px!important}.creation-mission.star-lab{display:none}}
