@@ -11,7 +11,7 @@ export type DayGraphResult={day:number;challenges:ChallengeResult[];complete:boo
 export function challengeDefinitions(day:number){
  return creationChallenges[day]?.items.map(item=>({id:item.id,title:item.name,dependsOn:[...item.dependsOn]}))??[];
 }
-export function evaluateDayGraphs(day:number,graph:ChallengeGraph):DayGraphResult{
+export function evaluateDayGraphs(day:number,graph:ChallengeGraph,level:2|3=2):DayGraphResult{
  const definitions=challengeDefinitions(day);
  const result=evaluate(graph.nodes,graph.edges);
  if(day===0){
@@ -26,8 +26,8 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph):DayGraphResul
  if(day===1||day===2){
   const challenges=definitions.map((item):ChallengeResult=>{
    const rule=earthRule(item.id);
-   const saved=typeof localStorage!=='undefined'?loadChallengeGraph(localStorage,day,item.id):null;
-   const checked=rule?validateEarthChallenge(item.id,saved??newEarthGraph(item.id)):null;
+   const saved=typeof localStorage!=='undefined'?loadChallengeGraph(localStorage,day,item.id,level):null;
+   const checked=rule?validateEarthChallenge(item.id,saved??newEarthGraph(item.id,level),level):null;
    return {...item,state:checked?.passed?'passed':checked?.value===undefined?'incomplete':'invalid',value:checked?.value,reason:checked?.reason??'No scientific validator'};
   });
   return {day,challenges,complete:challenges.length>0&&challenges.every(c=>c.state==='passed'),masterValue:undefined};
@@ -40,14 +40,14 @@ export function starterGraph(day:number):ChallengeGraph{
  if(!stage)throw Error('Unknown creation day '+day);
  return day===1||day===2?newEarthGraph(challengeDefinitions(day)[0].id):{nodes:JSON.parse(JSON.stringify(stage.nodes)),edges:JSON.parse(JSON.stringify(stage.edges))};
 }
-export function saveChallengeGraph(storage:Pick<Storage,'setItem'>,day:number,id:string,graph:ChallengeGraph){
+export function saveChallengeGraph(storage:Pick<Storage,'setItem'>,day:number,id:string,graph:ChallengeGraph,level:2|3=2){
  if(!challengeDefinitions(day).some(item=>item.id===id))throw Error('Unknown challenge '+id);
- storage.setItem('before-adam-challenge-v1-'+day+'-'+id,JSON.stringify(graph));
+ storage.setItem('before-adam-challenge-v1-'+level+'-'+day+'-'+id,JSON.stringify(graph));
 }
-export function loadChallengeGraph(storage:Pick<Storage,'getItem'>,day:number,id:string):ChallengeGraph|null{
+export function loadChallengeGraph(storage:Pick<Storage,'getItem'>,day:number,id:string,level:2|3=2):ChallengeGraph|null{
  if(!challengeDefinitions(day).some(item=>item.id===id))return null;
  try{
-  const raw=storage.getItem('before-adam-challenge-v1-'+day+'-'+id);
+  const raw=storage.getItem('before-adam-challenge-v1-'+level+'-'+day+'-'+id);
   if(!raw)return null;
   const graph=JSON.parse(raw) as ChallengeGraph;
   return Array.isArray(graph.nodes)&&Array.isArray(graph.edges)?graph:null;
