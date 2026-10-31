@@ -8,7 +8,7 @@ import {UNIT_CHOICES,toCanonical,fromCanonical,formatUnitValue} from './learning
 import './style.css';
 import {defaultStar,validateStar,type StarInput} from './simulations/star';
 import {newStarGraph,checkStarGraph,GRAPH_SOLVER,STAR_FORMULAS} from './simulations/starGraph';
-import {evaluateDayGraphs,challengeDefinitions} from './simulations/challengeGraphEngine';
+import {evaluateDayGraphs,challengeDefinitions,extractChallengeGraph,saveChallengeGraph,loadChallengeGraph,starterGraph} from './simulations/challengeGraphEngine';
 import {guideSteps,nextGuideStep,connectionFeedback} from './simulations/starGuide';
 import {checkDimensions} from './simulations/dimensions';
 import {World3D} from './world3d';
@@ -21,7 +21,7 @@ import {type Body} from './orbits';
 import {OrbitalLab,challenges} from './orbitalLab';
 import {stages,creationChallenges,evaluate,arity,symbols,type Node,type Edge} from './model';
 const app=document.querySelector<HTMLDivElement>('#app')!;
-const APP_VERSION='2.5.0';
+const APP_VERSION='2.6.0';
 const progressKey='before-adam-progress-v15';
 type DayProgress={completed:boolean;validatedAt?:string;solverVersion?:string};
 let challengeLedger:Ledger=readLedger();
@@ -45,8 +45,21 @@ let world3d:World3D|null=null;
 let guideIndex=0;let connectionNotice='';let exploring=false;
 let focusedChallenge:string|null='gravity';
 let selectedMissionChallenge=0;
+let challengeWorkspace=false;
+let masterWorkspace:{nodes:Node[];edges:Edge[]}|null=null;
+function openMission(index:number){
+ if(index<0||index>=missionItems().length)return;
+ if(challengeWorkspace)closeMission();
+ selectedMissionChallenge=index;pending=null;selected=null;tab='nodes';
+ if(day===0){focusedChallenge=guideSteps[index]?.id||null;guideIndex=Math.min(index,guideSteps.length-1);challengeWorkspace=true;}
+ else{masterWorkspace={nodes:clone(nodes),edges:clone(edges)};const id=missionItems()[index].id;const stored=loadChallengeGraph(localStorage,day,id);const graph=stored||starterGraph(day);nodes=clone(graph.nodes);edges=clone(graph.edges);challengeWorkspace=true;}
+ graphScrollX=0;graphScrollY=0;render();
+}
+function closeMission(){if(!challengeWorkspace)return;if(day!==0&&masterWorkspace){const id=missionItems()[selectedMissionChallenge]?.id;if(id)saveChallengeGraph(localStorage,day,id,{nodes,edges});nodes=masterWorkspace.nodes;edges=masterWorkspace.edges;masterWorkspace=null;}challengeWorkspace=false;focusedChallenge=null;pending=null;selected=null;render();}
+
 function missionItems(){return challengeDefinitions(day);}
-function missionPicker(){const items=missionItems();const status=evaluateDayGraphs(day,{nodes,edges});return `<div class="mission-picker"><strong>Day ${day+1} · Maths challenges</strong><p>Choose a challenge to work on. Each feeds into the day’s final simulation as its physics model becomes available.</p><div class="mission-picker-list">${items.map((c,i)=>`<button type="button" data-mission-index="${i}" aria-pressed="${selectedMissionChallenge===i}">${i+1}. ${esc(c.title)} · ${status.challenges[i]?.state==='passed'?'✓ Passed':status.challenges[i]?.state==='planned'?'Planned':'To solve'}</button>`).join('')}</div>${day>0?`<p class="mission-note">Challenge ${selectedMissionChallenge+1} of ${items.length}: ${esc(items[selectedMissionChallenge]?.title||'')}. Full challenge physics is still planned; the existing starter node graph remains available below. Completing the starter does not complete the day.</p>`:''}</div>`;}
+function renderChallengeSaved(){syncMessage='Challenge saved on this device';}
+function missionPicker(){const items=missionItems();const status=evaluateDayGraphs(day,masterWorkspace||{nodes,edges});return `<div class="mission-picker"><strong>Day ${day+1} · Maths challenges</strong><p>Choose a challenge to work on. Each feeds into the day’s final simulation as its physics model becomes available.</p><div class="mission-picker-list">${items.map((c,i)=>`<button type="button" data-mission-index="${i}" aria-pressed="${selectedMissionChallenge===i}">${i+1}. ${esc(c.title)} · ${status.challenges[i]?.state==='passed'?'✓ Passed':status.challenges[i]?.state==='planned'?'Planned':'To solve'}</button>`).join('')}</div>${challengeWorkspace?`<button type="button" id="close-mission">← Back to day overview</button><p class="mission-note">Challenge graph saves separately. The master simulation only receives validated results.</p>`:''}${day>0?`<p class="mission-note">Challenge ${selectedMissionChallenge+1} of ${items.length}: ${esc(items[selectedMissionChallenge]?.title||'')}. Full challenge physics is still planned; the existing starter node graph remains available below. Completing the starter does not complete the day.</p>`:''}</div>`;}
 
 function focusIds(){if(day!==0||parentGraph||!focusedChallenge)return null;const step=guideSteps.find(s=>s.id===focusedChallenge);return step?new Set([step.id,...step.inputs.map(x=>x.id)]):null;}
 function focusChallenge(id:string|null){focusedChallenge=id;pending=null;selected=null;tab='nodes';graphScrollX=0;graphScrollY=0;render();}
@@ -73,10 +86,10 @@ let bodies:Body[]=[],trails:Record<string,{x:number;y:number}[]>={},simTime=0,ba
 let day=0,tab:'nodes'|'maths'|'parameters'|'orbits'='nodes',nodes:Node[]=[],edges:Edge[]=[],pending:string|null=null,selected:string|null=null,subgraph=false,playing=true,t=0,zoom=1;
 const store='before-adam-v06'; // Retain saved graphs across versions
 const clone=<T,>(x:T):T=>JSON.parse(JSON.stringify(x));
-function load(i:number,sandbox=false){if(!sandbox&&!isUnlocked(i)){alert('Complete all challenges and the stability test in the previous day to unlock this day.');return;}parentGraph=null;simKey='';day=i;focusedChallenge=i===0?'gravity':null;selectedMissionChallenge=0;exploring=sandbox&&!isUnlocked(i);const saved=localStorage.getItem(store+'-'+i);let v=saved?JSON.parse(saved):stages[i];if(i===0&&!v.nodes?.some((n:Node)=>n.op==='star-fusion')){if(saved)localStorage.setItem(store+'-0-legacy',saved);v=newStarGraph();localStorage.setItem(store+'-0',JSON.stringify(v));}nodes=clone(v.nodes);edges=clone(v.edges);if(i===0){updateDay1Progress();guideIndex=nextGuideStep(edges);connectionNotice='Select an output socket, then the highlighted formula input.';}pending=null;selected=null;subgraph=false;refreshChallengeEvidence();render();}
+function load(i:number,sandbox=false){if(!sandbox&&!isUnlocked(i)){alert('Complete all challenges and the stability test in the previous day to unlock this day.');return;}parentGraph=null;masterWorkspace=null;challengeWorkspace=false;simKey='';day=i;focusedChallenge=i===0?'gravity':null;selectedMissionChallenge=0;exploring=sandbox&&!isUnlocked(i);const saved=localStorage.getItem(store+'-'+i);let v=saved?JSON.parse(saved):stages[i];if(i===0&&!v.nodes?.some((n:Node)=>n.op==='star-fusion')){if(saved)localStorage.setItem(store+'-0-legacy',saved);v=newStarGraph();localStorage.setItem(store+'-0',JSON.stringify(v));}nodes=clone(v.nodes);edges=clone(v.edges);if(i===0){updateDay1Progress();guideIndex=nextGuideStep(edges);connectionNotice='Select an output socket, then the highlighted formula input.';}pending=null;selected=null;subgraph=false;refreshChallengeEvidence();render();}
 function currentWorldGraphs(){const graphs:Partial<Record<number,Graph>>={};for(let i=0;i<6;i++){try{const raw=localStorage.getItem(store+'-'+i);if(raw)graphs[i+1]=JSON.parse(raw) as Graph}catch{}}graphs[day+1]=parentGraph?{nodes:parentGraph.nodes,edges:parentGraph.edges}:{nodes,edges};return graphs}
 function refreshChallengeEvidence(){const g=parentGraph?{nodes:parentGraph.nodes,edges:parentGraph.edges}:{nodes,edges};challengeLedger=reconcile(challengeLedger,day+1,learningLevel,g,deriveWorld(currentWorldGraphs()));writeLedger(challengeLedger)}
-function save(){refreshChallengeEvidence();if(parentGraph){const g=parentGraph.nodes.find(n=>n.id===parentGraph!.groupId);if(g)g.group={nodes:clone(nodes),edges:clone(edges)};localStorage.setItem(store+'-'+day,JSON.stringify({nodes:parentGraph.nodes,edges:parentGraph.edges}));}else localStorage.setItem(store+'-'+day,JSON.stringify({nodes,edges}));if(day===0)updateDay1Progress();persistWorld();}
+function save(){if(challengeWorkspace&&day!==0){const id=missionItems()[selectedMissionChallenge]?.id;if(id)saveChallengeGraph(localStorage,day,id,{nodes,edges});renderChallengeSaved();return;}if(day===0){missionItems().forEach((item,i)=>saveChallengeGraph(localStorage,day,item.id,extractChallengeGraph(day,i,{nodes,edges})));}refreshChallengeEvidence();if(parentGraph){const g=parentGraph.nodes.find(n=>n.id===parentGraph!.groupId);if(g)g.group={nodes:clone(nodes),edges:clone(edges)};localStorage.setItem(store+'-'+day,JSON.stringify({nodes:parentGraph.nodes,edges:parentGraph.edges}));}else localStorage.setItem(store+'-'+day,JSON.stringify({nodes,edges}));if(day===0)updateDay1Progress();persistWorld();}
 const esc=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 function updateDay1Progress(){const g=day===0?{nodes:parentGraph?parentGraph.nodes:nodes,edges:parentGraph?parentGraph.edges:edges}:JSON.parse(localStorage.getItem(store+'-0')||'null');const ok=g?evaluateDayGraphs(0,g).complete:false;progress[0]=ok?{completed:true,solverVersion:GRAPH_SOLVER,validatedAt:new Date().toISOString()}:{completed:false};localStorage.setItem(progressKey,JSON.stringify(progress));}
 function applyDemo(preset:DemoPreset){if(day!==0)return;if(!confirm('Load the '+preset+' example? This replaces the current Day 1 graph. Your current work will be saved as a backup.'))return;try{localStorage.setItem(store+'-0-before-demo',JSON.stringify({nodes,edges}))}catch{}parentGraph=null;const g=makeDay1Demo(preset);nodes=g.nodes;edges=g.edges;guideIndex=nextGuideStep(edges);connectionNotice=describeDay1Demo(preset);save();tab='nodes';render()}
@@ -133,7 +146,8 @@ function nodesView(){const calculated=evaluate(nodes,edges);const visible=focusI
 function mathsView(values:Record<string,number>,errors:string[]){const dims=checkDimensions(nodes,edges);return `<div class="math-view"><h2>Live mathematics</h2><p>Connected formulas are evaluated in graph order. Missing connections stop downstream calculations.</p>${nodes.filter(n=>n.kind==='formula').map(n=>`<div class="math-card"><strong>${esc(n.label)}</strong><code>${esc(n.op==='expression'?(n.expression||'A+B'):(symbols[n.op]||n.op))}</code><div class="math-actions"><button data-math-jump="${n.id}">↗ Jump to node</button><button data-math-edit="${n.id}">✎ Edit equation</button></div><span>${values[n.id]===undefined?'Incomplete':format(values[n.id])} · ${esc(dims.units[n.id]||n.unit||'unit pending')}</span></div>`).join('')}<div class="errors">${[...errors,...dims.errors].length?[...errors,...dims.errors].map(e=>`<p>⚠ ${esc(e)}</p>`).join(''):'✓ Graph evaluates with compatible dimensions'}</div><small>Day 4 uses a three-body Newtonian integrator; energy drift is monitored. Long-term stability is not guaranteed. Other days retain simplified educational models.</small></div>`;}
 function paramsView(){return `<div class="parameters"><h2>Input parameters</h2><p>Adjust these values to change the live output. Connect them on the Nodes tab.</p>${nodes.filter(n=>n.kind==='number').map(n=>`<label class="parameter"><span>${esc(n.label)} <small>${esc(n.unit||'')}</small></span><input type="number" data-param="${n.id}" value="${n.value??1}" step="any" inputmode="decimal" /></label>`).join('')}<button id="import">Import saved JSON</button><input id="import-file" type="file" accept="application/json" hidden /></div>`;}
 function wireUI(){const graph=document.querySelector<HTMLElement>('#graph')!;
- document.querySelectorAll<HTMLButtonElement>('[data-mission-index]').forEach(b=>b.onclick=()=>{selectedMissionChallenge=Number(b.dataset.missionIndex);if(day===0){const step=guideSteps[Math.min(selectedMissionChallenge,guideSteps.length-1)];focusedChallenge=step?.id||null;guideIndex=Math.min(selectedMissionChallenge,guideSteps.length-1);}pending=null;render()});
+ document.querySelectorAll<HTMLButtonElement>('[data-mission-index]').forEach(b=>b.onclick=()=>openMission(Number(b.dataset.missionIndex)));
+ document.querySelector<HTMLButtonElement>('#close-mission')?.addEventListener('click',closeMission);
  document.querySelector<HTMLSelectElement>('#focus-challenge')?.addEventListener('change',e=>focusChallenge((e.target as HTMLSelectElement).value==='all'?null:(e.target as HTMLSelectElement).value));
  document.querySelector<HTMLSelectElement>('#palette')!.onchange=e=>{const op=(e.target as HTMLSelectElement).value;if(op)addNode(op)};
  document.querySelector<HTMLButtonElement>('#tidy-graph')?.addEventListener('click',tidyGraph);
