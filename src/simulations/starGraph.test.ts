@@ -22,3 +22,28 @@ describe('SI dimensional analysis',()=>{
  it('divides distance by time into velocity',()=>{const nodes=[n('distance','number','constant','m'),n('time','number','constant','s'),n('velocity','formula','divide')];const r=checkDimensions(nodes,[{from:'distance',to:'velocity',slot:0},{from:'time',to:'velocity',slot:1}]);expect(r.units.velocity).toBe('L·T^-1')});
  it('reports unsupported calibrated units in generic multiplication',()=>{const nodes=[n('sun','number','constant','M☉'),n('distance','number','constant','m'),n('product','formula','multiply')];expect(checkDimensions(nodes,[{from:'sun',to:'product',slot:0},{from:'distance',to:'product',slot:1}]).errors.length).toBeGreaterThan(0)});
 });
+
+import solutionData from '../data/challenge-solutions.json';
+import {checkSolutionRange,solutionRule} from './solutionRanges';
+import {validateStar} from './star';
+describe('JSON-driven successful solution ranges',()=>{
+ it('has an acceptance rule and three sample scenarios for every Day 1 challenge',()=>{
+  for(const item of solutionData.days[0].challenges){expect(solutionRule(item.id)?.acceptance).not.toBeNull();expect(item.examples.length).toBeGreaterThanOrEqual(3)}
+ });
+ it('accepts every example when the canonical graph is connected',()=>{
+  for(const sample of solutionData.days[0].challenges[0].examples){
+   const g=wired();for(const [key,value] of Object.entries(sample.inputs)){g.nodes.find(n=>n.id===key)!.value=value}
+   const result=checkStarGraph(g.nodes,g.edges);
+   expect(result.complete, sample.name).toBe(true);
+   expect(validateStar(sample.inputs).stable,sample.name).toBe(true);
+  }
+ });
+ it('rejects output outside its configured range',()=>{
+  expect(checkSolutionRange('d1-2',{gravity:3001},null).passed).toBe(false);
+  expect(checkSolutionRange('d1-5',{hydro:.08},null).passed).toBe(false);
+ });
+ it('rejects planned challenges without pretending a validator exists',()=>{
+  expect(solutionRule('d2-1')?.status).toBe('planned');
+  expect(checkSolutionRange('d2-1',{gravity:9.8},null).passed).toBe(false);
+ });
+});
