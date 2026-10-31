@@ -32,7 +32,7 @@ export function checkStarGraph(nodes:Node[],edges:Edge[]){
  for(const f of formulas){const n=nodes.find(n=>n.id===f.id&&n.kind==='formula'&&n.op===f.op);if(!n)continue;
   const ok=f.inputs.every((source,slot)=>edges.some(e=>e.to===f.id&&e.slot===slot&&e.from===source)&&nodes.find(n=>n.id===source)?.unit===({mass:'M☉',radius:'R☉',hydrogen:'fraction',coreMK:'MK',luminosity:'L☉',gravity:'m/s²',pressure:'relative pressure',core:'relative pressure',fusion:'L☉',hydro:'dimensionless',thermal:'dimensionless'} as Record<string,string>)[source]);
   const probe=evaluate(nodes,edges.filter(e=>e.to!=='out').concat({from:f.id,to:'out',slot:0}));
-  if(Number.isFinite(probe.result))partialValues[f.id]=probe.result!;
+  if(Number.isFinite(probe.result)&&ok&&f.inputs.every(s=>STAR_FIELDS.includes(s as Field)||connected.has(s)))partialValues[f.id]=probe.result!;
   if(ok&&f.inputs.every(s=>STAR_FIELDS.includes(s as Field)||connected.has(s))&&Number.isFinite(probe.result)){connected.add(f.id);actual[f.id]=true;}
  }
  const checks=physics?.checks.map((c,i)=>{
