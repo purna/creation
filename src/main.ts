@@ -9,6 +9,7 @@ import './style.css';
 import {defaultStar,validateStar,type StarInput} from './simulations/star';
 import {newStarGraph,checkStarGraph,GRAPH_SOLVER,STAR_FORMULAS} from './simulations/starGraph';
 import {evaluateDayGraphs,challengeDefinitions,extractChallengeGraph,mergeChallengeGraph,saveChallengeGraph,loadChallengeGraph,starterGraph} from './simulations/challengeGraphEngine';
+import {newEarthGraph,validateEarthChallenge} from './simulations/earthValidation';
 import {guideSteps,nextGuideStep,connectionFeedback} from './simulations/starGuide';
 import {checkDimensions} from './simulations/dimensions';
 import {solutionRule,solutionComparison} from './simulations/solutionRanges';
@@ -54,7 +55,7 @@ function openMission(index:number){
  if(challengeWorkspace){closeMission(false);}
  selectedMissionChallenge=index;pending=null;selected=null;tab='nodes';
  if(day===0){masterWorkspace={nodes:clone(nodes),edges:clone(edges)};const part=extractChallengeGraph(day,index,masterWorkspace);nodes=part.nodes;edges=part.edges;focusedChallenge=null;guideIndex=Math.min(index,guideSteps.length-1);challengeWorkspace=true;}
- else{masterWorkspace={nodes:clone(nodes),edges:clone(edges)};const id=missionItems()[index].id;const stored=loadChallengeGraph(localStorage,day,id);const graph=stored||starterGraph(day);nodes=clone(graph.nodes);edges=clone(graph.edges);challengeWorkspace=true;}
+ else{masterWorkspace={nodes:clone(nodes),edges:clone(edges)};const id=missionItems()[index].id;const stored=loadChallengeGraph(localStorage,day,id);const graph=stored||newEarthGraph(id);nodes=clone(graph.nodes);edges=clone(graph.edges);challengeWorkspace=true;}
  graphScrollX=0;graphScrollY=0;render();
 }
 function closeMission(show=true){if(!challengeWorkspace)return;
@@ -72,10 +73,10 @@ function closeMission(show=true){if(!challengeWorkspace)return;
 
 function missionItems(){return challengeDefinitions(day);}
 function renderChallengeSaved(){syncMessage='Challenge saved on this device';}
-function missionPicker(){const items=missionItems();const status=evaluateDayGraphs(day,masterWorkspace||{nodes,edges});return `<div class="mission-picker"><strong>Day ${day+1} · Maths challenges</strong><p>Choose a challenge to work on. Each feeds into the day’s final simulation as its physics model becomes available.</p><div class="mission-picker-list">${items.map((c,i)=>`<button type="button" data-mission-index="${i}" aria-pressed="${selectedMissionChallenge===i}">${i+1}. ${esc(c.title)} · ${status.challenges[i]?.state==='passed'?'✓ Passed':status.challenges[i]?.state==='planned'?'Planned':'To solve'}</button>`).join('')}</div>${challengeWorkspace?`<button type="button" id="close-mission">← Back to day overview</button><p class="mission-note">Challenge graph saves separately. The master simulation only receives validated results.</p>`:''}${day>0?`<p class="mission-note">Challenge ${selectedMissionChallenge+1} of ${items.length}: ${esc(items[selectedMissionChallenge]?.title||'')}. Full challenge physics is still planned; the existing starter node graph remains available below. Completing the starter does not complete the day.</p>`:''}</div>`;}
+function missionPicker(){const items=missionItems();const status=evaluateDayGraphs(day,masterWorkspace||{nodes,edges});return `<div class="mission-picker"><strong>Day ${day+1} · Maths challenges</strong><p>Choose a challenge to work on. Each feeds into the day’s final simulation as its physics model becomes available.</p><div class="mission-picker-list">${items.map((c,i)=>`<button type="button" data-mission-index="${i}" aria-pressed="${selectedMissionChallenge===i}">${i+1}. ${esc(c.title)} · ${status.challenges[i]?.state==='passed'?'✓ Passed':status.challenges[i]?.state==='planned'?'Planned':'To solve'}</button>`).join('')}</div>${challengeWorkspace?`<button type="button" id="close-mission">← Back to day overview</button><p class="mission-note">Challenge graph saves separately. The master simulation only receives validated results.</p>`:''}${day>0?`<p class="mission-note">Challenge ${selectedMissionChallenge+1} of ${items.length}: ${esc(items[selectedMissionChallenge]?.title||'')}. Connect both inputs and the output, then adjust values to meet the accepted scientific range. Save your graph to record validation.</p>`:''}</div>`;}
 
 function challengeFeedback(index:number,source:{nodes:Node[];edges:Edge[]},state:string){
- if(day!==0)return '<p class="challenge-feedback neutral">This challenge is planned; no physics acceptance test is available yet.</p>';
+ if(day!==0){const item=missionItems()[index];const check=validateEarthChallenge(item.id,source);return `<p class="challenge-feedback ${check.passed?'passed':'review'}">${check.passed?'✓ Accepted':'Needs attention'}: ${esc(check.reason)}${check.value===undefined?'':` · Result: ${check.value.toPrecision(5)}`}</p>`;}
  const item=missionItems()[index],check=checkStarGraph(source.nodes,source.edges);
  const values=evaluate(source.nodes,source.edges).values,comparison=solutionComparison(item.id,values,check.input);
  if(!comparison)return '';
