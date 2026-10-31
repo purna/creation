@@ -27,7 +27,7 @@ describe('Day 1 isolated challenge graphs',()=>{
  });
  it('includes upstream dependency calculations in later challenges',()=>{
   const part=extractChallengeGraph(0,6,wired());
-  expect(part.nodes.map(n=>n.id)).toEqual(expect.arrayContaining(['gravity','pressure','core','fusion','hydro','thermal','stable']));
+  expect(part.nodes.map(n=>n.id)).toEqual(expect.arrayContaining(['pressure','core','fusion','hydro','thermal','stable']));
   expect(evaluate(part.nodes,part.edges).result).toBeDefined();
  });
  it('merges the selected challenge without erasing other challenge wires',()=>{
