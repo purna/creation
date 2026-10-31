@@ -15,7 +15,7 @@ export function checkSolutionRange(id:string,values:Record<string,number>,input:
  if(!Number.isFinite(value))return {passed:false,reason:'Connect the required output: '+a.output};
  if(value<a.min||(a.maxExclusive?value>=a.max:value>a.max))return {passed:false,reason:`${a.output} = ${value.toPrecision(5)} ${a.unit}; expected ${a.min} to ${a.max}${a.maxExclusive?' (exclusive)':''}`};
  for(const [key,range] of Object.entries(a.params||{})){
-  const v=input?.[key as keyof StarInput];
+  const v=key in values?values[key]:input?.[key as keyof StarInput];
   if(v===undefined||!Number.isFinite(v)||v<range[0]||v>range[1])
    return {passed:false,reason:`${key} must be between ${range[0]} and ${range[1]}`};
  }
