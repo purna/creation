@@ -1,0 +1,779 @@
+{
+  "schemaVersion": 1,
+  "locale": "en",
+  "title": "Before Adam — Node Learning Library",
+  "description": "Contextual educational explanations, examples, units, experiments and caveats for the node inspector.",
+  "lookup": {
+    "day-1": {
+      "mass": "mass",
+      "radius": "radius",
+      "hydrogen": "hydrogen",
+      "coreMK": "coreMK",
+      "luminosity": "luminosity",
+      "gravity": "gravity",
+      "pressure": "stellar-pressure",
+      "core": "core",
+      "fusion": "fusion",
+      "hydro": "hydro",
+      "thermal": "thermal",
+      "stable": "stable",
+      "out": "out"
+    },
+    "day-2": {
+      "temp": "temp",
+      "pressure": "atmospheric-pressure",
+      "phase": "phase"
+    },
+    "day-3": {
+      "mass": "planet-mass",
+      "radius": "planet-radius",
+      "gravity": "gravity"
+    },
+    "day-4": {
+      "star": "orbit-star-mass",
+      "distance": "orbit-distance",
+      "orbit": "orbit"
+    },
+    "day-5": {
+      "luminosity": "star-luminosity",
+      "distance": "distance",
+      "flux": "flux"
+    },
+    "day-6": {
+      "capacity": "growth-capacity",
+      "rate": "growth-rate",
+      "population": "population"
+    }
+  },
+  "nodes": {
+    "mass": {
+      "title": "Stellar mass",
+      "meaning": "The total amount of matter in a star. Mass sets the strength of gravity and strongly affects the star’s internal pressure, fusion rate and lifetime.",
+      "unit": "Solar masses (M☉); 1 M☉ ≈ 1.989 × 10³⁰ kg.",
+      "examples": [
+        {
+          "name": "Proxima Centauri",
+          "value": "≈ 0.12 M☉",
+          "explanation": "Small red dwarf; burns hydrogen very slowly."
+        },
+        {
+          "name": "The Sun",
+          "value": "1 M☉",
+          "explanation": "Our reference star."
+        },
+        {
+          "name": "Sirius A",
+          "value": "≈ 2.1 M☉",
+          "explanation": "Hotter and more luminous than the Sun."
+        },
+        {
+          "name": "Betelgeuse",
+          "value": "roughly 15–20 M☉ (uncertain)",
+          "explanation": "A red supergiant whose radius is hundreds of times the Sun’s."
+        }
+      ],
+      "experiment": "Try 0.5, 1 and 2 M☉. Compare gravity and fusion, then adjust other parameters to recover stability.",
+      "modelLimitations": "Mass is not the same as physical size. Betelgeuse is enormously wide but not hundreds of times the Sun’s mass."
+    },
+    "radius": {
+      "title": "Stellar radius",
+      "meaning": "Distance from the centre of a star to its visible surface. Radius influences surface gravity and internal compression.",
+      "unit": "Solar radii (R☉); 1 R☉ ≈ 696,000 km.",
+      "examples": [
+        {
+          "name": "Proxima Centauri",
+          "value": "≈ 0.15 R☉",
+          "explanation": "A compact red dwarf."
+        },
+        {
+          "name": "The Sun",
+          "value": "1 R☉",
+          "explanation": "Reference radius."
+        },
+        {
+          "name": "Sirius A",
+          "value": "≈ 1.7 R☉",
+          "explanation": "Larger than the Sun."
+        },
+        {
+          "name": "Betelgeuse",
+          "value": "hundreds of R☉",
+          "explanation": "Its extended atmosphere makes its measured radius uncertain."
+        }
+      ],
+      "experiment": "Double radius while keeping mass fixed. Surface gravity falls to one quarter.",
+      "modelLimitations": "A star can expand enormously as it evolves without gaining a comparable amount of mass."
+    },
+    "hydrogen": {
+      "title": "Hydrogen fraction",
+      "meaning": "The fraction of stellar mass made of hydrogen, the main fuel for fusion in ordinary main-sequence stars.",
+      "unit": "Mass fraction from 0 to 1; 0.70 means 70% hydrogen by mass.",
+      "examples": [
+        {
+          "name": "Solar-like initial composition",
+          "value": "≈ 0.70",
+          "explanation": "Roughly 70% hydrogen by mass."
+        },
+        {
+          "name": "Hydrogen-depleted core",
+          "value": "less than initial abundance",
+          "explanation": "Fusion converts hydrogen to helium in the core."
+        }
+      ],
+      "experiment": "Compare 0.70 with 0.50 and inspect fusion output.",
+      "modelLimitations": "The hydrogen fraction at a star’s surface need not equal the fraction in its core."
+    },
+    "coreMK": {
+      "title": "Core temperature",
+      "meaning": "Temperature near a star’s centre, where nuclear fusion occurs.",
+      "unit": "Millions of kelvin (MK).",
+      "examples": [
+        {
+          "name": "The Sun",
+          "value": "≈ 15.7 MK",
+          "explanation": "Approximate central temperature."
+        },
+        {
+          "name": "More massive main-sequence stars",
+          "value": "often tens of MK",
+          "explanation": "Hotter cores generally support faster fusion."
+        }
+      ],
+      "experiment": "Try 14, 15.7 and 18 MK and compare fusion output.",
+      "modelLimitations": "The model’s temperature-to-the-fourth-power fusion scaling is an approximation, not a universal law."
+    },
+    "luminosity": {
+      "title": "Stellar luminosity",
+      "meaning": "The total power a star radiates. This differs from its apparent brightness, which depends on distance.",
+      "unit": "Solar luminosities (L☉); 1 L☉ ≈ 3.828 × 10²⁶ watts.",
+      "examples": [
+        {
+          "name": "The Sun",
+          "value": "1 L☉",
+          "explanation": "Reference luminosity."
+        },
+        {
+          "name": "Proxima Centauri",
+          "value": "≈ 0.0017 L☉",
+          "explanation": "Much less luminous than the Sun."
+        },
+        {
+          "name": "Betelgeuse",
+          "value": "tens of thousands to over 100,000 L☉",
+          "explanation": "Very luminous; estimates vary."
+        }
+      ],
+      "experiment": "Increase luminosity without increasing fusion; inspect the thermal residual.",
+      "modelLimitations": "Luminosity is not the same as apparent brightness or surface temperature."
+    },
+    "gravity": {
+      "title": "Surface gravity",
+      "meaning": "The gravitational acceleration at the surface of a star, proportional to mass divided by radius squared.",
+      "unit": "m/s².",
+      "examples": [
+        {
+          "name": "The Sun",
+          "value": "≈ 274 m/s²",
+          "explanation": "About 28 times Earth’s surface gravity."
+        },
+        {
+          "name": "Same mass, twice the radius",
+          "value": "≈ 68.5 m/s²",
+          "explanation": "Four times less surface gravity."
+        }
+      ],
+      "experiment": "Compare M = 1, R = 1 with M = 1, R = 2.",
+      "modelLimitations": "The formula assumes a spherical star and uses the surface radius."
+    },
+    "pressure": {
+      "title": "Gravitational compression",
+      "meaning": "A simplified estimate of inward compression caused by gravity. In this classroom model it scales as M²/R⁴.",
+      "unit": "Relative pressure, normalised to the Sun.",
+      "examples": [
+        {
+          "name": "Solar reference",
+          "value": "1",
+          "explanation": "Reference compression."
+        },
+        {
+          "name": "Same mass, twice the radius",
+          "value": "1/16",
+          "explanation": "Much weaker compression in this approximation."
+        }
+      ],
+      "experiment": "Increase radius and compare compression with outward core pressure.",
+      "modelLimitations": "Real stars have pressure gradients; this is not a detailed stellar structure model."
+    },
+    "core": {
+      "title": "Core gas pressure",
+      "meaning": "The outward pressure of hot gas, opposing the star’s gravitational compression.",
+      "unit": "Relative pressure, normalised to the Sun.",
+      "examples": [
+        {
+          "name": "Solar reference",
+          "value": "≈ 1",
+          "explanation": "The model’s benchmark for pressure balance."
+        }
+      ],
+      "experiment": "Increase core temperature at fixed mass and radius.",
+      "modelLimitations": "Real stars require an equation of state and a radial pressure profile."
+    },
+    "fusion": {
+      "title": "Nuclear fusion",
+      "meaning": "Fusion combines light atomic nuclei into heavier nuclei and releases energy that powers stars.",
+      "unit": "Approximate solar luminosities (L☉).",
+      "examples": [
+        {
+          "name": "The Sun",
+          "value": "≈ 1 L☉",
+          "explanation": "Hydrogen fusion supplies its power."
+        },
+        {
+          "name": "Massive stars",
+          "value": "much greater power",
+          "explanation": "Often consume fuel much more rapidly."
+        }
+      ],
+      "experiment": "Raise core temperature by 10% and observe the model’s response.",
+      "modelLimitations": "This simplified scaling is not a complete nuclear reaction network."
+    },
+    "hydro": {
+      "title": "Hydrostatic balance",
+      "meaning": "A stable star needs outward pressure to balance the inward pull of gravity. This node measures their mismatch.",
+      "unit": "Dimensionless residual; smaller is better.",
+      "examples": [
+        {
+          "name": "Residual near zero",
+          "value": "balanced",
+          "explanation": "The model’s inward and outward pressures agree."
+        },
+        {
+          "name": "Large residual",
+          "value": "unbalanced",
+          "explanation": "The model needs adjustment."
+        }
+      ],
+      "experiment": "Alter mass, then tune core temperature to reduce the mismatch.",
+      "modelLimitations": "A small residual alone does not prove that a real star is stable."
+    },
+    "thermal": {
+      "title": "Thermal balance",
+      "meaning": "Over long periods, fusion power must broadly balance the energy the star radiates away.",
+      "unit": "Dimensionless residual; smaller is better.",
+      "examples": [
+        {
+          "name": "Fusion ≈ luminosity",
+          "value": "residual near zero",
+          "explanation": "Approximate energy balance."
+        }
+      ],
+      "experiment": "Raise luminosity while keeping fusion unchanged.",
+      "modelLimitations": "Real stars can temporarily store or release internal energy."
+    },
+    "stable": {
+      "title": "Stellar stability",
+      "meaning": "Combines the hydrostatic and thermal residuals to assess whether the simplified star remains near equilibrium.",
+      "unit": "Dimensionless model result.",
+      "examples": [
+        {
+          "name": "Solar-like configuration",
+          "value": "M=1, R=1, X=0.70, T=15.7 MK, L=1",
+          "explanation": "A reference configuration that can satisfy the model."
+        }
+      ],
+      "experiment": "Find several different configurations with low residuals.",
+      "modelLimitations": "There is no unique best star; these are simplified classroom checks."
+    },
+    "out": {
+      "title": "Stable star result",
+      "meaning": "The output node displays the result of the connected star calculations. It does not calculate physics by itself.",
+      "unit": "Model output.",
+      "examples": [
+        {
+          "name": "Complete and balanced graph",
+          "value": "validated",
+          "explanation": "All required equations and checks are connected and consistent."
+        }
+      ],
+      "experiment": "Disconnect a wire, then reconnect it and observe the diagnostic.",
+      "modelLimitations": "A displayed number alone does not establish physical validity."
+    },
+    "temp": {
+      "title": "Water temperature",
+      "meaning": "Temperature of water or the surrounding environment; determines whether liquid water can persist.",
+      "unit": "Degrees Celsius (°C).",
+      "examples": [
+        {
+          "name": "Freshwater at sea-level pressure",
+          "value": "0–100 °C",
+          "explanation": "Typically liquid within this interval."
+        },
+        {
+          "name": "Earth average surface",
+          "value": "≈ 15 °C",
+          "explanation": "A broad global average, with wide regional variation."
+        }
+      ],
+      "experiment": "Try −2, 20 and 110 °C at 1 atm.",
+      "modelLimitations": "The phase model is simplified; salinity and pressure affect freezing and boiling."
+    },
+    "distance": {
+      "title": "Orbital distance",
+      "meaning": "The separation between a planet and its star. Received energy decreases with distance squared.",
+      "unit": "Astronomical units (AU); 1 AU ≈ 149.6 million km.",
+      "examples": [
+        {
+          "name": "Earth",
+          "value": "1 AU",
+          "explanation": "Reference orbit around the Sun."
+        },
+        {
+          "name": "Mars",
+          "value": "≈ 1.52 AU",
+          "explanation": "Receives less sunlight per square metre than Earth."
+        }
+      ],
+      "experiment": "Double the orbital distance; compare stellar flux and orbital speed.",
+      "modelLimitations": "Actual orbits are elliptical, so distance changes over time."
+    },
+    "star": {
+      "title": "Star mass in an orbit",
+      "meaning": "Mass of the central star whose gravity holds planets in orbit.",
+      "unit": "Solar masses (M☉).",
+      "examples": [
+        {
+          "name": "Sun",
+          "value": "1 M☉",
+          "explanation": "Reference for Earth’s orbital speed."
+        },
+        {
+          "name": "Sirius A",
+          "value": "≈ 2.1 M☉",
+          "explanation": "A more massive central star."
+        }
+      ],
+      "experiment": "Increase central star mass while keeping orbital radius fixed.",
+      "modelLimitations": "Circular orbital speed is a simplified two-body approximation."
+    },
+    "capacity": {
+      "title": "Carrying capacity",
+      "meaning": "The largest population that an environment can support under assumed resources and conditions.",
+      "unit": "Organisms (count).",
+      "examples": [
+        {
+          "name": "Small habitat",
+          "value": "100 organisms",
+          "explanation": "Illustrative model setting, not a measured ecosystem."
+        },
+        {
+          "name": "Larger habitat",
+          "value": "1,000 organisms",
+          "explanation": "More resources may support more individuals."
+        }
+      ],
+      "experiment": "Compare carrying capacities of 100 and 1,000.",
+      "modelLimitations": "Real carrying capacity changes with food, climate, disease and competition."
+    },
+    "rate": {
+      "title": "Population growth rate",
+      "meaning": "How rapidly a population increases in the logistic model before resource limits slow its growth.",
+      "unit": "Per simulation step (1/step).",
+      "examples": [
+        {
+          "name": "Low rate",
+          "value": "0.1",
+          "explanation": "Slower growth."
+        },
+        {
+          "name": "Higher rate",
+          "value": "0.5",
+          "explanation": "Faster growth, potentially more unstable in discrete simulations."
+        }
+      ],
+      "experiment": "Compare rates of 0.1 and 0.5.",
+      "modelLimitations": "This simple model ignores age structure, migration and ecological interactions."
+    },
+    "phase": {
+      "title": "Water phase model",
+      "meaning": "Estimates whether water is solid, liquid or gas from temperature and pressure.",
+      "unit": "Categorical model output.",
+      "examples": [
+        {
+          "name": "Ice",
+          "value": "below freezing",
+          "explanation": "Typically solid at normal atmospheric pressure."
+        },
+        {
+          "name": "Liquid water",
+          "value": "moderate temperatures",
+          "explanation": "Can support many biological processes."
+        }
+      ],
+      "experiment": "Change temperature across freezing and boiling thresholds.",
+      "modelLimitations": "A full phase diagram is more complex."
+    },
+    "orbit": {
+      "title": "Circular orbital speed",
+      "meaning": "The speed required for a circular orbit around a central star at a chosen radius.",
+      "unit": "Kilometres per second (km/s).",
+      "examples": [
+        {
+          "name": "Earth",
+          "value": "≈ 29.8 km/s",
+          "explanation": "Mean orbital speed around the Sun."
+        }
+      ],
+      "experiment": "Increase distance and observe orbital speed fall.",
+      "modelLimitations": "Real orbital velocities vary along elliptical orbits."
+    },
+    "flux": {
+      "title": "Stellar flux",
+      "meaning": "The amount of stellar power reaching each square metre at the planet’s orbit.",
+      "unit": "Watts per square metre (W/m²).",
+      "examples": [
+        {
+          "name": "Earth",
+          "value": "≈ 1,361 W/m²",
+          "explanation": "Solar irradiance near the top of Earth’s atmosphere."
+        }
+      ],
+      "experiment": "Double distance and see flux fall to one quarter.",
+      "modelLimitations": "Atmospheric absorption and reflectivity determine how much energy warms the surface."
+    },
+    "population": {
+      "title": "Logistic population model",
+      "meaning": "A simple model in which population growth slows as it approaches carrying capacity.",
+      "unit": "Organisms per step / model population.",
+      "examples": [
+        {
+          "name": "Below capacity",
+          "value": "positive growth",
+          "explanation": "Resources allow growth."
+        },
+        {
+          "name": "Near capacity",
+          "value": "slower growth",
+          "explanation": "Competition limits further increase."
+        }
+      ],
+      "experiment": "Increase growth rate and test for overshoot.",
+      "modelLimitations": "Real populations can fluctuate or collapse; this is a simplified model."
+    },
+    "frequency": {
+      "title": "Light frequency",
+      "meaning": "How many wave oscillations occur each second. Frequency equals the speed of light divided by wavelength.",
+      "unit": "Hertz (Hz).",
+      "examples": [
+        {
+          "name": "Green light",
+          "value": "≈ 5.45 × 10¹⁴ Hz",
+          "explanation": "Corresponds to roughly 550 nm wavelength."
+        }
+      ],
+      "experiment": "Change wavelength and observe frequency change inversely.",
+      "modelLimitations": "The model assumes propagation in vacuum."
+    },
+    "wavelength": {
+      "title": "Light wavelength",
+      "meaning": "Distance between successive peaks of a light wave; linked to colour for visible light.",
+      "unit": "Nanometres (nm).",
+      "examples": [
+        {
+          "name": "Violet light",
+          "value": "≈ 400 nm",
+          "explanation": "Shorter visible wavelength."
+        },
+        {
+          "name": "Red light",
+          "value": "≈ 700 nm",
+          "explanation": "Longer visible wavelength."
+        }
+      ],
+      "experiment": "Try 450, 550 and 650 nm.",
+      "modelLimitations": "Human colour perception depends on more than wavelength alone."
+    },
+    "atmospheric-pressure": {
+      "title": "Atmospheric pressure",
+      "meaning": "The force per unit area exerted by air. Pressure affects water’s boiling point and the ability of liquid water to persist.",
+      "unit": "Atmospheres (atm); 1 atm ≈ 101,325 Pa.",
+      "examples": [
+        {
+          "name": "Earth sea level",
+          "value": "1 atm",
+          "explanation": "Typical reference atmospheric pressure."
+        },
+        {
+          "name": "Mars surface",
+          "value": "≈ 0.006 atm",
+          "explanation": "Very thin atmosphere."
+        }
+      ],
+      "experiment": "Compare 1 atm with 0.02 atm at the same temperature.",
+      "modelLimitations": "Pressure varies with altitude, weather and atmospheric composition."
+    },
+    "planet-mass": {
+      "title": "Planetary mass",
+      "meaning": "The total amount of matter in a planet. Together with radius it determines surface gravity.",
+      "unit": "Earth masses (M⊕).",
+      "examples": [
+        {
+          "name": "Earth",
+          "value": "1 M⊕",
+          "explanation": "Reference planet."
+        },
+        {
+          "name": "Mars",
+          "value": "≈ 0.107 M⊕",
+          "explanation": "Less massive than Earth."
+        }
+      ],
+      "experiment": "Change mass from 1 to 2 M⊕ while holding radius fixed.",
+      "modelLimitations": "Mass alone does not determine gravity without radius."
+    },
+    "planet-radius": {
+      "title": "Planetary radius",
+      "meaning": "Distance from a planet’s centre to its surface. Surface gravity decreases with radius squared at fixed mass.",
+      "unit": "Earth radii (R⊕).",
+      "examples": [
+        {
+          "name": "Earth",
+          "value": "1 R⊕",
+          "explanation": "Reference planet."
+        },
+        {
+          "name": "Mars",
+          "value": "≈ 0.53 R⊕",
+          "explanation": "Smaller than Earth."
+        }
+      ],
+      "experiment": "Double radius while holding mass fixed.",
+      "modelLimitations": "Planets with different densities have different mass–radius relationships."
+    },
+    "star-luminosity": {
+      "title": "Stellar luminosity",
+      "meaning": "The total power a star radiates. This differs from its apparent brightness, which depends on distance.",
+      "unit": "Solar luminosities (L☉); 1 L☉ ≈ 3.828 × 10²⁶ watts.",
+      "examples": [
+        {
+          "name": "The Sun",
+          "value": "1 L☉",
+          "explanation": "Reference luminosity."
+        },
+        {
+          "name": "Proxima Centauri",
+          "value": "≈ 0.0017 L☉",
+          "explanation": "Much less luminous than the Sun."
+        },
+        {
+          "name": "Betelgeuse",
+          "value": "tens of thousands to over 100,000 L☉",
+          "explanation": "Very luminous; estimates vary."
+        }
+      ],
+      "experiment": "Increase luminosity without increasing fusion; inspect the thermal residual.",
+      "modelLimitations": "Luminosity is not the same as apparent brightness or surface temperature."
+    },
+    "orbit-distance": {
+      "title": "Orbital distance",
+      "meaning": "The separation between a planet and its star. Received energy decreases with distance squared.",
+      "unit": "Astronomical units (AU); 1 AU ≈ 149.6 million km.",
+      "examples": [
+        {
+          "name": "Earth",
+          "value": "1 AU",
+          "explanation": "Reference orbit around the Sun."
+        },
+        {
+          "name": "Mars",
+          "value": "≈ 1.52 AU",
+          "explanation": "Receives less sunlight per square metre than Earth."
+        }
+      ],
+      "experiment": "Double the orbital distance; compare stellar flux and orbital speed.",
+      "modelLimitations": "Actual orbits are elliptical, so distance changes over time."
+    },
+    "orbit-star-mass": {
+      "title": "Star mass in an orbit",
+      "meaning": "Mass of the central star whose gravity holds planets in orbit.",
+      "unit": "Solar masses (M☉).",
+      "examples": [
+        {
+          "name": "Sun",
+          "value": "1 M☉",
+          "explanation": "Reference for Earth’s orbital speed."
+        },
+        {
+          "name": "Sirius A",
+          "value": "≈ 2.1 M☉",
+          "explanation": "A more massive central star."
+        }
+      ],
+      "experiment": "Increase central star mass while keeping orbital radius fixed.",
+      "modelLimitations": "Circular orbital speed is a simplified two-body approximation."
+    },
+    "growth-capacity": {
+      "title": "Carrying capacity",
+      "meaning": "The largest population that an environment can support under assumed resources and conditions.",
+      "unit": "Organisms (count).",
+      "examples": [
+        {
+          "name": "Small habitat",
+          "value": "100 organisms",
+          "explanation": "Illustrative model setting, not a measured ecosystem."
+        },
+        {
+          "name": "Larger habitat",
+          "value": "1,000 organisms",
+          "explanation": "More resources may support more individuals."
+        }
+      ],
+      "experiment": "Compare carrying capacities of 100 and 1,000.",
+      "modelLimitations": "Real carrying capacity changes with food, climate, disease and competition."
+    },
+    "growth-rate": {
+      "title": "Population growth rate",
+      "meaning": "How rapidly a population increases in the logistic model before resource limits slow its growth.",
+      "unit": "Per simulation step (1/step).",
+      "examples": [
+        {
+          "name": "Low rate",
+          "value": "0.1",
+          "explanation": "Slower growth."
+        },
+        {
+          "name": "Higher rate",
+          "value": "0.5",
+          "explanation": "Faster growth, potentially more unstable in discrete simulations."
+        }
+      ],
+      "experiment": "Compare rates of 0.1 and 0.5.",
+      "modelLimitations": "This simple model ignores age structure, migration and ecological interactions."
+    },
+    "stellar-pressure": {
+      "title": "Gravitational compression",
+      "meaning": "A simplified estimate of inward compression caused by gravity. In this classroom model it scales as M²/R⁴.",
+      "unit": "Relative pressure, normalised to the Sun.",
+      "examples": [
+        {
+          "name": "Solar reference",
+          "value": "1",
+          "explanation": "Reference compression."
+        },
+        {
+          "name": "Same mass, twice the radius",
+          "value": "1/16",
+          "explanation": "Much weaker compression in this approximation."
+        }
+      ],
+      "experiment": "Increase radius and compare compression with outward core pressure.",
+      "modelLimitations": "Real stars have pressure gradients; this is not a detailed stellar structure model."
+    },
+    "add": {
+      "title": "Addition",
+      "meaning": "Adds two compatible quantities.",
+      "unit": "Depends on connected inputs.",
+      "examples": [
+        {
+          "name": "Example",
+          "value": "Try simple input values",
+          "explanation": "Inspect the result and units."
+        }
+      ],
+      "experiment": "Connect valid inputs and compare the result.",
+      "modelLimitations": "This is a general mathematical operation; validity depends on its context."
+    },
+    "multiply": {
+      "title": "Multiplication",
+      "meaning": "Multiplies two quantities and combines their units.",
+      "unit": "Depends on connected inputs.",
+      "examples": [
+        {
+          "name": "Example",
+          "value": "Try simple input values",
+          "explanation": "Inspect the result and units."
+        }
+      ],
+      "experiment": "Connect valid inputs and compare the result.",
+      "modelLimitations": "This is a general mathematical operation; validity depends on its context."
+    },
+    "divide": {
+      "title": "Division",
+      "meaning": "Divides one quantity by another; the divisor must not be zero.",
+      "unit": "Depends on connected inputs.",
+      "examples": [
+        {
+          "name": "Example",
+          "value": "Try simple input values",
+          "explanation": "Inspect the result and units."
+        }
+      ],
+      "experiment": "Connect valid inputs and compare the result.",
+      "modelLimitations": "This is a general mathematical operation; validity depends on its context."
+    },
+    "sqrt": {
+      "title": "Square root",
+      "meaning": "Calculates the non-negative square root of an input.",
+      "unit": "Depends on connected inputs.",
+      "examples": [
+        {
+          "name": "Example",
+          "value": "Try simple input values",
+          "explanation": "Inspect the result and units."
+        }
+      ],
+      "experiment": "Connect valid inputs and compare the result.",
+      "modelLimitations": "This is a general mathematical operation; validity depends on its context."
+    },
+    "expression": {
+      "title": "Custom expression",
+      "meaning": "Evaluates the mathematical expression supplied by the player.",
+      "unit": "Depends on connected inputs.",
+      "examples": [
+        {
+          "name": "Example",
+          "value": "Try simple input values",
+          "explanation": "Inspect the result and units."
+        }
+      ],
+      "experiment": "Connect valid inputs and compare the result.",
+      "modelLimitations": "This is a general mathematical operation; validity depends on its context."
+    },
+    "group": {
+      "title": "Compound formula",
+      "meaning": "Groups calculations into a reusable subgraph.",
+      "unit": "Depends on connected inputs.",
+      "examples": [
+        {
+          "name": "Example",
+          "value": "Try simple input values",
+          "explanation": "Inspect the result and units."
+        }
+      ],
+      "experiment": "Connect valid inputs and compare the result.",
+      "modelLimitations": "This is a general mathematical operation; validity depends on its context."
+    },
+    "display": {
+      "title": "Output display",
+      "meaning": "Shows the value produced by the connected graph.",
+      "unit": "Depends on connected inputs.",
+      "examples": [
+        {
+          "name": "Example",
+          "value": "Try simple input values",
+          "explanation": "Inspect the result and units."
+        }
+      ],
+      "experiment": "Connect valid inputs and compare the result.",
+      "modelLimitations": "This is a general mathematical operation; validity depends on its context."
+    }
+  },
+  "ui": {
+    "learn": "Learn about this node",
+    "whatIsIt": "What does it mean?",
+    "units": "Units",
+    "examples": "Real-world examples",
+    "tryIt": "Try it in the simulation",
+    "limitations": "Model limitations",
+    "edit": "Edit parameters"
+  }
+}
