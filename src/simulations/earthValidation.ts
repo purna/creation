@@ -22,11 +22,11 @@ export const rules:Record<string,{op:string;min:number;max:number;a:number;b:num
 'd3-12':{op:'divide',min:1,max:1.2,a:100,b:100}
 };
 export const earthRule=(id:string)=>rules[id];
-export function newEarthGraph(id:string):{nodes:Node[];edges:Edge[]}{
+export function newEarthGraph(id:string,level:2|3=2):{nodes:Node[];edges:Edge[]}{
  const r=earthRule(id);if(!r)throw Error('Unknown challenge '+id);
- return {nodes:[{id:'a',kind:'number',op:'constant',label:'Input A',value:r.a,x:25,y:30},{id:'b',kind:'number',op:'constant',label:'Input B',value:r.b,x:25,y:180},{id:'calc',kind:'formula',op:r.op,label:id,x:320,y:100},{id:'out',kind:'output',op:'display',label:'Result',x:610,y:100}],edges:[]};
+ return {nodes:[{id:'a',kind:'number',op:'constant',label:'Input A',value:r.a,x:25,y:30},{id:'b',kind:'number',op:'constant',label:'Input B',value:r.b,x:25,y:180},{id:'calc',kind:'formula',op:r.op,label:id,x:320,y:100},{id:'out',kind:'output',op:'display',label:'Result',x:610,y:100},...(level===3?[{id:'sensitivity',kind:'number' as const,op:'constant',label:'Sensitivity',value:0.01,x:30,y:320},{id:'uncertainty',kind:'number' as const,op:'constant',label:'Uncertainty',value:0.001,x:30,y:450}]:[])],edges:[]};
 }
-export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]}){
+export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]},level:2|3=2){
  const r=earthRule(id);
  if(!r)return {passed:false,value:undefined as number|undefined,reason:'Unknown rule'};
  const a=g.nodes.find(n=>n.id==='a'),b=g.nodes.find(n=>n.id==='b'),calc=g.nodes.find(n=>n.id==='calc'),out=g.nodes.find(n=>n.id==='out');
@@ -36,6 +36,9 @@ export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]}){
  if(typeof a.value!=='number'||typeof b.value!=='number'||!Number.isFinite(a.value)||!Number.isFinite(b.value)||a.value<=0||b.value<=0)return {passed:false,value:undefined,reason:'Inputs must be positive finite numbers'};
  const result=evaluate(g.nodes,g.edges),value=result.result;
  if(value===undefined||result.errors.length)return {passed:false,value,reason:result.errors.join('; ')||'Invalid calculation'};
- const passed=value>=r.min&&value<=r.max;
+ const sensitivity=g.nodes.find(n=>n.id==='sensitivity');
+ const uncertainty=g.nodes.find(n=>n.id==='uncertainty');
+ if(level===3&&(!sensitivity||sensitivity.kind!=='number'||typeof sensitivity.value!=='number'||!Number.isFinite(sensitivity.value)||sensitivity.value<0||!uncertainty||uncertainty.kind!=='number'||typeof uncertainty.value!=='number'||!Number.isFinite(uncertainty.value)||uncertainty.value<=0))return {passed:false,value,reason:'Level 3 requires finite non-negative sensitivity and positive uncertainty evidence'};
+ const passed=value>=r.min&&value<=r.max&&(level===2||value-uncertainty!.value!>=r.min&&value+uncertainty!.value!<=r.max);
  return {passed,value,reason:passed?'Accepted classroom range': 'Expected '+r.min+' to '+r.max+'; received '+value.toPrecision(4)};
 }
