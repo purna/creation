@@ -39,6 +39,6 @@ export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]},l
  const sensitivity=g.nodes.find(n=>n.id==='sensitivity');
  const uncertainty=g.nodes.find(n=>n.id==='uncertainty');
  if(level===3&&(!sensitivity||sensitivity.kind!=='number'||typeof sensitivity.value!=='number'||!Number.isFinite(sensitivity.value)||sensitivity.value<0||!uncertainty||uncertainty.kind!=='number'||typeof uncertainty.value!=='number'||!Number.isFinite(uncertainty.value)||uncertainty.value<=0))return {passed:false,value,reason:'Level 3 requires finite non-negative sensitivity and positive uncertainty evidence'};
- const passed=value>=r.min&&value<=r.max&&(level===2||value-uncertainty!.value!>=r.min&&value+uncertainty!.value!<=r.max);
+ const passed=value>=r.min&&value<=r.max&&(level===2||(r.min===r.max||value-uncertainty!.value!>=r.min&&value+uncertainty!.value!<=r.max));
  return {passed,value,reason:passed?'Accepted classroom range': 'Expected '+r.min+' to '+r.max+'; received '+value.toPrecision(4)};
 }
