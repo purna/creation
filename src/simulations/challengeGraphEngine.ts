@@ -46,3 +46,36 @@ export function loadChallengeGraph(storage:Pick<Storage,'getItem'>,day:number,id
   return Array.isArray(graph.nodes)&&Array.isArray(graph.edges)?graph:null;
  }catch{return null}
 }
+
+/** Extract a challenge-sized editable graph from the canonical day graph.
+ * Dependency nodes remain visible, but only the selected formula is editable.
+ * Day 1 retains canonical node ids so completed wires can merge back safely.
+ */
+export function extractChallengeGraph(day:number,index:number,master:ChallengeGraph):ChallengeGraph{
+ const defs=challengeDefinitions(day);
+ if(index<0||index>=defs.length)throw Error('Unknown challenge index');
+ if(day!==0)return {nodes:JSON.parse(JSON.stringify(master.nodes)),edges:JSON.parse(JSON.stringify(master.edges))};
+ const ids=['gravity','pressure','core','fusion','hydro','thermal','stable'] as const;
+ const target=ids[index];
+ const inputs:Record<string,string[]>={gravity:['mass','radius'],pressure:['mass','radius'],core:['mass','coreMK','radius'],fusion:['mass','radius','hydrogen','coreMK'],hydro:['pressure','core'],thermal:['fusion','luminosity'],stable:['hydro','thermal']};
+ const visible=new Set([target,...inputs[target]]);
+ const nodes=master.nodes.filter(n=>visible.has(n.id)).map(n=>JSON.parse(JSON.stringify(n)) as Node);
+ const edges=master.edges.filter(e=>e.to===target&&visible.has(e.from)).map(e=>({...e}));
+ return {nodes,edges};
+}
+/** Merge only this challenge's input wires and shared numeric parameters into
+ * the canonical graph. Other challenges' edges are never overwritten.
+ */
+export function mergeChallengeGraph(day:number,index:number,master:ChallengeGraph,part:ChallengeGraph):ChallengeGraph{
+ if(day!==0)return master;
+ const target=['gravity','pressure','core','fusion','hydro','thermal','stable'][index];
+ if(!target)return master;
+ const nodes=master.nodes.map(n=>{
+  const changed=part.nodes.find(p=>p.id===n.id);
+  return changed&&n.kind==='number'&&changed.kind==='number'?{...n,value:changed.value}:n;
+ });
+ const allowed=new Set(part.nodes.map(n=>n.id));
+ const edges=master.edges.filter(e=>e.to!==target);
+ for(const e of part.edges)if(e.to===target&&allowed.has(e.from))edges.push({...e});
+ return {nodes,edges};
+}
