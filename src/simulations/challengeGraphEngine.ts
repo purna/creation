@@ -1,6 +1,6 @@
 import {creationChallenges,stages,evaluate,type Node,type Edge} from '../model';
 import {checkStarGraph} from './starGraph';
-import {earthRule,validateEarthChallenge} from './earthValidation';
+import {earthRule,validateEarthChallenge,newEarthGraph} from './earthValidation';
 
 export type ChallengeGraph={nodes:Node[];edges:Edge[]};
 export type ChallengeState='planned'|'incomplete'|'invalid'|'passed';
@@ -26,7 +26,8 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph):DayGraphResul
  if(day===1||day===2){
   const challenges=definitions.map((item):ChallengeResult=>{
    const rule=earthRule(item.id);
-   const checked=rule?validateEarthChallenge(item.id,graph):null;
+   const saved=typeof localStorage!=='undefined'?loadChallengeGraph(localStorage,day,item.id):null;
+   const checked=rule?validateEarthChallenge(item.id,saved??newEarthGraph(item.id)):null;
    return {...item,state:checked?.passed?'passed':checked?.value===undefined?'incomplete':'invalid',value:checked?.value,reason:checked?.reason??'No scientific validator'};
   });
   return {day,challenges,complete:challenges.length>0&&challenges.every(c=>c.state==='passed'),masterValue:undefined};
