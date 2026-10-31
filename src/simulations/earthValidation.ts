@@ -29,11 +29,11 @@ export function newEarthGraph(id:string):{nodes:Node[];edges:Edge[]}{
 export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]}){
  const r=earthRule(id);
  if(!r)return {passed:false,value:undefined as number|undefined,reason:'Unknown rule'};
- const a=g.nodes.find(n=>n.id==='a'),b=g.nodes.find(n=>n.id==='b'),calc=g.nodes.find(n=>n.id==='calc');
- if(!a||!b||!calc||a.kind!=='number'||b.kind!=='number'||calc.kind!=='formula'||calc.op!==r.op)return {passed:false,value:undefined,reason:'Required inputs or formula missing'};
+ const a=g.nodes.find(n=>n.id==='a'),b=g.nodes.find(n=>n.id==='b'),calc=g.nodes.find(n=>n.id==='calc'),out=g.nodes.find(n=>n.id==='out');
+ if(!a||!b||!calc||!out||out.kind!=='output'||a.kind!=='number'||b.kind!=='number'||calc.kind!=='formula'||calc.op!==r.op)return {passed:false,value:undefined,reason:'Required inputs or formula missing'};
  const required=[['a','calc',0],['b','calc',1],['calc','out',0]] as const;
  if(!required.every(([from,to,slot])=>g.edges.filter(e=>e.to===to&&e.slot===slot).length===1&&g.edges.some(e=>e.from===from&&e.to===to&&e.slot===slot)))return {passed:false,value:undefined,reason:'Connect both inputs and output'};
- if(!Number.isFinite(a.value)||!Number.isFinite(b.value)||a.value!<=0||b.value!<=0)return {passed:false,value:undefined,reason:'Inputs must be positive finite numbers'};
+ if(typeof a.value!=='number'||typeof b.value!=='number'||!Number.isFinite(a.value)||!Number.isFinite(b.value)||a.value<=0||b.value<=0)return {passed:false,value:undefined,reason:'Inputs must be positive finite numbers'};
  const result=evaluate(g.nodes,g.edges),value=result.result;
  if(value===undefined||result.errors.length)return {passed:false,value,reason:result.errors.join('; ')||'Invalid calculation'};
  const passed=value>=r.min&&value<=r.max;
