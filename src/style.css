@@ -64,3 +64,8 @@ main.view-split{display:flex!important;flex-direction:column!important;min-heigh
 .star-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.star-detail{display:flex;flex-direction:column;gap:6px;padding:14px;background:#162741;border:1px solid #385273;border-radius:12px}.star-detail small,.star-detail span{color:#adc1dc}.star-detail strong{font-size:17px;overflow-wrap:anywhere}.star-detail span{font-size:11px}
 .camera-reset{padding:7px 10px;bottom:8px;right:8px;opacity:.85}
 @media(max-width:650px){.view-switcher{height:37px}.view-switcher button{font-size:11px;padding:4px}.section-head{padding:8px}.section-head p{max-width:220px}.result{max-width:calc(100% - 75px);padding:6px 8px;bottom:6px;left:6px}.result small{font-size:10px}.tabs{overflow-x:auto;scrollbar-width:thin}.tabs button{flex:0 0 auto;min-width:95px;white-space:nowrap}.challenge-entry{align-items:flex-start;flex-direction:column}.challenge-entry button{width:100%}.star-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.star-detail{padding:10px}.star-detail strong{font-size:14px}.view-split>.universe{min-height:160px!important}.creation-mission.star-lab{display:none}}
+
+.challenge-editor-nav{display:flex;align-items:center;gap:12px;padding:10px 12px;background:#10233a;border-bottom:1px solid #42658c;flex-wrap:wrap}
+.challenge-editor-nav strong{font-size:13px;color:#dceaff}
+.challenge-editor-nav button{background:#24547e;border-color:#6ba6d4;font-weight:700}
+@media(max-width:650px){.challenge-editor-nav{padding:7px;gap:7px}.challenge-editor-nav button{width:100%;min-height:42px}}
