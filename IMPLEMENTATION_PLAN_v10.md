@@ -148,3 +148,34 @@ Avoid hard-coding Firebase project IDs, domains, secrets or OAuth credentials. A
 
 ## Definition of done per challenge
 A challenge is done only when it has (1) verse/story context, (2) graph inputs and units, (3) node teaching modal, (4) deterministic evaluator, (5) physical solver, (6) failure/success feedback, (7) evidence hash/version, (8) automated passing and failing fixtures, (9) accessible mobile UX, and (10) persistence and downstream invalidation behavior.
+
+
+## P12 — Cumulative completion animations and living world (31 October 2026)
+
+Each completed day unlocks a 5–8-second cinematic reveal and an ongoing, lightweight simulation. Never equate a starter calculation with completion of the day's full challenge set. Preserve previously unlocked layers on later days.
+
+| Day | Completion animation | Continuous effect | Status |
+|---|---|---|---|
+| 1 — Light | Star ignites, corona expands, flare bursts then stabilizes | Photosphere, sunspots, corona, flares | Partly implemented |
+| 2 — Sky and water | Atmosphere forms, clouds swirl, rain and storms settle | Rotating transparent cloud layer | Basic clouds implemented; validators pending |
+| 3 — Land and plants | Ocean gives way to rising continents; rivers and green vegetation spread | Continents, ocean, vegetation and inherited clouds | Procedural prototype being implemented; validators pending |
+| 4 — Celestial clock | Camera reveals Earth, Moon, Sun, day/night and lunar phases | Orbital and rotational motion | Planned |
+| 5 — Sea and sky creatures | Dive underwater to schools and coral, rise to bird flocks | Fish and bird movement, ecosystem populations | Planned |
+| 6 — Animals and humanity | Animals enter habitats, a person enters the garden, world pullback | Habitat-aware land animals and living ecosystem | Planned |
+
+### Shared architecture
+- Keep validation, unlock state, playback and graphics independent; animations must not grant evidence.
+- Build deterministic procedural layers with low-resolution textures, shared meshes and instancing where possible; reduce updates on Android.
+- Day 3: equirectangular ocean/continent/vegetation map, a reveal mask and a separate inherited Day 2 cloud shell. Green spreads only over exposed land.
+- Full unlock must be based on all challenge validators; a preview mode is allowed but clearly distinguished.
+- Store a replayable completion event with day, solver version and evidence fingerprint. Avoid replay on every load.
+- Add replay, skip, reduced-motion, texture disposal, WebGL context handling and mobile performance testing.
+- Map validated scientific parameters to visible phenomena only after their physics models exist.
+
+### Acceptance tests
+1. Incomplete or stale evidence never unlocks a day.
+2. First completion plays once, persists and can be replayed.
+3. Day 3 adds land/vegetation while preserving Day 2 clouds.
+4. Revalidation revokes dependent visual unlocks.
+5. No resource leaks or forced motion in reduced-motion mode.
+6. Both npm test and npm run build pass before release.
