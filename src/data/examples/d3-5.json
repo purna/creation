@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "d3-5",
+  "day": 3,
+  "criteria": [
+    {
+      "id": "graph",
+      "required": true,
+      "description": "Correct equation and wiring"
+    },
+    {
+      "id": "numerical",
+      "required": true,
+      "description": "Calculated output meets acceptance bounds"
+    },
+    {
+      "id": "simulation",
+      "required": true,
+      "description": "Finite physically acceptable model output"
+    },
+    {
+      "id": "analysis",
+      "required": true,
+      "levels": [
+        3
+      ],
+      "description": "Calculated sensitivity and propagated measurement uncertainty"
+    }
+  ],
+  "minimumRequired": {
+    "level2": 3,
+    "level3": 4
+  },
+  "examples": [
+    {
+      "name": "Reference classroom calculation",
+      "inputs": {
+        "a": 50,
+        "b": 10,
+        "sensitivity": 0.01,
+        "uncertainty": 0.001
+      }
+    }
+  ]
+}
