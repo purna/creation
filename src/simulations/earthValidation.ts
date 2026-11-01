@@ -1,4 +1,5 @@
 import {evaluate,type Node,type Edge} from '../model';
+import {challengeCriteria} from './challengeCriteria';
 export const rules:Record<string,{op:string;min:number;max:number;a:number;b:number}>={
 'd2-1':{op:'gravity',min:8,max:12,a:1,b:1},
 'd2-2':{op:'divide',min:10,max:50,a:11.2,b:.5},
@@ -60,8 +61,10 @@ export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]},l
   if(calculatedSensitivity>sensitivity!.value!*1000)return {passed:false,value,reason:'Calculated sensitivity exceeds configured tolerance'};
  }
  const robust=level===2||r.min===r.max||value-propagatedUncertainty>=r.min&&value+propagatedUncertainty<=r.max;
- const passed=value>=r.min&&value<=r.max&&robust;
- return {passed,value,calculatedSensitivity,propagatedUncertainty,reason:passed?'Accepted classroom range'+(level===3?' · computed sensitivity '+calculatedSensitivity.toFixed(3)+'; propagated ±'+propagatedUncertainty.toPrecision(3):''):'Expected '+r.min+' to '+r.max+' including propagated uncertainty; received '+value.toPrecision(4)};
+ const inRange=value>=r.min&&value<=r.max;
+ const criteria=challengeCriteria(id,level,{graph:true,numerical:inRange,simulation:Number.isFinite(value),analysis:robust});
+ const passed=inRange&&robust&&criteria.passed;
+ return {passed,value,calculatedSensitivity,propagatedUncertainty,reason:passed?'Accepted classroom range · '+criteria.reason+(level===3?' · computed sensitivity '+calculatedSensitivity.toFixed(3)+'; propagated ±'+propagatedUncertainty.toPrecision(3):''):'Expected '+r.min+' to '+r.max+' including propagated uncertainty; received '+value.toPrecision(4)};
 }
 
 export function newEarthChallengeGraph(id:string,level:2|3=2){const g=newEarthGraph(id,level);const a=g.nodes.find(n=>n.id==='a')!;const b=g.nodes.find(n=>n.id==='b')!;a.value=Number(a.value)*0.001;if(earthRule(id)?.op==='add')b.value=Number(b.value)*0.001;if(earthRule(id)?.op==='phase')a.value=150;return g;}
