@@ -38,10 +38,30 @@ export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]},l
  if(value===undefined||result.errors.length)return {passed:false,value,reason:result.errors.join('; ')||'Invalid calculation'};
  const sensitivity=g.nodes.find(n=>n.id==='sensitivity');
  const uncertainty=g.nodes.find(n=>n.id==='uncertainty');
- if(level===3&&(!sensitivity||sensitivity.kind!=='number'||typeof sensitivity.value!=='number'||!Number.isFinite(sensitivity.value)||sensitivity.value<0||!uncertainty||uncertainty.kind!=='number'||typeof uncertainty.value!=='number'||!Number.isFinite(uncertainty.value)||uncertainty.value<=0))return {passed:false,value,reason:'Level 3 requires finite non-negative sensitivity and positive uncertainty evidence'};
- const sensitivityOk=level===2||sensitivity!.value!<=0.25;
- const passed=value>=r.min&&value<=r.max&&sensitivityOk&&(level===2||(r.min===r.max||value-uncertainty!.value!>=r.min&&value+uncertainty!.value!<=r.max));
- return {passed,value,reason:passed?'Accepted classroom range': 'Expected '+r.min+' to '+r.max+'; received '+value.toPrecision(4)};
+ if(level===3&&(!sensitivity||sensitivity.kind!=='number'||typeof sensitivity.value!=='number'||!Number.isFinite(sensitivity.value)||sensitivity.value<0||!uncertainty||uncertainty.kind!=='number'||typeof uncertainty.value!=='number'||!Number.isFinite(uncertainty.value)||uncertainty.value<=0))return {passed:false,value,reason:'A Level requires a positive relative measurement uncertainty and sensitivity tolerance'};
+ let calculatedSensitivity=0,propagatedUncertainty=0;
+ if(level===3){
+  // Central finite differences on the actual connected graph, not a learner-entered result.
+  const h=1e-4;
+  const derivative=(id:string,original:number)=>{
+   const sample=(factor:number)=>{
+    const ns=g.nodes.map(n=>n.id===id?{...n,value:original*factor}:n);
+    return evaluate(ns,g.edges).result;
+   };
+   const plus=sample(1+h),minus=sample(1-h);
+   return plus===undefined||minus===undefined?NaN:(plus-minus)/(2*h*original);
+  };
+  const da=derivative('a',a.value!),db=derivative('b',b.value!);
+  if(!Number.isFinite(da)||!Number.isFinite(db))return {passed:false,value,reason:'Sensitivity could not be calculated'};
+  const relative=uncertainty!.value!;
+  const sigmaA=Math.abs(a.value!)*relative,sigmaB=Math.abs(b.value!)*relative;
+  propagatedUncertainty=Math.hypot(da*sigmaA,db*sigmaB);
+  calculatedSensitivity=Math.hypot(da*a.value!,db*b.value!)/Math.max(Math.abs(value),1e-9);
+  if(calculatedSensitivity>sensitivity!.value!*1000)return {passed:false,value,reason:'Calculated sensitivity exceeds configured tolerance'};
+ }
+ const robust=level===2||r.min===r.max||value-propagatedUncertainty>=r.min&&value+propagatedUncertainty<=r.max;
+ const passed=value>=r.min&&value<=r.max&&robust;
+ return {passed,value,calculatedSensitivity,propagatedUncertainty,reason:passed?'Accepted classroom range'+(level===3?' · computed sensitivity '+calculatedSensitivity.toFixed(3)+'; propagated ±'+propagatedUncertainty.toPrecision(3):''):'Expected '+r.min+' to '+r.max+' including propagated uncertainty; received '+value.toPrecision(4)};
 }
 
 export function newEarthChallengeGraph(id:string,level:2|3=2){const g=newEarthGraph(id,level);const a=g.nodes.find(n=>n.id==='a')!;const b=g.nodes.find(n=>n.id==='b')!;a.value=Number(a.value)*0.001;if(earthRule(id)?.op==='add')b.value=Number(b.value)*0.001;if(earthRule(id)?.op==='phase')a.value=150;return g;}
