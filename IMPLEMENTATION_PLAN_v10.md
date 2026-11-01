@@ -179,3 +179,59 @@ Each completed day unlocks a 5–8-second cinematic reveal and an ongoing, light
 4. Revalidation revokes dependent visual unlocks.
 5. No resource leaks or forced motion in reduced-motion mode.
 6. Both npm test and npm run build pass before release.
+
+
+## 2026-11-01 curriculum extension — challenge series and constructible physics nodes
+
+This section supersedes the earlier assumption that GCSE and A Level can share an identical prebuilt graph. **Status: design and acceptance requirements; not a claim of full implementation.** Current code contains Day 1–3 challenge definitions, per-challenge example JSON, and basic validators. The Level 3 graph construction and nested-node assessment described below remain to be built.
+
+### Physics challenge series by day
+| Day | Challenge sequence | Count | Implementation state |
+| --- | --- | ---: | --- |
+| 1 — Light and stable star | Hydrogen composition; gravity and compression; core pressure and temperature; fusion power; hydrostatic equilibrium; thermal equilibrium; finite-time stability | 7 | Seven checks share a canonical stellar graph; independent challenge graphs and A Level constructible nodes are outstanding |
+| 2 — Atmosphere and water | Surface gravity; atmosphere and pressure; incident flux; energy balance; water phase; latent heat and evaporation; condensation and precipitation; water budget | 8 | Independent challenge graphs with numerical acceptance rules; deeper coupled climate physics outstanding |
+| 3 — Land and plants | Interior geometry; radiogenic heating; heat flow; plate geometry; plate velocity; uplift and volcanism; sea level; rivers; erosion and soil; photosynthesis; plant carrying capacity; system stability | 12 | Independent challenge graphs with classroom proxy rules; deeper geology/ecology physics outstanding |
+| 4 — Sun, moon and planets | Gravity, orbit velocity, orbital stability, N-body setup, close encounters, planetary stability, day/night, lunar orbit, lunar phases, seasons, calendar, environment audit | 12 | Planned full challenge bank; existing orbital lab is not equivalent to these twelve completed validators |
+| 5 — Sea and sky life | Ocean light, oxygen, nutrients, plankton, trophic transfer, fish dynamics, lift, flight power, birds, food webs, biodiversity, multigeneration stability | 12 | Planned |
+| 6 — Land animals and stewardship | Habitat, herbivore energy, predators, biodiversity, human population, food, fresh water, land allocation, energy, pollution, conservation, carbon, disturbance, planetary audit | 14 | Planned |
+
+### Difficulty contract
+**GCSE / Level 2:** provide correctly typed input/output nodes and most formula-node shells, but use deliberately unsolved numerical parameters, missing connections, selected missing operators and incomplete intermediate steps. Require calculation, prediction, feedback-driven correction and a validated simulation; simply connecting pre-calibrated nodes must fail.
+
+**A Level / Level 3:** begin selected challenges with an empty or minimally scaffolded workspace. Learners add input, constant, conversion, formula, output and nested-group nodes from a constrained palette. They must configure operator/expression, units and port roles, connect the dependency graph, choose valid physical inputs, run experiments and demonstrate calculated sensitivity and propagated uncertainty. No credit for merely entering plausible sensitivity/uncertainty numbers. The same solver and scientific range constraints apply at both levels; Level 3 adds a genuinely different construction and analysis rubric.
+
+### Nodes as buildable, reusable objects
+A **node blueprint** is a separate, versioned JSON object with a stable `typeId`, allowed parameter schema, typed input/output ports, formula or safe expression AST, unit/dimension rules, validation checks, learning content and optional nested `subgraph`. Examples:
+- `physics.gravity.surface`: mass and radius inputs; acceleration output; SI conversions and dimensional checks.
+- `physics.star.fusion`: reusable composite of density, hydrogen-fraction ratio, temperature ratio, exponentiation and multiplication.
+- `physics.star.hydrostatic`: pressure proxy, ideal gas pressure proxy and relative residual.
+- `physics.climate.energy-balance`: flux, albedo, absorbed energy and radiated energy.
+- `physics.geology.heat-budget`: heating, cooling and temperature-rate nodes.
+
+Building a node is a **sub-challenge**: open its editor, assemble its internal graph, validate typed ports and numerical examples, save the blueprint instance, then expose its tested output port in the parent challenge. Nested subgraphs must not be accepted solely because a parent node has the correct label. A reusable node's definition, instance parameters and assessment evidence must be saved separately; edits invalidate dependent results.
+
+### Per-challenge JSON assessment specification
+Maintain `src/data/examples/d{day}-{challenge}.json` for every implemented challenge; the existing 27 files are the initial fixtures. Expand the schema to include:
+- `id`, `day`, `level`, learning objectives, scientific assumptions and dependency IDs.
+- `starterGraph` or `starterGraphRef`, `requiredNodeTypes`, `requiredSubgraphs`, allowed operations, typed ports and units.
+- `criteria`: stable criterion IDs, descriptions, `required`, `levels`, thresholds, evidence source and error feedback.
+- `minimumRequired`: **all** required criteria must pass (not an easily gamed point total).
+- `examples`: at least one validated working fixture plus unstable, incomplete, wrong-unit and incorrect-operator cases; keep examples available to tests and developer cheat mode, not ordinary learners.
+- `simulation`: duration/steps, conservation or stability checks, tolerances, scenario perturbations and deterministic seed where applicable.
+- `assessmentVersion`: used to invalidate stale evidence after a rubric or solver change.
+
+**Baseline criteria:** GCSE requires correct graph structure, correct numerical result and a valid physical simulation (3/3). A Level additionally requires model construction and computed analysis; split these into distinct criteria rather than counting one vague “advanced” checkbox. The criterion engine must validate actual node types, graph wiring, equations, units, solver outputs and evidence; JSON declarations alone cannot prove completion.
+
+### Independent Day 1 challenge workflow
+Replace the seven subviews of one canonical stellar graph with **seven independently saved challenge graphs**. Each has a distinct target output and its own validator, examples and criterion evidence. The parent star graph consumes only validated outputs, in dependency order. Changes to mass, radius, fuel or core temperature re-evaluate downstream challenges and invalidate stale evidence. Preserve a working reference solution per challenge and learning level. A Level requires construction of the composite gravity, pressure, fusion and balance nodes before the integrated star can pass.
+
+### Implementation sequence and acceptance tests
+1. **Data and rubric audit:** ensure all 27 Day 1–3 JSON fixtures agree with real validators; add malformed/wrong-equation/incorrect-unit/unstable negative cases. Build and test must pass before changing completion gates.
+2. **Blueprint engine:** typed node registry, node-builder UI, safe expressions, internal ports, nested graph evaluation, save/load and reusable instances. Unit and cycle checks must cross group boundaries.
+3. **Day 1 migration:** seven separately editable and persisted graphs; validated outputs feed the master star; Level 2 scaffolds and Level 3 build-from-palette modes. Preserve existing saves through versioned migration.
+4. **Day 2 and 3 upgrades:** use the same blueprint engine, remove pre-supplied Level 3 formula/input nodes, add real intermediate equations and domain-specific physics; connect outputs to shared world state.
+5. **Analysis engine:** calculate finite-difference sensitivities, input uncertainty propagation and scenario robustness; expose results as read-only calculated evidence. Handle discontinuous phase models separately rather than pretending their derivatives are meaningful.
+6. **Progression and cheat:** enforce all required criteria per challenge and level, prevent cross-level unlocks, save evidence with solver/assessment versions, and use JSON examples to build genuinely passing developer reference graphs.
+7. **Verification:** unit tests for all 27 × 2 challenge configurations, every nested blueprint, wrong units/operators, bad input ranges, uncertainty and invalidation; browser E2E on desktop and mobile; GitHub Actions `npm test` and `npm run build`.
+
+**Definition of done:** an A Level learner can create the required nodes, build and test nested formula objects, solve all numerical problems, explain the model's limitations and unlock the next day **without** using a prebuilt reference graph. A GCSE learner can solve the same scientific goals with appropriate scaffolding. Neither level can pass by connecting untouched defaults.
