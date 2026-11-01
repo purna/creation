@@ -67,4 +67,4 @@ export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]},l
  return {passed,value,calculatedSensitivity,propagatedUncertainty,reason:passed?'Accepted classroom range · '+criteria.reason+(level===3?' · computed sensitivity '+calculatedSensitivity.toFixed(3)+'; propagated ±'+propagatedUncertainty.toPrecision(3):''):'Expected '+r.min+' to '+r.max+' including propagated uncertainty; received '+value.toPrecision(4)};
 }
 
-export function newEarthChallengeGraph(id:string,level:2|3=2){const g=newEarthGraph(id,level);const a=g.nodes.find(n=>n.id==='a')!;const b=g.nodes.find(n=>n.id==='b')!;a.value=Number(a.value)*0.001;if(earthRule(id)?.op==='add')b.value=Number(b.value)*0.001;if(earthRule(id)?.op==='phase')a.value=150;return g;}
+export function newEarthChallengeGraph(id:string,level:2|3=2){const g=newEarthGraph(id,level);const a=g.nodes.find(n=>n.id==='a')!;const b=g.nodes.find(n=>n.id==='b')!;a.value=Number(a.value)*0.001;if(earthRule(id)?.op==='add')b.value=Number(b.value)*0.001;if(earthRule(id)?.op==='phase')a.value=150;if(level===3)g.nodes=g.nodes.filter(n=>!['a','b','calc'].includes(n.id));return g;}
