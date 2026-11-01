@@ -50,3 +50,21 @@ export function checkStarGraph(nodes:Node[],edges:Edge[]){
 export const STAR_FORMULAS=formulas;
 
 export function newStarChallengeGraph(){const g=newStarGraph();g.nodes.find(n=>n.id==='coreMK')!.value=9;g.nodes.find(n=>n.id==='luminosity')!.value=1.6;return g;}
+
+/** A Level: assess stability under independent measurement perturbations.
+ * GCSE uses the ordinary one-zone graph and its seven checks. */
+export function checkStarGraphAtLevel(nodes:Node[],edges:Edge[],level:2|3=2){
+ const base=checkStarGraph(nodes,edges);
+ if(level===2||!base.complete||!base.input)return {...base,robustness:level===2?undefined:{passed:false,scenarios:0,maxResidual:Infinity}};
+ let scenarios=0,maxResidual=0;
+ for(const field of STAR_FIELDS)for(const factor of [0.995,1.005]){
+  const modified=nodes.map(n=>n.id===field?{...n,value:Number(n.value)*factor}:n);
+  const input=graphStarInput(modified);
+  if(!input)return {...base,complete:false,robustness:{passed:false,scenarios,maxResidual:Infinity}};
+  const result=validateStar(input);
+  scenarios++;
+  maxResidual=Math.max(maxResidual,result.hydroResidual,result.thermalResidual);
+  if(!result.stable)return {...base,complete:false,robustness:{passed:false,scenarios,maxResidual}};
+ }
+ return {...base,robustness:{passed:true,scenarios,maxResidual}};
+}
