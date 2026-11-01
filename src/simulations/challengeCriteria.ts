@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 type Criterion={id:string;required:boolean;levels?:number[];description:string};
 type ExampleFile={id:string;day:number;criteria:Criterion[];minimumRequired:{level2:number;level3:number};examples:{name:string;inputs:Record<string,number>}[]};
 const files=import.meta.glob('../data/examples/*.json',{eager:true,import:'default'}) as Record<string,ExampleFile>;
