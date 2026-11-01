@@ -1,5 +1,5 @@
 import {creationChallenges,stages,evaluate,type Node,type Edge} from '../model';
-import {checkStarGraph} from './starGraph';
+import {checkStarGraphAtLevel} from './starGraph';
 import {earthRule,validateEarthChallenge,newEarthGraph} from './earthValidation';
 
 export type ChallengeGraph={nodes:Node[];edges:Edge[]};
@@ -15,13 +15,13 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph,level:2|3=2):D
  const definitions=challengeDefinitions(day);
  const result=evaluate(graph.nodes,graph.edges);
  if(day===0){
-  const checked=checkStarGraph(graph.nodes,graph.edges);
+  const checked=checkStarGraphAtLevel(graph.nodes,graph.edges,level);
   const challenges=definitions.map((item,i):ChallengeResult=>{
    const check=checked.checks[i];
    return { ...item,state:check?.passed?'passed':checked.connected[(['gravity','pressure','core','fusion','hydro','thermal','stable'] as const)[i]]?'invalid':'incomplete',
     reason:check?.detail??'Required scientific calculation not available',value:result.values[(['gravity','pressure','core','fusion','hydro','thermal','stable'] as const)[i]]};
   });
-  return {day,challenges,complete:checked.complete,masterValue:checked.complete?result.result:undefined};
+  return {day,challenges,complete:checked.complete&&checked.robustness?.passed!==false,masterValue:checked.complete&&checked.robustness?.passed!==false?result.result:undefined};
  }
  if(day===1||day===2){
   const challenges=definitions.map((item):ChallengeResult=>{
