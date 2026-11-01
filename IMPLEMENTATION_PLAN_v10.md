@@ -235,3 +235,11 @@ Replace the seven subviews of one canonical stellar graph with **seven independe
 7. **Verification:** unit tests for all 27 × 2 challenge configurations, every nested blueprint, wrong units/operators, bad input ranges, uncertainty and invalidation; browser E2E on desktop and mobile; GitHub Actions `npm test` and `npm run build`.
 
 **Definition of done:** an A Level learner can create the required nodes, build and test nested formula objects, solve all numerical problems, explain the model's limitations and unlock the next day **without** using a prebuilt reference graph. A GCSE learner can solve the same scientific goals with appropriate scaffolding. Neither level can pass by connecting untouched defaults.
+
+
+### Implementation checkpoint — 2026-11-01
+- **JSON assessment contracts:** 27 per-challenge JSON examples are present and the criteria loader enforces 3 GCSE / 4 A Level checks. Still required: typed node/subgraph requirements and domain-specific negative fixtures in every JSON file.
+- **Node Builder:** `src/simulations/nodeBuilder.ts` implements versioned blueprints, worked-example validation, local save/load and reusable instantiation, with unit tests. Still required: dedicated visual blueprint editor and nested-group port evaluation.
+- **Independent Day 1:** `src/simulations/independentStarChallenges.ts` assembles seven saved graphs and revalidates the integrated star, with a unit test. Still required: wire the assembly into the normal Day 1 progress/unlock path and move the challenge editor away from canonical-master-only assessment.
+- **A Level construction:** new Day 2/3 challenge workspaces omit input/formula nodes; the node palette can add the canonical required input and formula nodes. Still required: genuine construction of each formula from primitive/nested nodes, and corresponding completion checks.
+- **Verification:** commits are not proof of a passing production build; GitHub Actions must pass, and both levels require browser play-throughs.
