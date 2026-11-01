@@ -43,4 +43,4 @@ export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]},l
  return {passed,value,reason:passed?'Accepted classroom range': 'Expected '+r.min+' to '+r.max+'; received '+value.toPrecision(4)};
 }
 
-export function newEarthChallengeGraph(id:string,level:2|3=2){const g=newEarthGraph(id,level);const a=g.nodes.find(n=>n.id==='a')!;const b=g.nodes.find(n=>n.id==='b')!;a.value=Number(a.value)*0.5;b.value=Number(b.value)*1.7;return g;}
+export function newEarthChallengeGraph(id:string,level:2|3=2){const g=newEarthGraph(id,level);const a=g.nodes.find(n=>n.id==='a')!;const b=g.nodes.find(n=>n.id==='b')!;a.value=Number(a.value)*0.001;if(earthRule(id)?.op==='add')b.value=Number(b.value)*0.001;return g;}
