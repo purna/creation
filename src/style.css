@@ -100,3 +100,14 @@ main.view-split{display:flex!important;flex-direction:column!important;min-heigh
 .cheat-tools{border-style:dashed;border-color:#d6a655}
 .cheat-buttons{display:flex;gap:10px;flex-wrap:wrap}
 @media(max-width:600px){.landing-section{padding:14px}.landing-day-grid{grid-template-columns:1fr}.landing-actions>button{flex:1 1 180px}}
+
+
+.node-builder-overlay{position:fixed;inset:0;z-index:2000;background:rgba(5,12,22,.84);display:grid;place-items:center;padding:1rem;overflow:auto}
+.node-builder-window{width:min(760px,96vw);max-height:92vh;overflow:auto;padding:1.5rem;border-radius:16px;background:var(--panel,#17243a);color:var(--text,#f5f8ff);border:1px solid #62758e;box-shadow:0 20px 80px #0009}
+.node-builder-window label{display:inline-flex;align-items:center;gap:.4rem;margin:.45rem;flex-wrap:wrap}
+.node-builder-window input,.node-builder-window select{max-width:160px}
+.node-builder-window button{margin:.35rem}
+.node-builder-canvas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;padding:1rem;background:#102038;border:1px solid #54738e;border-radius:12px;margin:1rem 0}
+.node-builder-canvas span{border:1px solid #66a8d5;border-radius:9px;padding:1rem .4rem;text-align:center;background:#243b55}
+.node-builder-canvas span:last-child{grid-column:1}
+@media(max-width:550px){.node-builder-window{padding:.75rem}.node-builder-canvas span{font-size:.8rem;padding:.6rem .2rem}}
