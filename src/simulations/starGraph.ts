@@ -48,3 +48,5 @@ export function checkStarGraph(nodes:Node[],edges:Edge[]){
  return {input,checks,complete,values:evaluated.values,errors:evaluated.errors,connected:actual,solverVersion:GRAPH_SOLVER};
 }
 export const STAR_FORMULAS=formulas;
+
+export function newStarChallengeGraph(){const g=newStarGraph();g.nodes.find(n=>n.id==='coreMK')!.value=9;g.nodes.find(n=>n.id==='luminosity')!.value=1.6;return g;}
