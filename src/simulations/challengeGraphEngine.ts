@@ -1,5 +1,6 @@
 import {creationChallenges,stages,evaluate,type Node,type Edge} from '../model';
 import {checkStarGraphAtLevel} from './starGraph';
+import {challengeCriteria} from './challengeCriteria';
 import {earthRule,validateEarthChallenge,newEarthGraph} from './earthValidation';
 
 export type ChallengeGraph={nodes:Node[];edges:Edge[]};
@@ -18,10 +19,11 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph,level:2|3=2):D
   const checked=checkStarGraphAtLevel(graph.nodes,graph.edges,level);
   const challenges=definitions.map((item,i):ChallengeResult=>{
    const check=checked.checks[i];
-   return { ...item,state:check?.passed?'passed':checked.connected[(['gravity','pressure','core','fusion','hydro','thermal','stable'] as const)[i]]?'invalid':'incomplete',
-    reason:check?.detail??'Required scientific calculation not available',value:result.values[(['gravity','pressure','core','fusion','hydro','thermal','stable'] as const)[i]]};
+   const criteria=challengeCriteria(item.id,level,{graph:checked.connected[(['gravity','pressure','core','fusion','hydro','thermal','stable'] as const)[i]],numerical:check?.passed===true,simulation:checked.complete||checked.checks.every(c=>c.passed),analysis:checked.robustness?.passed===true});
+   return { ...item,state:check?.passed&&criteria.passed?'passed':checked.connected[(['gravity','pressure','core','fusion','hydro','thermal','stable'] as const)[i]]?'invalid':'incomplete',
+    reason:(check?.detail??'Required scientific calculation not available')+' · '+criteria.reason,value:result.values[(['gravity','pressure','core','fusion','hydro','thermal','stable'] as const)[i]]};
   });
-  return {day,challenges,complete:checked.complete&&checked.robustness?.passed!==false,masterValue:checked.complete&&checked.robustness?.passed!==false?result.result:undefined};
+  return {day,challenges,complete:checked.complete&&challenges.every(c=>c.state==='passed'),masterValue:checked.complete&&challenges.every(c=>c.state==='passed')?result.result:undefined};
  }
  if(day===1||day===2){
   const challenges=definitions.map((item):ChallengeResult=>{
