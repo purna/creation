@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "d1-5",
+  "day": 1,
+  "criteria": [
+    {
+      "id": "graph",
+      "description": "Correct equation, units and input connections",
+      "required": true
+    },
+    {
+      "id": "numerical",
+      "description": "Calculated output must meet the challenge acceptance range",
+      "required": true
+    },
+    {
+      "id": "simulation",
+      "description": "Stable one-zone stellar simulation",
+      "required": true
+    },
+    {
+      "id": "analysis",
+      "description": "Pass ten independent ±0.5% parameter perturbations",
+      "required": true,
+      "levels": [
+        3
+      ]
+    }
+  ],
+  "minimumRequired": {
+    "level2": 3,
+    "level3": 4
+  },
+  "examples": [
+    {
+      "name": "Solar analogue",
+      "inputs": {
+        "mass": 1,
+        "radius": 1,
+        "hydrogen": 0.7,
+        "coreMK": 15.7,
+        "luminosity": 1
+      }
+    },
+    {
+      "name": "Lower-mass classroom model",
+      "inputs": {
+        "mass": 0.8,
+        "radius": 0.85,
+        "hydrogen": 0.7,
+        "coreMK": 14.77647059,
+        "luminosity": 0.81772531
+      }
+    },
+    {
+      "name": "Higher-mass classroom model",
+      "inputs": {
+        "mass": 1.2,
+        "radius": 1.1,
+        "hydrogen": 0.7,
+        "coreMK": 17.12727273,
+        "luminosity": 1.53228193
+      }
+    }
+  ]
+}
