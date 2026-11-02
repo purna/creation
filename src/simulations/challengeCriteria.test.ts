@@ -2,8 +2,8 @@ import {describe,it,expect} from 'vitest';
 import {challengeCriteria,challengeExample} from './challengeCriteria';
 import {newStarGraph,STAR_FORMULAS,checkStarGraphAtLevel} from './starGraph';
 import {newEarthGraph,validateEarthChallenge,rules} from './earthValidation';
-describe('JSON challenge criteria across three days',()=>{
- for(const day of [1,2,3])for(let i=1;i<=(day===1?7:day===2?8:12);i++){
+describe('JSON challenge criteria across all six days',()=>{
+ for(const day of [1,2,3,4,5,6])for(let i=1;i<=(day===1?7:day===2?8:day===6?14:12);i++){
   const id='d'+day+'-'+i;
   it(id+' has examples and exactly 3 GCSE / 4 A Level criteria',()=>{
    expect(challengeExample(id)?.examples.length).toBeGreaterThan(0);

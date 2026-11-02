@@ -1,6 +1,9 @@
+import laterRules from '../data/later-challenge-rules.json';
 import {evaluate,type Node,type Edge} from '../model';
 import {challengeCriteria} from './challengeCriteria';
-export const rules:Record<string,{op:string;min:number;max:number;a:number;b:number}>={
+export type ClassroomRule={op:string;min:number;max:number;a:number;b:number;expression?:string;aLabel?:string;bLabel?:string;unit?:string;description?:string;uncertainty?:number};
+export const rules:Record<string,ClassroomRule>={
+...laterRules,
 'd2-1':{op:'gravity',min:8,max:12,a:1,b:1},
 'd2-2':{op:'divide',min:10,max:50,a:11.2,b:.5},
 'd2-3':{op:'flux',min:1100,max:1600,a:1,b:1},
@@ -25,13 +28,13 @@ export const rules:Record<string,{op:string;min:number;max:number;a:number;b:num
 export const earthRule=(id:string)=>rules[id];
 export function newEarthGraph(id:string,level:2|3=2):{nodes:Node[];edges:Edge[]}{
  const r=earthRule(id);if(!r)throw Error('Unknown challenge '+id);
- return {nodes:[{id:'a',kind:'number',op:'constant',label:'Input A',value:r.a,x:25,y:30},{id:'b',kind:'number',op:'constant',label:'Input B',value:r.b,x:25,y:180},{id:'calc',kind:'formula',op:r.op,label:id,x:320,y:100},{id:'out',kind:'output',op:'display',label:'Result',x:610,y:100},...(level===3?[{id:'sensitivity',kind:'number' as const,op:'constant',label:'Sensitivity',value:0.01,x:30,y:320},{id:'uncertainty',kind:'number' as const,op:'constant',label:'Uncertainty',value:0.001,x:30,y:450}]:[])],edges:[]};
+ return {nodes:[{id:'a',kind:'number',op:'constant',label:r.aLabel||'Input A',value:r.a,x:25,y:30},{id:'b',kind:'number',op:'constant',label:r.bLabel||'Input B',value:r.b,x:25,y:180},{id:'calc',kind:'formula',op:r.op,expression:r.expression,unit:r.unit,label:r.expression||id,x:320,y:100},{id:'out',kind:'output',op:'display',label:'Result',x:610,y:100},...(level===3?[{id:'sensitivity',kind:'number' as const,op:'constant',label:'Sensitivity',value:0.01,x:30,y:320},{id:'uncertainty',kind:'number' as const,op:'constant',label:'Uncertainty',value:r.uncertainty??0.001,x:30,y:450}]:[])],edges:[]};
 }
 export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]},level:2|3=2){
  const r=earthRule(id);
  if(!r)return {passed:false,value:undefined as number|undefined,reason:'Unknown rule'};
  const a=g.nodes.find(n=>n.id==='a'),b=g.nodes.find(n=>n.id==='b'),calc=g.nodes.find(n=>n.id==='calc'),out=g.nodes.find(n=>n.id==='out');
- if(!a||!b||!calc||!out||out.kind!=='output'||a.kind!=='number'||b.kind!=='number'||calc.kind!=='formula'||calc.op!==r.op)return {passed:false,value:undefined,reason:'Required inputs or formula missing'};
+ if(!a||!b||!calc||!out||out.kind!=='output'||a.kind!=='number'||b.kind!=='number'||calc.kind!=='formula'||calc.op!==r.op||(r.expression&&calc.expression!==r.expression))return {passed:false,value:undefined,reason:'Required inputs or formula missing'};
  const required=[['a','calc',0],['b','calc',1],['calc','out',0]] as const;
  if(!required.every(([from,to,slot])=>g.edges.filter(e=>e.to===to&&e.slot===slot).length===1&&g.edges.some(e=>e.from===from&&e.to===to&&e.slot===slot)))return {passed:false,value:undefined,reason:'Connect both inputs and output'};
  if(typeof a.value!=='number'||typeof b.value!=='number'||!Number.isFinite(a.value)||!Number.isFinite(b.value)||a.value<=0||b.value<=0)return {passed:false,value:undefined,reason:'Inputs must be positive finite numbers'};

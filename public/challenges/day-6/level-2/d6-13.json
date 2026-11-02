@@ -17,12 +17,15 @@
     5
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-6",
-    "parameter": "recoveryTime",
-    "unit": "years",
-    "complexity": "simplified",
-    "testSteps": 20
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Disturbance recovery",
+    "acceptanceRange": [
+      0.9,
+      1.05
+    ],
+    "limitations": "Compare measured recovery with the population before disturbance."
   },
   "guidance": {
     "hintCount": 3,
@@ -51,7 +54,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

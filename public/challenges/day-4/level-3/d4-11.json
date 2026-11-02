@@ -15,12 +15,15 @@
     3
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-4",
-    "parameter": "calendarDrift",
-    "unit": "days",
-    "complexity": "coupled",
-    "testSteps": 100
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "rotations",
+    "parameter": "Calendar",
+    "acceptanceRange": [
+      365,
+      366
+    ],
+    "limitations": "Count rotations per year to build a calendar."
   },
   "guidance": {
     "hintCount": 1,
@@ -49,7 +52,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

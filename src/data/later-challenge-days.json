@@ -1,0 +1,324 @@
+[
+  {
+    "day": 4,
+    "title": "Heavenly bodies",
+    "items": [
+      {
+        "id": "d4-1",
+        "name": "Newtonian gravity",
+        "dependsOn": [
+          "d3-1"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-2",
+        "name": "Circular orbital velocity",
+        "dependsOn": [
+          "d4-1"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-3",
+        "name": "Earth-like orbit",
+        "dependsOn": [
+          "d4-2"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-4",
+        "name": "Eight planets",
+        "dependsOn": [
+          "d4-3"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-5",
+        "name": "Orbital encounters and integration",
+        "dependsOn": [
+          "d4-4"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-6",
+        "name": "Orbital stability",
+        "dependsOn": [
+          "d4-5"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-7",
+        "name": "Rotation and day-night",
+        "dependsOn": [
+          "d4-6"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-8",
+        "name": "Moon orbit",
+        "dependsOn": [
+          "d4-7"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-9",
+        "name": "Lunar phases",
+        "dependsOn": [
+          "d4-8"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-10",
+        "name": "Axial tilt and seasons",
+        "dependsOn": [
+          "d4-9"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-11",
+        "name": "Calendar",
+        "dependsOn": [
+          "d4-10"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d4-12",
+        "name": "Orbital and environmental audit",
+        "dependsOn": [
+          "d4-11"
+        ],
+        "status": "implemented"
+      }
+    ]
+  },
+  {
+    "day": 5,
+    "title": "Life in sea and sky",
+    "items": [
+      {
+        "id": "d5-1",
+        "name": "Underwater light",
+        "dependsOn": [
+          "d4-1"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-2",
+        "name": "Dissolved oxygen",
+        "dependsOn": [
+          "d5-1"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-3",
+        "name": "Nutrient recycling",
+        "dependsOn": [
+          "d5-2"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-4",
+        "name": "Phytoplankton production",
+        "dependsOn": [
+          "d5-3"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-5",
+        "name": "Trophic energy transfer",
+        "dependsOn": [
+          "d5-4"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-6",
+        "name": "Fish populations",
+        "dependsOn": [
+          "d5-5"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-7",
+        "name": "Bird lift",
+        "dependsOn": [
+          "d5-6"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-8",
+        "name": "Flight energy",
+        "dependsOn": [
+          "d5-7"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-9",
+        "name": "Bird populations",
+        "dependsOn": [
+          "d5-8"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-10",
+        "name": "Connected food webs",
+        "dependsOn": [
+          "d5-9"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-11",
+        "name": "Biodiversity",
+        "dependsOn": [
+          "d5-10"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d5-12",
+        "name": "Multigeneration stability",
+        "dependsOn": [
+          "d5-11"
+        ],
+        "status": "implemented"
+      }
+    ]
+  },
+  {
+    "day": 6,
+    "title": "Living world",
+    "items": [
+      {
+        "id": "d6-1",
+        "name": "Habitat area",
+        "dependsOn": [
+          "d5-1"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-2",
+        "name": "Herbivore food budget",
+        "dependsOn": [
+          "d6-1"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-3",
+        "name": "Predator balance",
+        "dependsOn": [
+          "d6-2"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-4",
+        "name": "Biodiversity",
+        "dependsOn": [
+          "d6-3"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-5",
+        "name": "Human population",
+        "dependsOn": [
+          "d6-4"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-6",
+        "name": "Food production",
+        "dependsOn": [
+          "d6-5"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-7",
+        "name": "Freshwater supply",
+        "dependsOn": [
+          "d6-6"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-8",
+        "name": "Land allocation",
+        "dependsOn": [
+          "d6-7"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-9",
+        "name": "Energy supply",
+        "dependsOn": [
+          "d6-8"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-10",
+        "name": "Waste and pollution",
+        "dependsOn": [
+          "d6-9"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-11",
+        "name": "Habitat protection",
+        "dependsOn": [
+          "d6-10"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-12",
+        "name": "Carbon and climate budget",
+        "dependsOn": [
+          "d6-11"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-13",
+        "name": "Disturbance recovery",
+        "dependsOn": [
+          "d6-12"
+        ],
+        "status": "implemented"
+      },
+      {
+        "id": "d6-14",
+        "name": "Planetary audit",
+        "dependsOn": [
+          "d6-13"
+        ],
+        "status": "implemented"
+      }
+    ]
+  }
+]

@@ -17,12 +17,15 @@
     5
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-6",
-    "parameter": "landUseFraction",
+    "type": "two-input-classroom-calculation",
+    "equation": "A+B",
     "unit": "fraction",
-    "complexity": "coupled",
-    "testSteps": 100
+    "parameter": "Land allocation",
+    "acceptanceRange": [
+      0.98,
+      1.02
+    ],
+    "limitations": "Account for all available land without allocating more than the total."
   },
   "guidance": {
     "hintCount": 1,
@@ -51,7 +54,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

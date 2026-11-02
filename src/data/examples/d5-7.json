@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "d5-7",
+  "day": 5,
+  "criteria": [
+    {
+      "id": "graph",
+      "description": "Correct equation, units and input connections",
+      "required": true
+    },
+    {
+      "id": "numerical",
+      "description": "Calculated output must meet the challenge acceptance range",
+      "required": true
+    },
+    {
+      "id": "simulation",
+      "description": "Finite, physically acceptable output",
+      "required": true
+    },
+    {
+      "id": "analysis",
+      "description": "Compute numerical derivatives and propagate input measurement uncertainty",
+      "required": true,
+      "levels": [
+        3
+      ]
+    }
+  ],
+  "minimumRequired": {
+    "level2": 3,
+    "level3": 4
+  },
+  "examples": [
+    {
+      "name": "Reference classroom calculation",
+      "inputs": {
+        "a": 12,
+        "b": 10,
+        "sensitivity": 0.01,
+        "uncertainty": 0.001
+      }
+    }
+  ]
+}

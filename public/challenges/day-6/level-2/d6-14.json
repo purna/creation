@@ -17,12 +17,15 @@
     5
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-6",
-    "parameter": "planetaryHealth",
-    "unit": "relative",
-    "complexity": "simplified",
-    "testSteps": 20
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Planetary audit",
+    "acceptanceRange": [
+      0.99,
+      1.01
+    ],
+    "limitations": "Summarise independently measured planetary checks. This count does not run a planetary simulation."
   },
   "guidance": {
     "hintCount": 3,
@@ -51,7 +54,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

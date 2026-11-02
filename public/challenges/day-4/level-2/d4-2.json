@@ -15,12 +15,15 @@
     3
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-4",
-    "parameter": "orbitalSpeed",
+    "type": "two-input-classroom-calculation",
+    "equation": "29.78*(A/B)^0.5",
     "unit": "km/s",
-    "complexity": "simplified",
-    "testSteps": 20
+    "parameter": "Circular orbital velocity",
+    "acceptanceRange": [
+      27,
+      32
+    ],
+    "limitations": "Calculate circular orbital speed for a Sun-like star."
   },
   "guidance": {
     "hintCount": 3,
@@ -49,7 +52,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

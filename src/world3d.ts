@@ -88,16 +88,16 @@ export class World3D {
   this.scene.add(new THREE.Points(geometry,new THREE.PointsMaterial({color:'#bdcce9',size:2,sizeAttenuation:false})));
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(canvas);this.resize();
  }
- update(day:number,time:number,radius:number,temperature:number,stable:boolean){
-  if(day!==this.day){this.day=day;this.corona.visible=day===0&&this.effectsEnabled;this.flares.visible=day===0&&this.effectsEnabled;this.surfaceMaterial.map=day===0?this.surfaceTexture:day===2?this.landTexture:null;this.surfaceMaterial.emissiveMap=day===0?this.surfaceTexture:null;this.surfaceMaterial.needsUpdate=true;const material=this.body.material as THREE.MeshStandardMaterial;material.color.set(day===0?'#ffbc6e':day===1?'#3e87ce':day===2?'#4a9c75':day===3?'#dcad7e':day===4?'#2886b4':'#6bb584');material.emissive.set(day===0?'#ff7b21':'#000000');material.emissiveIntensity=day===0?1.2:0;this.glow.intensity=day===0?50:20;}
+ update(day:number,time:number,radius:number,temperature:number,stable:boolean,day2Complete=false){
+  if(day!==this.day){this.day=day;this.corona.visible=day===0&&this.effectsEnabled;this.flares.visible=day===0&&this.effectsEnabled;this.surfaceMaterial.map=day===0?this.surfaceTexture:day===2?this.landTexture:null;this.surfaceMaterial.emissiveMap=day===0?this.surfaceTexture:null;this.surfaceMaterial.needsUpdate=true;const material=this.body.material as THREE.MeshStandardMaterial;material.color.set(day===0?'#ffbc6e':day===1?'#3e87ce':day===2?'#ffffff':day===3?'#dcad7e':day===4?'#2886b4':'#6bb584');material.emissive.set(day===0?'#ff7b21':'#000000');material.emissiveIntensity=day===0?1.2:0;this.glow.intensity=day===0?50:20;}
   this.body.scale.setScalar(day===0?Math.max(.2,Math.min(3,radius))*(1+.012*Math.sin(time*.08)):1);
   if(day===0){const mat=this.body.material as THREE.MeshStandardMaterial;mat.color.setHSL(.04+Math.max(0,Math.min(.1,(25-temperature)*.004)),.9,stable?.7:.5);}
   if(day===0){this.frame++;if(this.effectsEnabled&&this.frame%5===0)this.drawSurface(time,stable);const scale=this.body.scale.x;this.corona.scale.setScalar(7*scale);this.flares.scale.setScalar(scale);this.flares.rotation.z=time*.001;this.flares.children.forEach((f,i)=>{const material=(f as THREE.Line).material;if(material instanceof THREE.LineBasicMaterial){material.opacity=.22+.35*(.5+.5*Math.sin(time*.045+i*2));}});}
-  this.clouds.visible=worldEffectState(day,stable,this.effectsEnabled).clouds;
+  this.clouds.visible=worldEffectState(day,stable,this.effectsEnabled,day2Complete).clouds;
   if(this.clouds.visible){this.cloudShell.rotation.y+=.0009;this.cloudShell.rotation.z=.04*Math.sin(time*.003);}
   // Day 3: continents emerge and vegetation spreads; retain Day 2 clouds.
   if(day===2){
-   const target=worldEffectState(day,stable,this.effectsEnabled).land?1:0;
+   const target=worldEffectState(day,stable,this.effectsEnabled,day2Complete).land?1:0;
    this.landProgress=Math.max(0,Math.min(1,this.landProgress+(target>this.landProgress?.007:-.007)));
    if(this.frame++%8===0)this.drawLand(this.landProgress);
   }
@@ -112,13 +112,13 @@ export class World3D {
    const shape=.43*Math.sin(u*2.2+Math.sin(v*3.1)*1.4)+.3*Math.sin(u*4.8-v*2.4)+.17*Math.cos(u*9.1+v*6.7)+.12*Math.sin(u*15.3-v*11.7);
    const latitude=Math.abs(y/h-.5)*2;
    const elevation=shape-.18*latitude;
-   const emerged=elevation> .55-progress*.85;
+   const emerged=progress>0&&elevation>1.2-progress*1.5;
    const green=emerged&&progress>.55&&latitude<.78&&elevation<.6;
    const i=(y*w+x)*4;
    const coast=emerged?Math.min(1,Math.max(0,(elevation+.2)*1.2)):0;
-   pixels[i]=emerged?(green?35:Math.round(104+coast*65)):23;
-   pixels[i+1]=emerged?(green?Math.round(88+progress*40):Math.round(89+coast*46)):Math.round(73+25*Math.cos(v));
-   pixels[i+2]=emerged?(green?47:70):Math.round(143+45*Math.sin(v));
+   pixels[i]=emerged?(green?35:Math.round(104+coast*65)):62;
+   pixels[i+1]=emerged?(green?Math.round(88+progress*40):Math.round(89+coast*46)):135;
+   pixels[i+2]=emerged?(green?47:70):206;
    pixels[i+3]=255;
   }
   ctx.putImageData(img,0,0);this.landTexture.needsUpdate=true;

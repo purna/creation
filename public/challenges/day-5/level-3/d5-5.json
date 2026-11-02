@@ -16,12 +16,15 @@
     4
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-5",
-    "parameter": "trophicEfficiency",
-    "unit": "fraction",
-    "complexity": "coupled",
-    "testSteps": 100
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Trophic energy transfer",
+    "acceptanceRange": [
+      0.08,
+      0.15
+    ],
+    "limitations": "Calculate trophic transfer efficiency from energy at two adjacent levels."
   },
   "guidance": {
     "hintCount": 1,
@@ -50,7 +53,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

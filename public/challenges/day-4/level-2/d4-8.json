@@ -15,12 +15,15 @@
     3
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-4",
-    "parameter": "moonOrbitStability",
-    "unit": "relative",
-    "complexity": "simplified",
-    "testSteps": 20
+    "type": "two-input-classroom-calculation",
+    "equation": "27.32*(A^3/B)^0.5",
+    "unit": "days",
+    "parameter": "Moon orbit",
+    "acceptanceRange": [
+      26,
+      29
+    ],
+    "limitations": "Estimate lunar period with Kepler scaling, holding lunar mass negligible."
   },
   "guidance": {
     "hintCount": 3,
@@ -49,7 +52,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

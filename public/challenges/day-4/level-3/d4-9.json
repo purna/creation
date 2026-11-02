@@ -15,12 +15,15 @@
     3
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-4",
-    "parameter": "lunarPhaseError",
+    "type": "two-input-classroom-calculation",
+    "equation": "1/(1/A-1/B)",
     "unit": "days",
-    "complexity": "coupled",
-    "testSteps": 100
+    "parameter": "Lunar phases",
+    "acceptanceRange": [
+      29,
+      30
+    ],
+    "limitations": "Calculate the synodic month from lunar and planetary orbital periods."
   },
   "guidance": {
     "hintCount": 1,
@@ -49,7 +52,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

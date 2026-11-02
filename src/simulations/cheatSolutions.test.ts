@@ -9,9 +9,9 @@ describe('JSON-backed developer cheat solutions',()=>{
   expect(checkStarGraph(g.nodes,g.edges).complete).toBe(true);
  });
  for(const level of [2,3] as const){
-  for(const day of [1,2])it('reference fixtures cover every challenge in Day '+(day+1)+' Level '+level,()=>{
+  for(const day of [1,2,3,4,5])it('reference fixtures cover every challenge in Day '+(day+1)+' Level '+level,()=>{
    const ids=challengeDefinitions(day).map(x=>x.id);
-   expect(ids.length).toBe(day===1?8:12);
+   expect(ids.length).toBe(day===1?8:day===5?14:12);
    for(const id of ids)expect(()=>cheatEarthGraph(id,level)).not.toThrow();
   });
   for(const id of Object.keys(rules)){
@@ -20,7 +20,7 @@ describe('JSON-backed developer cheat solutions',()=>{
     expect(validateEarthChallenge(id,g,level).passed).toBe(true);
    });
   }
-  for(const day of [1,2]){
+  for(const day of [1,2,3,4,5]){
    it('unlocks Day '+(day+1)+' only after all JSON graphs saved at Level '+level,()=>{
     const memory=new Map<string,string>();
     const store={getItem:(key:string)=>memory.get(key)??null,setItem:(key:string,value:string)=>{memory.set(key,value)}};

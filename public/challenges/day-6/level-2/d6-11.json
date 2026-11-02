@@ -17,12 +17,15 @@
     5
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-6",
-    "parameter": "protectedHabitatFraction",
-    "unit": "fraction",
-    "complexity": "simplified",
-    "testSteps": 20
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Habitat protection",
+    "acceptanceRange": [
+      0.25,
+      0.4
+    ],
+    "limitations": "Explore a classroom protected-area target; this range is a scenario assumption."
   },
   "guidance": {
     "hintCount": 3,
@@ -51,7 +54,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

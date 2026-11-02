@@ -16,12 +16,15 @@
     4
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-5",
-    "parameter": "lightAtDepth",
-    "unit": "W/m2",
-    "complexity": "coupled",
-    "testSteps": 100
+    "type": "two-input-classroom-calculation",
+    "equation": "A*B",
+    "unit": "W/m\u00b2",
+    "parameter": "Underwater light",
+    "acceptanceRange": [
+      30,
+      60
+    ],
+    "limitations": "Multiply surface light by the fraction reaching the chosen water depth."
   },
   "guidance": {
     "hintCount": 1,
@@ -50,7 +53,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

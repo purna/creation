@@ -20,7 +20,7 @@ describe('GCSE and A Level validator separation',()=>{
  const store={setItem:(k:string,v:string)=>{data.set(k,v)},getItem:(k:string)=>data.get(k)??null};
  beforeEach(()=>{data.clear();Object.defineProperty(globalThis,'localStorage',{configurable:true,value:store});});
  afterEach(()=>{Reflect.deleteProperty(globalThis,'localStorage');});
- for(const day of [1,2]){
+ for(const day of [1,2,3,4,5]){
   it('Day '+(day+1)+' completion is isolated by learning level',()=>{
    const ids=Object.keys(rules).filter(id=>id.startsWith('d'+(day+1)+'-'));
    for(const id of ids)saveChallengeGraph(store,day,id,wire(id,2),2);

@@ -111,3 +111,7 @@ main.view-split{display:flex!important;flex-direction:column!important;min-heigh
 .node-builder-canvas span{border:1px solid #66a8d5;border-radius:9px;padding:1rem .4rem;text-align:center;background:#243b55}
 .node-builder-canvas span:last-child{grid-column:1}
 @media(max-width:550px){.node-builder-window{padding:.75rem}.node-builder-canvas span{font-size:.8rem;padding:.6rem .2rem}}
+
+.node{cursor:grab;touch-action:none;user-select:none}.node.dragging,.node.dragging .node-title{cursor:grabbing}
+
+.help-dialog{width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 40px);overflow:auto;margin:auto;padding:24px;border:1px solid #70a8d8;border-radius:16px;background:#152741;color:#eef7ff;box-shadow:0 18px 60px #000a;line-height:1.55}.help-dialog::backdrop{background:#020713d9}.help-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}.help-heading h2{margin:0;font-size:22px}.help-heading button{min-width:44px;min-height:44px}.help-dialog dt{font-weight:700;color:#b8e3ff;margin-top:16px}.help-dialog dd{margin:4px 0 0}.help-note{font-size:13px;color:#c2d9f0}.help-dialog button:focus-visible{outline:2px solid #b8e3ff;outline-offset:3px}

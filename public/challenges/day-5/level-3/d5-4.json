@@ -16,12 +16,15 @@
     4
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-5",
-    "parameter": "phytoplanktonBiomass",
-    "unit": "kgC",
-    "complexity": "coupled",
-    "testSteps": 100
+    "type": "two-input-classroom-calculation",
+    "equation": "A*B",
+    "unit": "kJ",
+    "parameter": "Phytoplankton production",
+    "acceptanceRange": [
+      15,
+      25
+    ],
+    "limitations": "Estimate energy captured by phytoplankton from available light."
   },
   "guidance": {
     "hintCount": 1,
@@ -50,7 +53,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

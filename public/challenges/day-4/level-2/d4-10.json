@@ -15,12 +15,15 @@
     3
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-4",
-    "parameter": "seasonalInsolation",
-    "unit": "W/m2",
-    "complexity": "simplified",
-    "testSteps": 20
+    "type": "two-input-classroom-calculation",
+    "equation": "A*B",
+    "unit": "degrees",
+    "parameter": "Axial tilt and seasons",
+    "acceptanceRange": [
+      22,
+      25
+    ],
+    "limitations": "Explore effective seasonal tilt with a dimensionless geometry factor. This is a proxy, not a climate simulation."
   },
   "guidance": {
     "hintCount": 3,
@@ -49,7 +52,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

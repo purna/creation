@@ -1,3 +1,4 @@
+import laterChallengeDays from './data/later-challenge-days.json';
 import {evaluateExpression} from './simulations/expression';
 export type Kind='number'|'formula'|'output'|'group'|'group-input';
 export type Node={id:string;kind:Kind;op:string;label:string;x:number;y:number;value?:number;unit?:string;expression?:string;group?:{nodes:Node[];edges:Edge[]}};
@@ -266,4 +267,4 @@ export const creationChallenges = [
       }
     ]
   }
-] as const;
+, ...laterChallengeDays] as const;

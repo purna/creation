@@ -17,12 +17,15 @@
     5
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-6",
-    "parameter": "pollutionLoad",
-    "unit": "kg/year",
-    "complexity": "simplified",
-    "testSteps": 20
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Waste and pollution",
+    "acceptanceRange": [
+      0.8,
+      1
+    ],
+    "limitations": "Keep waste generation within treatment capacity."
   },
   "guidance": {
     "hintCount": 3,
@@ -51,7 +54,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

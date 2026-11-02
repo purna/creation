@@ -25,7 +25,7 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph,level:2|3=2):D
   });
   return {day,challenges,complete:checked.complete&&challenges.every(c=>c.state==='passed'),masterValue:checked.complete&&challenges.every(c=>c.state==='passed')?result.result:undefined};
  }
- if(day===1||day===2){
+ if(day>=1&&day<=5){
   const challenges=definitions.map((item):ChallengeResult=>{
    const rule=earthRule(item.id);
    const saved=typeof localStorage!=='undefined'?loadChallengeGraph(localStorage,day,item.id,level):null;
@@ -40,7 +40,7 @@ export function evaluateDayGraphs(day:number,graph:ChallengeGraph,level:2|3=2):D
 export function starterGraph(day:number):ChallengeGraph{
  const stage=stages[day];
  if(!stage)throw Error('Unknown creation day '+day);
- return day===1||day===2?newEarthGraph(challengeDefinitions(day)[0].id):{nodes:JSON.parse(JSON.stringify(stage.nodes)),edges:JSON.parse(JSON.stringify(stage.edges))};
+ return day>=1&&day<=5?newEarthGraph(challengeDefinitions(day)[0].id):{nodes:JSON.parse(JSON.stringify(stage.nodes)),edges:JSON.parse(JSON.stringify(stage.edges))};
 }
 export function saveChallengeGraph(storage:Pick<Storage,'setItem'>,day:number,id:string,graph:ChallengeGraph,level:2|3=2){
  if(!challengeDefinitions(day).some(item=>item.id===id))throw Error('Unknown challenge '+id);

@@ -17,12 +17,15 @@
     5
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-6",
-    "parameter": "habitatFraction",
-    "unit": "fraction",
-    "complexity": "coupled",
-    "testSteps": 100
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Habitat area",
+    "acceptanceRange": [
+      0.6,
+      0.8
+    ],
+    "limitations": "Calculate the fraction of land suitable for the chosen organisms."
   },
   "guidance": {
     "hintCount": 1,
@@ -51,7 +54,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

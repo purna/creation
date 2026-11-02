@@ -16,12 +16,15 @@
     4
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-5",
-    "parameter": "speciesViability",
-    "unit": "fraction",
-    "complexity": "simplified",
-    "testSteps": 20
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Biodiversity",
+    "acceptanceRange": [
+      0.7,
+      1
+    ],
+    "limitations": "Measure species richness relative to a reference habitat; this does not measure evenness."
   },
   "guidance": {
     "hintCount": 3,
@@ -50,7 +53,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

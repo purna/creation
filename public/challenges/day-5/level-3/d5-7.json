@@ -16,12 +16,15 @@
     4
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-5",
-    "parameter": "liftMargin",
-    "unit": "relative",
-    "complexity": "coupled",
-    "testSteps": 100
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Bird lift",
+    "acceptanceRange": [
+      1.1,
+      1.5
+    ],
+    "limitations": "Compare lift with weight to give a modest flight margin."
   },
   "guidance": {
     "hintCount": 1,
@@ -50,7 +53,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }

@@ -15,12 +15,15 @@
     3
   ],
   "model": {
-    "type": "coupled-world-optimisation",
-    "scenario": "day-4",
-    "parameter": "systemStability",
-    "unit": "relative",
-    "complexity": "coupled",
-    "testSteps": 100
+    "type": "two-input-classroom-calculation",
+    "equation": "A/B",
+    "unit": "ratio",
+    "parameter": "Orbital and environmental audit",
+    "acceptanceRange": [
+      0.99,
+      1.01
+    ],
+    "limitations": "Summarise independently measured orbital and environmental checks. This arithmetic audit does not run those simulations."
   },
   "guidance": {
     "hintCount": 1,
@@ -49,7 +52,7 @@
     "preserveLastValidSnapshot": true
   },
   "implementation": {
-    "validator": "not-implemented",
-    "awardCompletion": false
+    "validator": "classroom-equation-v1",
+    "awardCompletion": true
   }
 }
