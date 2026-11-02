@@ -12,7 +12,8 @@ export function validateBlueprint(b:Blueprint){
  for(const edge of b.graph.edges){
   if(!ids.includes(edge.from)||!ids.includes(edge.to))errors.push('Dangling connection');
   const dest=b.graph.nodes.find(n=>n.id===edge.to);
-  if(dest&&(!Number.isInteger(edge.slot)||edge.slot<0||edge.slot>=(arity[dest.op]??0)))errors.push('Invalid port slot');
+  const inputCount=dest?.kind==='output'?1:dest?.kind==='number'||dest?.kind==='group-input'?0:arity[dest?.op??'']??0;
+  if(dest&&(!Number.isInteger(edge.slot)||edge.slot<0||edge.slot>=inputCount))errors.push('Invalid port slot');
  }
  if(!b.expected.length)errors.push('At least one worked example is required');
  for(const fixture of b.expected){
