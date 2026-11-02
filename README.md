@@ -1,4 +1,4 @@
-# BEFORE ADAM — Creation Studio v1.5
+# Creation v1.5
 
 Vite + TypeScript educational universe creation prototype.
 
