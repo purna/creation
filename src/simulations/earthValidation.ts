@@ -25,6 +25,8 @@ export const rules:Record<string,ClassroomRule>={
 'd3-11':{op:'divide',min:1,max:1.3,a:1.1,b:1},
 'd3-12':{op:'divide',min:1,max:1.2,a:110,b:100}
 };
+const inputLabels:Record<string,[string,string]>={"d2-1": ["Planet mass (Earth masses)", "Planet radius (Earth radii)"], "d2-2": ["Escape speed (km/s)", "Thermal speed (km/s)"], "d2-3": ["Star luminosity (L☉)", "Orbit radius (AU)"], "d2-4": ["Absorbed flux (W/m²)", "Outgoing flux (W/m²)"], "d2-5": ["Temperature (°C)", "Pressure (atm)"], "d2-6": ["Cloud fraction", "Cycle multiplier"], "d2-7": ["Evaporation (mm/year)", "Precipitation (mm/year)"], "d2-8": ["Final water inventory (kg)", "Initial water inventory (kg)"], "d3-1": ["Land fraction", "Ocean fraction"], "d3-2": ["Radiogenic heat (TW)", "Primordial heat (TW)"], "d3-3": ["Heat loss (TW)", "Heat supply (TW)"], "d3-4": ["Crust fraction", "Mantle fraction"], "d3-5": ["Travel distance (cm)", "Elapsed time (years)"], "d3-6": ["Uplift rate (mm/year)", "Erosion rate (mm/year)"], "d3-7": ["Final ocean volume (km³)", "Initial ocean volume (km³)"], "d3-8": ["River inflow (m³/day)", "River outflow (m³/day)"], "d3-9": ["Soil formation rate (mm/year)", "Soil erosion rate (mm/year)"], "d3-10": ["Light availability fraction", "Water availability fraction"], "d3-11": ["Vegetation recruits", "Vegetation losses"], "d3-12": ["Available resources", "Required resources"]};
+for(const [id,[aLabel,bLabel]] of Object.entries(inputLabels))Object.assign(rules[id],{aLabel,bLabel});
 export const earthRule=(id:string)=>rules[id];
 export function newEarthGraph(id:string,level:2|3=2):{nodes:Node[];edges:Edge[]}{
  const r=earthRule(id);if(!r)throw Error('Unknown challenge '+id);
@@ -42,7 +44,7 @@ export function validateEarthChallenge(id:string,g:{nodes:Node[];edges:Edge[]},l
  if(value===undefined||result.errors.length)return {passed:false,value,reason:result.errors.join('; ')||'Invalid calculation'};
  const sensitivity=g.nodes.find(n=>n.id==='sensitivity');
  const uncertainty=g.nodes.find(n=>n.id==='uncertainty');
- if(level===3&&(!sensitivity||sensitivity.kind!=='number'||typeof sensitivity.value!=='number'||!Number.isFinite(sensitivity.value)||sensitivity.value<0||!uncertainty||uncertainty.kind!=='number'||typeof uncertainty.value!=='number'||!Number.isFinite(uncertainty.value)||uncertainty.value<=0))return {passed:false,value,reason:'A Level requires a positive relative measurement uncertainty and sensitivity tolerance'};
+ if(level===3&&(!sensitivity||sensitivity.kind!=='number'||typeof sensitivity.value!=='number'||!Number.isFinite(sensitivity.value)||sensitivity.value<0||!uncertainty||uncertainty.kind!=='number'||typeof uncertainty.value!=='number'||!Number.isFinite(uncertainty.value)||uncertainty.value<=0))return {passed:false,value,reason:'Hard requires a positive relative measurement uncertainty and sensitivity tolerance'};
  let calculatedSensitivity=0,propagatedUncertainty=0;
  if(level===3){
   // Central finite differences on the actual connected graph, not a learner-entered result.

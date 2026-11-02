@@ -66,8 +66,8 @@
     "b": 100,
     "min": 0.99,
     "max": 1.01,
-    "aLabel": "Final orbital energy magnitude",
-    "bLabel": "Initial orbital energy magnitude",
+    "aLabel": "Final orbital energy magnitude (J)",
+    "bLabel": "Initial orbital energy magnitude (J)",
     "unit": "ratio",
     "description": "Compare measured final and initial energy magnitudes. A ratio near one indicates low numerical energy drift."
   },

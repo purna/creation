@@ -52,7 +52,13 @@ export function loadChallengeGraph(storage:Pick<Storage,'getItem'>,day:number,id
   const raw=storage.getItem('before-adam-challenge-v1-'+level+'-'+day+'-'+id);
   if(!raw)return null;
   const graph=JSON.parse(raw) as ChallengeGraph;
-  return Array.isArray(graph.nodes)&&Array.isArray(graph.edges)?graph:null;
+  if(!Array.isArray(graph.nodes)||!Array.isArray(graph.edges))return null;
+  const rule=earthRule(id);
+  for(const node of graph.nodes){
+   const label=node.id==='a'?rule?.aLabel:node.id==='b'?rule?.bLabel:undefined;
+   if(label&&['Input A','Input B','Final orbital energy magnitude','Initial orbital energy magnitude'].includes(node.label))node.label=label;
+  }
+  return graph;
  }catch{return null}
 }
 

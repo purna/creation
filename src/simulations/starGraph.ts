@@ -51,8 +51,8 @@ export const STAR_FORMULAS=formulas;
 
 export function newStarChallengeGraph(){const g=newStarGraph();g.nodes.find(n=>n.id==='coreMK')!.value=9;g.nodes.find(n=>n.id==='luminosity')!.value=1.6;return g;}
 
-/** A Level: assess stability under independent measurement perturbations.
- * GCSE uses the ordinary one-zone graph and its seven checks. */
+/** Hard: assess stability under independent measurement perturbations.
+ * Easy uses the ordinary one-zone graph and its seven checks. */
 export function checkStarGraphAtLevel(nodes:Node[],edges:Edge[],level:2|3=2){
  const base=checkStarGraph(nodes,edges);
  if(level===2||!base.complete||!base.input)return {...base,robustness:level===2?undefined:{passed:false,scenarios:0,maxResidual:Infinity}};
