@@ -159,9 +159,9 @@ Each completed day unlocks a 5–8-second cinematic reveal and an ongoing, light
 | 1 — Light | Star ignites, corona expands, flare bursts then stabilizes | Photosphere, sunspots, corona, flares | Partly implemented |
 | 2 — Sky and water | Atmosphere forms, clouds swirl, rain and storms settle | Rotating transparent cloud layer | Basic clouds implemented; validators pending |
 | 3 — Land and plants | Ocean gives way to rising continents; rivers and green vegetation spread | Continents, ocean, vegetation and inherited clouds | Procedural prototype being implemented; validators pending |
-| 4 — Celestial clock | Camera reveals Earth, Moon, Sun, day/night and lunar phases | Orbital and rotational motion | Planned |
-| 5 — Sea and sky creatures | Dive underwater to schools and coral, rise to bird flocks | Fish and bird movement, ecosystem populations | Planned |
-| 6 — Animals and humanity | Animals enter habitats, a person enters the garden, world pullback | Habitat-aware land animals and living ecosystem | Planned |
+| 4 — Celestial clock | Camera reveals Earth, Moon, Sun, day/night and lunar phases | Orbital and rotational motion | Payoff scenes implemented for all 12 challenges |
+| 5 — Sea and sky creatures | Dive underwater to schools and coral, rise to bird flocks | Fish and bird movement, ecosystem populations | Payoff scenes implemented for all 12 challenges |
+| 6 — Animals and humanity | Animals enter habitats, a person enters the garden, world pullback | Habitat-aware land animals and living ecosystem | Payoff scenes implemented for all 14 challenges |
 
 ### Shared architecture
 - Keep validation, unlock state, playback and graphics independent; animations must not grant evidence.
@@ -179,6 +179,53 @@ Each completed day unlocks a 5–8-second cinematic reveal and an ongoing, light
 4. Revalidation revokes dependent visual unlocks.
 5. No resource leaks or forced motion in reduced-motion mode.
 6. Both npm test and npm run build pass before release.
+
+
+## P13 — Day completion celebration and unlock fanfare
+
+When a day completes (all challenges pass at the selected level), show a "Day complete" modal that:
+- Plays once on first completion, persists in localStorage, and can be replayed.
+- Shows a day-specific cinematic reveal (star ignition, atmosphere forming, continents rising, orbital clock, sea life, living world pullback).
+- Unlocks the next day's header button and navigation.
+- Cannot be faked by tampering with UI checkboxes; completion is only written by the validator.
+- Marks the day header with a "Day N complete · all challenges passed" badge.
+
+**Pass:** first completion triggers the modal once; reload preserves completion; replay available; no celebration without a fully validated day.
+
+
+## P14 — World Challenge Mode (endgame)
+
+Unlockable only after the Day 6 planetary audit passes at the selected level. A replayable "can you build a stable living world" mode:
+- Resets all world parameters to a fresh starting state.
+- Requires re-solving all 65 challenges across Days 1–6 under a selected difficulty.
+- Tracks attempts, best score, and time-to-complete.
+- Awards a final "World complete" achievement distinct from per-day Goldilocks tiers.
+- Cannot be bypassed by loading a reference graph; each challenge must pass its own validator.
+
+**Pass:** World Challenge Mode is locked until Day 6 audit passes; completing it awards the endgame achievement; progress persists across sessions.
+
+
+## P15 — Goldilocks scoring for Days 2–6
+
+Day 1 already scores per challenge (tier: Pass/Silver/Gold, node efficiency, best score). Extend the same margin model to Days 2–6:
+- Per-challenge score = mean of check margins × bounded-run factor × node-efficiency factor × 100, rounded.
+- Day score = mean of all challenge scores for that day.
+- Tiers: Pass below 65, Silver at 65–84, Gold at 85–100.
+- Best valid score per day/level persisted separately from current experimental state.
+
+**Pass:** each Day 2–6 challenge displays a score and tier; day score aggregates; best score persists.
+
+
+## Updated work order and dependency notes
+
+Recommended delivery: P0→P1→P2→P4→P5→P13→P6→P7→P8→P9→P10→P14→P15→P11→P3.
+
+- Day completion celebration (P13) should follow Day 1 completion so players get immediate feedback.
+- World Challenge Mode (P14) is developed after P10 (Day 6 audit) since it gates on full completion.
+- Goldilocks scoring (P15) is developed after P13 since it reuses the day-completion state.
+- Day 4's existing simulation stays accessible to developers/testers in a dev-only test harness even while Day 4 is locked in production.
+
+Avoid hard-coding Firebase project IDs, domains, secrets or OAuth credentials. Ask for Firebase project configuration and provider setup only when beginning P3.
 
 
 ## 2026-11-01 curriculum extension — challenge series and constructible physics nodes

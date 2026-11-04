@@ -35,6 +35,23 @@ describe('Day 2–6 classroom challenge fixtures',()=>{
    const g=wired(id);g.edges.push({from:'b',to:'calc',slot:0});
    expect(validateEarthChallenge(id,g).passed).toBe(false);
   });
+  it(id+' passes at Level 3 Hard with sensitivity and uncertainty nodes',()=>{
+   const g=newEarthGraph(id,3);
+   g.edges=[{from:'a',to:'calc',slot:0},{from:'b',to:'calc',slot:1},{from:'calc',to:'out',slot:0}];
+   expect(validateEarthChallenge(id,g,3).passed).toBe(true);
+  });
+  it(id+' fails at Level 3 Hard without uncertainty node',()=>{
+   const g=newEarthGraph(id,3);
+   g.nodes=g.nodes.filter(n=>n.id!=='uncertainty');
+   g.edges=[{from:'a',to:'calc',slot:0},{from:'b',to:'calc',slot:1},{from:'calc',to:'out',slot:0}];
+   expect(validateEarthChallenge(id,g,3).passed).toBe(false);
+  });
+  it(id+' fails at Level 3 Hard with zero uncertainty',()=>{
+   const g=newEarthGraph(id,3);
+   const u=g.nodes.find(n=>n.id==='uncertainty')!;u.value=0;
+   g.edges=[{from:'a',to:'calc',slot:0},{from:'b',to:'calc',slot:1},{from:'calc',to:'out',slot:0}];
+   expect(validateEarthChallenge(id,g,3).passed).toBe(false);
+  });
  }
 });
 describe('Day completion gates and persistence',()=>{

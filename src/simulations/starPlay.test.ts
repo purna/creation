@@ -1,7 +1,30 @@
 import {describe,it,expect} from 'vitest';
 import {starPlayState,bandMargin,copyGraph,experimentStart,referenceExperiment,makeRepairPuzzle,predictOutcome,setExperimentValue} from './starPlay';
-import {newStarChallengeGraph} from './starGraph';
+import {newStarGraph,newStarChallengeGraph,STAR_FORMULAS,checkStarGraphAtLevel} from './starGraph';
 import {validateStar} from './star';
+const day1CheckIds=['gravity','pressure','core','fusion','hydro','thermal','stable'] as const;
+function fullStarGraph(){const g=newStarGraph();const required=[...STAR_FORMULAS.flatMap(f=>f.inputs.map((from,slot)=>({from,to:f.id,slot}))),{from:'stable',to:'out',slot:0}];for(const r of required)g.edges.push(r);return g;}
+describe('Day 1 individual challenges at Easy and Hard levels',()=>{
+ for(const [index,checkId] of day1CheckIds.entries()){
+  const challengeNum=index+1;
+  it(`d1-${challengeNum} ${checkId} passes at Level 2 Easy with complete wired graph`,()=>{
+   const g=fullStarGraph();const checked=checkStarGraphAtLevel(g.nodes,g.edges,2);
+   expect(checked.checks[index]?.passed).toBe(true);
+  });
+  it(`d1-${challengeNum} ${checkId} passes at Level 3 Hard with robustness`,()=>{
+   const g=fullStarGraph();const checked=checkStarGraphAtLevel(g.nodes,g.edges,3);
+   expect(checked.checks[index]?.passed).toBe(true);expect(checked.robustness?.passed).toBe(true);expect(checked.robustness?.scenarios).toBe(10);
+  });
+  it(`d1-${challengeNum} ${checkId} fails at Level 2 when formula wires are removed`,()=>{
+   const g=fullStarGraph();g.edges=[];const checked=checkStarGraphAtLevel(g.nodes,g.edges,2);
+   expect(checked.checks[index]?.passed).not.toBe(true);
+  });
+  it(`d1-${challengeNum} ${checkId} rejects non-finite stellar inputs`,()=>{
+   const g=fullStarGraph();const mass=g.nodes.find(n=>n.id==='mass');if(mass)mass.value=NaN;const checked=checkStarGraphAtLevel(g.nodes,g.edges,2);
+   expect(checked.checks[index]?.passed).not.toBe(true);
+  });
+ }
+});
 describe('validator-driven play and replay',()=>{
  it('loads fuel without awarding a challenge or completing the day',()=>{
   const graph=newStarChallengeGraph();
